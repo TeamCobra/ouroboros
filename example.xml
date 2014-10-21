@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deviceConfig>
+  <group>
+    <name>Lights</name>
+    
+    <field>
+      <title>Red LED</title>
+      <value>
+        <name>redLed</name>
+        <type>
+          <integer>
+            <default>0</default>
+            <scope>
+              <option>0</option> 
+              <option>1</option>
+            </scope>
+          </integer>
+        </type>
+      </value>  
+      <description>
+        Red LED light for indicating a failure or off state.
+      </description>
+    </field>
+
+    <field>
+      <title>Green LED</title>
+      <value>
+        <name>greenLed</name>
+        <type>
+          <integer>
+            <default>1</default>
+            <scope>
+              <option>0</option>
+              <option>1</option>
+            </scope>
+          </integer>
+        </type>
+      </value>
+      <description>
+        Green LED for indicating sucess, on state, or activity.
+      </description>
+      <apiAddress>/api/led/green</apiAddress>
+    </field>
+
+  </group>
+
+  <field>
+    <title>Network Switch</title>
+    <value>
+      <name>networkSwitch</name>
+      <type>
+        <boolean default="true"></boolean>
+      </type>
+    </value>
+    <description>
+      This switch controls the radio frequencies that are put out by the device.
+    </description>
+    <apiAddress>/api/switch</apiAddress>
+  </field>
+
+  <field>
+    <title>LCD Screen Display</title>
+    <value>
+      <name>display</name>
+      <type>
+        <string>
+          <default>200</default>
+          <maxLength>50</maxLength>
+          <regex>[a-zA-Z0-9.]</regex>
+        </string>
+      </type>
+    </value>
+    <description>
+      You can display whatever text you want on this screen so long as its just letters, numbers, and spaces.
+    </description>
+    <apiAddress>/api/display</apiAddress>
+  </field>
+
+  <!-- Possibility 1 -->
+  <!-- You would specify the action and target route all in the xml -->
+  <!-- <function>
+    <event>
+      <change>
+        <target>
+          <name>network_switch</name>
+          <value>false</value>
+        </target>
+      </change>
+    </event>
+    <route>www.myotherapp.com/callback_route</route>
+  </function>
+
+  <function>
+    <event>
+      <change>
+        <target>
+          <name>display</name>
+          <regex>^turn on the light!$</regex>
+        </target>
+      </change>
+    </event>
+    <route>www.myotherapp.com/other_callback_route</route>
+  </function> -->
+
+  <!-- Possibility 2 -->
+  <!-- This allows for function registering on the fly at something like /function/switchChanged -->
+  <!-- We ended up going with this one since it was more inline with the client's requirements, may do additionally for a stretch goal. -->
+  <function>
+    <route>/switchChanged</route>
+  </function>    
+
+</deviceConfig>
