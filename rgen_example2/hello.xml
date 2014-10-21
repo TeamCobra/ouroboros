@@ -1,0 +1,10 @@
+<server port="8282" response="Hello">
+	<group name="lights">		
+		<field name="redLED" structName="RedLED" title="Red LED" type="int">
+			<description>Red LED indicator for on or off state.</description>
+		</field>	
+		<field name="greenLED" structName="GreenLED" title="Green LED" type="int">
+			<description>Green LED indicator for on or off state.</description>
+		</field>	
+	</group>
+</server>
