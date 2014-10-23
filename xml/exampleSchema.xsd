@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="field">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string" />
+      <xs:element name="value" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="type">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="integer" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="default" type="xs:integer" maxOccurs="1" />
+                        <xs:element name="scope">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="option" type="xs:integer" minOccurs="2" maxOccurs="unbounded" />
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element> <!-- end integer -->
+                  <xs:element name="boolean" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                      <xs:attribute name="default">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:pattern value="true|false" />
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:complexType>
+                  </xs:element> <!-- end boolean -->
+                  <xs:element name="string" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="default" type="xs:string" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="minLength" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="maxLength" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="regex" type="xs:string" minOccurs="0" maxOccurs="1" />
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element> <!-- end string -->
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element> <!-- end type -->
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element> <!-- end value -->
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="apiAddress" type="apiAddress" minOccurs="0" maxOccurs="1" /> 
+    </xs:sequence>
+  </xs:complexType> <!-- end field -->
+
+  <xs:simpleType name="apiAddress">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(/[a-zA-Z0-9_-]+)+" />
+    </xs:restriction>
+  </xs:simpleType> <!-- end apiAddress -->
+
+  <xs:element name="deviceConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="group">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string" />
+              <xs:element name="field" type="field" minOccurs="2" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element> <!-- end group -->
+        <xs:element name="field" type="field" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="function" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="route" type="apiAddress" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element> <!-- end deviceConfig -->
+
+</xs:schema>
