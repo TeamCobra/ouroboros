@@ -66,7 +66,6 @@
             </complex>
           </enum>
         </type>
-        <tagName>LEDS!</tagName>
         <description>
           Using Back to My Mac you can access this AirPort base station for services suck as file sharing from your other computers that have Back to My Mac enabled. Click Add(+) and enter your Apple ID and password.
         </description>
@@ -167,6 +166,217 @@
         <description>
         </description>
       </field>
+    </group>
+
+    <group name="Wireless">
+
+      <field>
+        <title>Connect Using</title>
+        <type>
+          <enum>
+            <choice>Create a wireless network</choice>
+            <choice>Extend a wireless network</choice>
+            <choice>off</choice>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+      
+      <field>
+        <title>Wireless Network Name</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Wireless Security</title>
+        <type>
+          <enum>
+            <choice>None</choice>
+            <choice>WPA/WPA2 Personal</choice>
+            <choice>WPA2 Personal</choice>
+            <choice>WPA/WPA2 Enterprise</choice>
+            <choice>WPA2 Enterprise</choice>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Wireless Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Verify Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Remember this password in my keychain</title>
+        <type>
+          <boolean>true</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+    </group>
+
+    <group name="Network">
+
+      <field>
+        <title>Router Mode</title>
+        <type>
+          <enum>
+            <choice>DHCP and NAT</choice>
+            <choice>DHCP Only</choice>
+            <choice>Off (Bridge Mode)</choice>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>DHCP Range</title>
+        <type>
+          <string>
+            <constant>true</constant>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>DHCP Reservations</title>
+        <type>
+          <enum>
+            <complex>
+              <string name="Description"></string>
+              <string name="IP Address"></string>
+            </complex>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Port Settings</title>
+        <type>
+          <enum>
+            <complex>
+              <string name="Description"></string>
+              <string name="Type"></string>
+            </complex>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Enable Access Control</title>
+        <type>
+          <boolean>false</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+    </group>
+
+    <group name="Disks">
+
+      <field>
+        <title>Partitions</title>
+        <type>
+          <enum>
+            <string></string>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Enable File Sharing</title>
+        <type>
+          <boolean>false</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Share disks over WAN</title>
+        <type>
+          <boolean>false</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Secure Shared Disks</title>
+        <type>
+          <enum>
+            <choice>With accounts</choice>
+            <choice default="true">With a disk password</choice>
+            <choice>With a device password</choice>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Disk Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Verify Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Remember this password in my keychain</title>
+        <type>
+          <boolean>true</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
     </group>
 
   </deviceConfig>
