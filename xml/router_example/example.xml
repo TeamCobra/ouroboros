@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <deviceConfig>
+    <libraries>
+      <file>disksAPI.h</file>
+      <file>routerComponents.h</file>
+    </libraries>
+
+    <group name="Base Station">
+      
+      <field>
+        <title>Base Station Name</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Base Station Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Verify Password</title>
+        <type>
+          <string>
+          </string>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Remember this password in my keychain</title>
+        <type>
+          <boolean>true</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Allow setup over WAN</title>
+        <type>
+          <boolean>false</boolean>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Back to My Mac</title>
+        <type>
+          <enum>
+            <complex>
+              <string name="Apple ID"></string>
+              <boolean name="status"></boolean>
+            </complex>
+          </enum>
+        </type>
+        <tagName>LEDS!</tagName>
+        <description>
+          Using Back to My Mac you can access this AirPort base station for services suck as file sharing from your other computers that have Back to My Mac enabled. Click Add(+) and enter your Apple ID and password.
+        </description>
+      </field>
+    </group>
+
+    <group name="Internet">
+      <field>
+        <title>Connect Using</title>
+        <type>
+          <enum>
+            <choice>DHCP</choice>
+            <choice>Static</choice>
+            <choice>PPPoE</choice>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>IPv4Address</title>
+        <type>
+          <string>
+            <constant>true</constant>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Subnet Mask</title>
+        <type>
+          <string>
+            <constant>true</constant>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Router Address</title>
+        <type>
+          <string>
+            <constant>true</constant>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>DNS Servers</title>
+        <type>
+          <enum>
+            <string>
+              <pattern>[0-9]{3}\.[0-9]{2}\.[0-9]{2}\.[0-9]{2}</pattern>
+            </stirng>
+          </enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>IPv6 DNS Servers</title>
+        <type>
+          <enum>
+            <string>
+              <pattern>[0-9]{3}\.[0-9]{2}\.[0-9]{2}\.[0-9]{2}</pattern>
+            </string>
+          <enum>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>Domanin Name</title>
+        <type>
+          <string>
+            <pattern>[a-z0-9A-Z-\.]*\.[a-z]{2,}</pattern>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+
+      <field>
+        <title>IPv6 Address</title>
+        <type>
+          <string>
+            <constant>true</constant>
+          </stirng>
+        </type>
+        <description>
+        </description>
+      </field>
+    </group>
+
+  </deviceConfig>
+</xml>
