@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <server port="8282">
+  
+    <group id="lights">
+      
+      <field id="redLED">
+        <title>Red LED</title>
+        <type>
+          <integer>
+            <minInclusive>0</minInclusive>
+            <value>0</value>
+          </integer>
+        </type>
+        <tagName>LEDS!</tagName>
+        <description>Red LED light for indicating a failure or off state.</description>
+      </field>
+
+      <field id="greenLED">
+        <title>Green LED</title>
+        <type>
+          <integer>
+            <minInclusive>0</minInclusive>
+            <value>1</value>
+          </integer>
+        </type>
+        <tagName>LEDS!</tagName>
+        <description>Green LED light for indicating a failure or off state.</description>
+      </field>
+      
+    </group>
+  </server>
+</xml>
