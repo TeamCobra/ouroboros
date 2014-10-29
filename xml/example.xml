@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <deviceConfig>
+    <libraries>
+      <file>myfile.h</file>
+    </libraries>
+    <group name="lights!">
+      
+      <field>
+        <title>Red LED</title>
+        <!-- <name>redLed</name> <- this will be optional in a moment -->
+        <type>
+          <integer>
+            <minInclusive>0</minInclusive>
+            <value>0</value>
+          </integer>
+        </type>
+        <tagName>LEDS!</tagName>
+        <description>
+          Red LED light for indicating a failure or off state.
+        </description>
+      </field>
+
+      <field>
+        <title>Green LED</title>
+        <!-- <name>redLed</name> <- this will be optional in a moment -->
+        <type>
+          <integer>
+            <minInclusive>0</minInclusive>
+            <value>0</value>
+          </integer>
+        </type>
+        <tagName>LEDS!</tagName>
+        <description>
+          Green LED light for indicating a failure or off state.
+        </description>
+      </field>
+
+      <field>
+        <title>Green Light Switch</title>
+        <type>
+          <boolean>true</boolean>
+        </type>
+        <tagName>Switches</tagName>
+        <description>
+          This switch controls the green light that are on the device.
+        </description>
+      </field>
+
+      <field>
+        <title>Red Light Switch</title>
+        <type>
+          <boolean>true</boolean>
+        </type>
+        <tagName>Switches</tagName>
+        <description>
+          This switch controls the red light that are on the device.
+        </description>
+      </field>
+    </group>
+
+    <group name="misc stuff">
+      <field>
+        <title>LCD Screen Display</title>
+        <type>
+          <string>
+            <value>hello</value>
+          </string>
+        </type>
+        <description>
+          You can display whatever text you want on this screen so long as its just letters, numbers, and spaces.
+        </description>
+      </field>
+    </group>
+  </deviceConfig>
+</xml>
