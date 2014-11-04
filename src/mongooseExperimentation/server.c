@@ -1,5 +1,25 @@
 #include "mongoose.h"
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+enum mg_result handle_rest_uri(struct mg_connection *conn, const char* uri)
+{
+	if (!strcmp(uri, "/hello"))
+	{
+		char *data = malloc(256);
+
+		data[0] = '\0';
+    	strcat(data, "<html><head><title>Hello world!</title></head><body>");
+	    time_t current_time = time(NULL);
+	    strcat(data, ctime(&current_time));
+    	strcat(data, "</body></html>");
+
+    	mg_send_data(conn, data, strlen(data));
+	    return MG_TRUE;
+	}
+	return MG_FALSE;
+}
 
 int event_handler(struct mg_connection *conn, enum mg_event ev)
 {
@@ -7,10 +27,9 @@ int event_handler(struct mg_connection *conn, enum mg_event ev)
 	{
 		return MG_TRUE;
 	}
-	else if (ev == MG_REQUEST && !strcmp(conn->uri, "/hello"))
+	else if (ev == MG_REQUEST)
 	{
-		mg_printf_data(conn, "%s", "Hello World!!!");
-		return MG_TRUE;
+		return handle_rest_uri(conn, conn->uri);
 	}
 	else
 	{

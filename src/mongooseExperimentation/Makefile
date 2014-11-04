@@ -19,3 +19,5 @@ mongoose.c:
 mongoose.h:
 	cp ${MONGOOSE_LIB}/$@ ./
 
+clean:
+	rm -rf server.o Server mongoose.o
