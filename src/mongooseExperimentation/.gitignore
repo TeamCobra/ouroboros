@@ -1,2 +1,4 @@
 *.o
 Server
+mongoose.c
+mongoose.h
