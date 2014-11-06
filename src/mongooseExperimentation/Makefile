@@ -35,4 +35,4 @@ mongoose.h:
 	cp ${MONGOOSE_LIB}/$@ ./
 
 clean:
-	rm -rf server.o Server mongoose.o frozen.c frozen.h mongoose.h mongoose.c lualsp.so
+	rm -rf server.o Server mongoose.o frozen.c frozen.h mongoose.h mongoose.c lualsp.so frozen.o 
