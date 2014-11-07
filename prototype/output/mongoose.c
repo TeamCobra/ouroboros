@@ -1245,11 +1245,17 @@ void ns_mgr_free(struct ns_mgr *s) {
 #endif
 #define stat(x, y) mg_stat((x), (y))
 #define fopen(x, y) mg_fopen((x), (y))
-#define open(x, y) mg_open((x), (y))
+#define open(x, y, z) mg_open((x), (y), (z))
+#define close(x) _close(x)
+#define fileno(x) _fileno(x)
 #define lseek(x, y, z) _lseeki64((x), (y), (z))
+#define read(x, y, z) _read((x), (y), (z))
+#define write(x, y, z) _write((x), (y), (z))
 #define popen(x, y) _popen((x), (y))
 #define pclose(x) _pclose(x)
 #define mkdir(x, y) _mkdir(x)
+#define rmdir(x) _rmdir(x)
+#define strdup(x) _strdup(x)
 #ifndef __func__
 #define STRX(x) #x
 #define STR(x) STRX(x)
@@ -1261,14 +1267,13 @@ void ns_mgr_free(struct ns_mgr *s) {
 #else
 #define INT64_FMT   "lld"
 #endif
-#define stat(x, y) mg_stat((x), (y))
-#define fopen(x, y) mg_fopen((x), (y))
-#define open(x, y) mg_open((x), (y))
 #define flockfile(x)      ((void) (x))
 #define funlockfile(x)    ((void) (x))
 typedef struct _stati64 file_stat_t;
 typedef HANDLE process_id_t;
+
 #else                    ////////////// UNIX specific defines and includes
+
 #include <dirent.h>
 #include <dlfcn.h>
 #include <inttypes.h>
@@ -1580,10 +1585,10 @@ static FILE *mg_fopen(const char *path, const char *mode) {
   return _wfopen(wpath, wmode);
 }
 
-static int mg_open(const char *path, int flag) {
+static int mg_open(const char *path, int flag, int mode) {
   wchar_t wpath[MAX_PATH_SIZE];
   to_wchar(path, wpath, ARRAY_SIZE(wpath));
-  return _wopen(wpath, flag);
+  return _wopen(wpath, flag, mode);
 }
 #endif // _WIN32 && !MONGOOSE_NO_FILESYSTEM
 
@@ -1964,7 +1969,7 @@ static process_id_t start_process(char *interp, const char *cmd,
     buf[sizeof(buf) - 1] = '\0';
     if (buf[0] == '#' && buf[1] == '!') {
       interp = buf + 2;
-      for (p = interp + strlen(interp);
+      for (p = interp + strlen(interp) - 1;
            isspace(* (uint8_t *) p) && p > interp; p--) *p = '\0';
     }
     fclose(fp);
@@ -2409,6 +2414,8 @@ static int parse_http_message(char *buf, int len, struct mg_connection *ri) {
   } else {
     if (is_request) {
       ri->http_version += 5;
+    } else {
+      ri->status_code = atoi(ri->uri);
     }
     parse_http_headers(&buf, ri);
 
@@ -2703,6 +2710,14 @@ static uint32_t blk0(union char64long16 *block, int i) {
   }
   return block->l[i];
 }
+
+/* Avoid redefine warning (ARM /usr/include/sys/ucontext.h define R0~R4) */
+#undef blk
+#undef R0
+#undef R1
+#undef R2
+#undef R3
+#undef R4
 
 #define blk(i) (block->l[i&15] = rol(block->l[(i+13)&15]^block->l[(i+8)&15] \
     ^block->l[(i+2)&15]^block->l[i&15],1))
@@ -3531,8 +3546,12 @@ static void handle_propfind(struct connection *conn, const char *path,
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
     "<d:multistatus xmlns:d='DAV:'>\n";
   static const char footer[] = "</d:multistatus>";
-  const char *depth = mg_get_header(&conn->mg_conn, "Depth"),
-        *list_dir = conn->server->config_options[ENABLE_DIRECTORY_LISTING];
+  const char *depth = mg_get_header(&conn->mg_conn, "Depth");
+#ifdef MONGOOSE_NO_DIRECTORY_LISTING
+  const char *list_dir = "no";
+#else
+  const char *list_dir = conn->server->config_options[ENABLE_DIRECTORY_LISTING];
+#endif
 
   conn->mg_conn.status_code = 207;
 
@@ -3659,14 +3678,8 @@ static void handle_put(struct connection *conn, const char *path) {
     send_http_error(conn, 500, "put_dir: %s", strerror(errno));
   } else if (cl_hdr == NULL) {
     send_http_error(conn, 411, NULL);
-#ifdef _WIN32
-    //On Windows, open() is a macro with 2 params
   } else if ((conn->endpoint.fd =
-              open(path, O_RDWR | O_CREAT | O_TRUNC)) < 0) {
-#else
-  } else if ((conn->endpoint.fd =
-              open(path, O_RDWR | O_CREAT | O_TRUNC, 0644)) < 0) {
-#endif
+              open(path, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, 0644)) < 0) {
     send_http_error(conn, 500, "open(%s): %s", path, strerror(errno));
   } else {
     DBG(("PUT [%s] %lu", path, (unsigned long) conn->ns_conn->recv_iobuf.len));
@@ -4256,7 +4269,9 @@ static void handle_ssi_request(struct connection *conn, const char *path) {
 static void proxy_request(struct ns_connection *pc, struct mg_connection *c) {
   int i, sent_close_header = 0;
 
-  ns_printf(pc, "%s %s HTTP/%s\r\n", c->request_method, c->uri,
+  ns_printf(pc, "%s %s%s%s HTTP/%s\r\n", c->request_method, c->uri,
+            c->query_string ? "?" : "",
+            c->query_string ? c->query_string : "",
             c->http_version);
   for (i = 0; i < c->num_headers; i++) {
     if (mg_strcasecmp(c->http_headers[i].name, "Connection") == 0) {
@@ -4408,7 +4423,7 @@ void mg_send_file_internal(struct mg_connection *c, const char *file_name,
 #endif
   } else if (is_not_modified(conn, st)) {
     send_http_error(conn, 304, NULL);
-  } else if ((conn->endpoint.fd = open(path, O_RDONLY | O_BINARY)) != -1) {
+  } else if ((conn->endpoint.fd = open(path, O_RDONLY | O_BINARY, 0)) != -1) {
     // O_BINARY is required for Windows, otherwise in default text mode
     // two bytes \r\n will be read as one.
     open_file_endpoint(conn, path, st, extra_headers);
@@ -4811,9 +4826,8 @@ void mg_destroy_server(struct mg_server **server) {
 }
 
 struct mg_connection *mg_next(struct mg_server *s, struct mg_connection *c) {
-  struct connection *conn = MG_CONN_2_CONN(c);
-  struct ns_connection *nc = ns_next(&s->ns_mgr,
-                                     c == NULL ? NULL : conn->ns_conn);
+  struct ns_connection *nc = ns_next(&s->ns_mgr, c == NULL ? NULL :
+                                     MG_CONN_2_CONN(c)->ns_conn);
   if (nc != NULL && nc->user_data != NULL) {
     return & ((struct connection *) nc->user_data)->mg_conn;
   } else {
@@ -4927,6 +4941,19 @@ const char **mg_get_valid_option_names(void) {
   return static_config_options;
 }
 
+void mg_copy_listeners(struct mg_server *s, struct mg_server *to) {
+  struct ns_connection *c;
+  for (c = ns_next(&s->ns_mgr, NULL); c != NULL; c = ns_next(&s->ns_mgr, c)) {
+    struct ns_connection *tmp;
+    if ((c->flags & NSF_LISTENING) &&
+        (tmp = (struct ns_connection *) malloc(sizeof(*tmp))) != NULL) {
+      memcpy(tmp, c, sizeof(*tmp));
+      tmp->mgr = &to->ns_mgr;
+      ns_add_conn(tmp->mgr, tmp);
+    }
+  }
+}
+
 static int get_option_index(const char *name) {
   int i;
 
@@ -4976,14 +5003,19 @@ const char *mg_set_option(struct mg_server *server, const char *name,
   DBG(("%s [%s]", name, *v));
 
   if (ind == LISTENING_PORT) {
-    struct ns_connection *c = ns_bind(&server->ns_mgr, value, mg_ev_handler, NULL);
-    if (c == NULL) {
-      error_msg = "Cannot bind to port";
-    } else {
-      char buf[100];
-      ns_sock_to_str(c->sock, buf, sizeof(buf), 2);
-      free(*v);
-      *v = mg_strdup(buf);
+    struct vec vec;
+    while ((value = next_option(value, &vec, NULL)) != NULL) {
+      struct ns_connection *c = ns_bind(&server->ns_mgr, vec.ptr,
+                                        mg_ev_handler, NULL);
+      if (c== NULL) {
+        error_msg = "Cannot bind to port";
+        break;
+      } else {
+        char buf[100];
+        ns_sock_to_str(c->sock, buf, sizeof(buf), 2);
+        free(*v);
+        *v = mg_strdup(buf);
+      }
     }
 #ifndef MONGOOSE_NO_FILESYSTEM
   } else if (ind == HEXDUMP_FILE) {
@@ -5207,19 +5239,6 @@ void mg_wakeup_server_ex(struct mg_server *server, mg_handler_t cb,
 void mg_wakeup_server(struct mg_server *server) {
   ns_broadcast(&server->ns_mgr, NULL, (void *) "", 0);
 }
-
-#if 0
-void mg_set_listening_socket(struct mg_server *server, int sock) {
-  if (server->ns_mgr.listening_sock != INVALID_SOCKET) {
-    closesocket(server->ns_mgr.listening_sock);
-  }
-  server->ns_mgr.listening_sock = (sock_t) sock;
-}
-
-int mg_get_listening_socket(struct mg_server *server) {
-  return server->ns_mgr.listening_sock;
-}
-#endif
 
 const char *mg_get_option(const struct mg_server *server, const char *name) {
   const char **opts = (const char **) server->config_options;

@@ -20,7 +20,7 @@
 #ifndef MONGOOSE_HEADER_INCLUDED
 #define  MONGOOSE_HEADER_INCLUDED
 
-#define MONGOOSE_VERSION "5.4"
+#define MONGOOSE_VERSION "5.6"
 
 #include <stdio.h>      // required for FILE
 #include <stddef.h>     // required for size_t
@@ -93,8 +93,7 @@ const char *mg_set_option(struct mg_server *, const char *opt, const char *val);
 int mg_poll_server(struct mg_server *, int milliseconds);
 const char **mg_get_valid_option_names(void);
 const char *mg_get_option(const struct mg_server *server, const char *name);
-void mg_set_listening_socket(struct mg_server *, int sock);
-int mg_get_listening_socket(struct mg_server *);
+void mg_copy_listeners(struct mg_server *from, struct mg_server *to);
 struct mg_connection *mg_next(struct mg_server *, struct mg_connection *);
 void mg_wakeup_server(struct mg_server *);
 void mg_wakeup_server_ex(struct mg_server *, mg_handler_t, const char *, ...);
