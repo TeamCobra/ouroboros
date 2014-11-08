@@ -4,16 +4,16 @@
 	#include "mongoose.h"
 	#include <stdlib.h>
 	
-	<% expand 'Groups', :foreach => group %>
+	<% expand 'Groups', :foreach => group %> 
 	
 	<% group.each do |group| %>
-		static int get_<%= group.id %>_page(struct mg_connection *conn) {
+		static int get_<%= group.id %>_page(struct mg_connection *conn) { <%iinc%>
 			mg_send_file(conn, "<%= group.id %>.html", NULL);
-			return MG_MORE;
+			return MG_MORE; <%idec%>
 		}
 		
-		static void get_<%= group.id %>_values(struct mg_connection *conn){
-			mg_printf_data(conn, "{ <% group.field.each_with_index do |field, i| %>\"<%= field.id %>\": %d<% if i != group.field.size - 1 %>, <% end %><% end %> }", <% group.field.each_with_index do |field, i| %><%= field.id %>.value<% if i != group.field.size - 1 %>, <% end %><% end %>);
+		static void get_<%= group.id %>_values(struct mg_connection *conn){ <%iinc%>
+			mg_printf_data(conn, "{ <% group.field.each_with_index do |field, i| %>\"<%= field.id %>\": %d<% if i != group.field.size - 1 %>, <% end %><% end %> }", <% group.field.each_with_index do |field, i| %><%= field.id %>.value<% if i != group.field.size - 1 %>, <% end %><% end %>); <%idec%>
 		}
 	<% end %>
 	
@@ -21,51 +21,51 @@
 	
 	<% group.each do |group| %>
 		<% group.field.each do |field| %>
-			static void set_<%= field.id %>_value(struct mg_connection *conn){
+			static void set_<%= field.id %>_value(struct mg_connection *conn){ <%iinc%>
 				char value_str[100];
 				mg_get_var(conn, "<%= field.id %>_value", value_str, sizeof(value_str));
 				int value = atoi(value_str);
 				<%= field.id %>.value = value;
-				mg_printf_data(conn, "{ \"<%= field.id %>\": %d }", <%= field.id %>.value);
+				mg_printf_data(conn, "{ \"<%= field.id %>\": %d }", <%= field.id %>.value); <%idec%>
 			}
 		<% end %>
 	<% end %>
 	
 	<%nl%>
 	
-	static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
-	  switch (ev) {
-	    case MG_AUTH: 
-	    	return MG_TRUE;
-	    case MG_REQUEST:
+	static int ev_handler(struct mg_connection *conn, enum mg_event ev) { <%iinc%>
+	  switch (ev) { <%iinc%>
+	    case MG_AUTH: <%iinc%>
+	    	return MG_TRUE; <%idec%>
+	    case MG_REQUEST: <%iinc%>
 	    
 	    	<% group.each do |group| %>
-		    	if(!strcmp(conn->uri, "/<%= group.id %>")){
-					return get_<%= group.id %>_page(conn);
+		    	if(!strcmp(conn->uri, "/<%= group.id %>")){ <%iinc%>
+					return get_<%= group.id %>_page(conn); <%idec%>
 				}
-				if(!strcmp(conn->uri, "/<%= group.id %>/get")){
+				if(!strcmp(conn->uri, "/<%= group.id %>/get")){ <%iinc%>
 					get_<%= group.id %>_values(conn);
-					return MG_TRUE;
+					return MG_TRUE; <%idec%>
 				}
 			<% end %>
 			
 			<% group.each do |group| %>
 				<% group.field.each do |field| %>
-					if(!strcmp(conn->uri, "/<%= group.id %>/<%= field.id %>/set")){
+					if(!strcmp(conn->uri, "/<%= group.id %>/<%= field.id %>/set")){ <%iinc%>
 						set_<%= field.id %>_value(conn);
-						return MG_TRUE;
+						return MG_TRUE; <%idec%>
 					}
 				<% end %>
 			<% end %>
 			
 			return MG_FALSE;
-	    default: return MG_FALSE;
-	  }
-	}
+	    default: return MG_FALSE; <%idec%><%idec%>
+	  } <%idec%>
+	}<%idec%>
 	
 	<%nl%>
 	
-	int main(void) {
+	int main(void) { <%iinc%>
 	  struct mg_server *server; <%nl%>
 	  
 	  <% expand 'InitializeStructs', :foreach => group %>
@@ -76,14 +76,14 @@
 	
 	  // Serve request. Hit Ctrl-C to terminate the program
 	  printf("Starting on port %s\n", mg_get_option(server, "listening_port"));
-	  for (;;) {
-	    mg_poll_server(server, 1000);
+	  for (;;) { <%iinc%>
+	    mg_poll_server(server, 1000); <%idec%>
 	  }
 	
 	  // Cleanup, and free server instance
 	  mg_destroy_server(&server);
 	
-	  return 0;
+	  return 0; <%idec%>
 	}
 <% end %>
 
@@ -95,9 +95,9 @@
 <% end %>
 
 <% define 'Fields', :for => this do %>
-	struct <%= id %>{
+	struct <%= id %>{ <%iinc%>
 		char title[30];
-		<% expand 'Integer', :for => integer[0] %>
+		<% expand 'Integer', :for => integer[0] %> <%idec%>
 	 };
 	 struct <%= id %> <%= id %>;<%nl%>
 <% end %>
