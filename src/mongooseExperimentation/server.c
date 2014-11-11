@@ -8,7 +8,7 @@
 
 bool is_REST_URI(const char* aURI)
 {
-	const char * regex = "/group/([^/]+?)/name/([^/]+?)";
+	const char * regex = "^/group/([^/]+)/name/([^/]+)$";
 	int result = slre_match(regex, aURI, strlen(aURI), NULL, 0, 0);
 	return (result >= 0);
 }
