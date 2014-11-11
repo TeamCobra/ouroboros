@@ -7,6 +7,8 @@ SLRE_LIB=${LIB_FOLDER}/slre/
 
 .PHONY = all clean
 
+OBJECT_FILES= server.o mongoose.o REST.o frozen.o slre.o
+
 all: Server
 
 Server: server.o mongoose.o slre.o REST.o
@@ -41,4 +43,4 @@ mongoose.h:
 	cp ${MONGOOSE_LIB}/$@ ./
 
 clean:
-	rm -rf server.o Server mongoose.o frozen.c frozen.h mongoose.h mongoose.c slre.o slre.h slre.c frozen.o 
+	rm -rf server.o Server frozen.c frozen.h mongoose.h mongoose.c slre.h slre.c ${OBJECT_FILES}
