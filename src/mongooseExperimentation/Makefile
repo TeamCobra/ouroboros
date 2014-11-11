@@ -9,10 +9,12 @@ SLRE_LIB=${LIB_FOLDER}/slre/
 
 all: Server
 
-Server: server.o mongoose.o slre.o
+Server: server.o mongoose.o slre.o REST.o
 	${CC} ${LDFLAGS} $^ -o $@
 
 mongoose.o: mongoose.c mongoose.h
+
+REST.o: REST.c REST.h
 
 server.o: server.c mongoose.h frozen.h slre.h
 
