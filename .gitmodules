@@ -4,3 +4,6 @@
 [submodule "lib/frozen"]
 	path = lib/frozen
 	url = git@github.com:cesanta/frozen.git
+[submodule "lib/slre"]
+	path = lib/slre
+	url = git@github.com:cesanta/slre.git

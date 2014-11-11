@@ -3,24 +3,28 @@ LDFLAGS=-lpthread
 LIB_FOLDER=../../lib
 MONGOOSE_LIB=${LIB_FOLDER}/mongoose/
 FROZEN_LIB=${LIB_FOLDER}/frozen/
-LUASP_LIB=${LIB_FOLDER}/luasp/
+SLRE_LIB=${LIB_FOLDER}/slre/
 
 .PHONY = all clean
 
 all: Server
 
-Server: server.o mongoose.o
+Server: server.o mongoose.o slre.o
 	${CC} ${LDFLAGS} $^ -o $@
 
 mongoose.o: mongoose.c mongoose.h
 
-server.o: server.c mongoose.h
+server.o: server.c mongoose.h frozen.h slre.h
 
 frozen.o: frozen.c frozen.h
 
-lualsp.so:
-	make -C ${LUASP_LIB}
-	cp ${LUASP_LIB}/lualsp.so ./
+slre.o: slre.c slre.h
+
+slre.c:
+	cp ${SLRE_LIB}/$@ ./
+
+slre.h:
+	cp ${SLRE_LIB}/$@ ./
 
 frozen.c:
 	cp ${FROZEN_LIB}/$@ ./
@@ -35,4 +39,4 @@ mongoose.h:
 	cp ${MONGOOSE_LIB}/$@ ./
 
 clean:
-	rm -rf server.o Server mongoose.o frozen.c frozen.h mongoose.h mongoose.c lualsp.so frozen.o 
+	rm -rf server.o Server mongoose.o frozen.c frozen.h mongoose.h mongoose.c slre.o slre.h slre.c frozen.o 
