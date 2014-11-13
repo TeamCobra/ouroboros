@@ -10,7 +10,7 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
 	if (is_REST_URI(uri))
 	{
-		char *data = malloc(256);
+		char data[256];
 
 		data[0] = '\0';
     	strcat(data, "<html><head><title>Hello world!</title></head><body>");
