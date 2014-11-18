@@ -1,6 +1,11 @@
 #include "slre.h"
 #include <string.h>
 #include <stdbool.h>
+#include "rest.h"
+
+#ifdef __cplusplus {
+extern "C" {
+#endif//__cplusplus
 
 static const char * regex = "^/group/([^/]+)/name/([^/]+)$";
 
@@ -18,3 +23,7 @@ void extract_group_name(const char* aURI, char *aGroupName, size_t groupLength, 
 	memcpy(aGroupName, match[0].ptr, match[0].len); //FIXME actually limit the size
 	memcpy(aName, match[1].ptr, match[1].len); //FIXME actually limit the size
 }
+
+#ifdef __cplusplus
+}
+#endif//__cplusplus

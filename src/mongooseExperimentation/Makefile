@@ -1,4 +1,7 @@
+
 CFLAGS=-Wall -Wextra -Wpedantic -ggdb -std=c99
+CXXFLAGS=-Wall -Wextra -Wpedantic -ggdb -std=c++11
+
 LDFLAGS=-lpthread
 LIB_FOLDER=../../lib
 MONGOOSE_LIB=${LIB_FOLDER}/mongoose/
@@ -7,22 +10,26 @@ SLRE_LIB=${LIB_FOLDER}/slre/
 
 .PHONY = all clean
 
-OBJECT_FILES= server.o mongoose.o REST.o frozen.o slre.o
+OBJECT_FILES= server.o mongoose.o rest.o frozen.o slre.o base.o data.o
 
 all: Server
 
-Server: server.o mongoose.o slre.o REST.o
-	${CC} ${LDFLAGS} $^ -o $@
+Server: server.o mongoose.o slre.o rest.o base.o
+	${CXX} ${LDFLAGS} $^ -o $@
 
 mongoose.o: mongoose.c mongoose.h
 
-REST.o: REST.c REST.h
+rest.o: rest.c rest.h
 
-server.o: server.c mongoose.h frozen.h slre.h
+server.o: server.cpp mongoose.h frozen.h slre.h
 
 frozen.o: frozen.c frozen.h
 
 slre.o: slre.c slre.h
+
+base.o: base.cpp base.hpp
+
+data.o: data.cpp data.hpp
 
 slre.c:
 	cp ${SLRE_LIB}/$@ ./

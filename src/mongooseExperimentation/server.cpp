@@ -1,10 +1,10 @@
 #include "mongoose.h"
+#include "rest.h"
 #include "slre.h"
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
+#include <cstring>
+#include <ctime>
+#include <cstdlib>
+#include <cstdio>
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
