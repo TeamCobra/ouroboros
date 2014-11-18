@@ -1,6 +1,6 @@
 .DS_Store
 prototype/output/server
 prototype/output/server.c
-prototype/output/server.dSYM
-prototype/output/lights.html
-prototype/output/switches.html
+prototype/output/*.dSYM
+prototype/output/*.html
+prototype/output/*.js
