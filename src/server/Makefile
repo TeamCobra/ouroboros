@@ -29,8 +29,6 @@ slre.o: slre.c slre.h
 
 base.o: base.cpp base.hpp
 
-data.o: data.cpp data.hpp
-
 slre.c:
 	cp ${SLRE_LIB}/$@ ./
 
