@@ -41,12 +41,12 @@ namespace ouroboros
 		std::size_t getMaxLength() const;
 		bool getConstant() const;
 
-		std::string getValue() const;
-		std::string getPattern() const;
-		std::size_t getLength() const;
-		std::size_t getMinLength() const;
-		std::size_t getMaxLength() const;
-		bool getConstant() const;
+		void setValue() const;
+		void setPattern() const;
+		void setLength() const;
+		void setMinLength() const;
+		void setMaxLength() const;
+		void setConstant() const;
 
 	private:
 		std::string mValue;
