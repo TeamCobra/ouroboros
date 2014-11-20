@@ -4,3 +4,4 @@ prototype/output/server.c
 prototype/output/*.dSYM
 prototype/output/*.html
 prototype/output/*.js
+prototype/output/*.json
