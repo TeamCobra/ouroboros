@@ -12,7 +12,9 @@ namespace ouroboros
 	class base_field
 	{
 	public:
-		base_field(const std::string& aTitle, const std::string& aDescription);
+		base_field(
+			const std::string& aTitle,
+			const std::string& aDescription);
 		virtual ~base_field() = 0;
 
 		std::string getTitle() const;
@@ -28,7 +30,11 @@ namespace ouroboros
 	class var_field : base_field
 	{
 	public:
-		var_field(const std::string& aTitle, const std::string& aDescription, const std::string& aValue);
+		var_field(
+			const std::string& aTitle,
+			const std::string& aDescription,
+			const std::string& aValue);
+
 		virtual ~var_field() = 0;
 
 		std::string getValue() const;
@@ -54,7 +60,14 @@ namespace ouroboros
 	class base_string : var_field
 	{
 	public:
-		base_string(const std::string& aTitle, const std::string& aDescription, const std::string& aValue, const std::string& aPattern, std::size_t aLength, std::size_t aMinLength, std::size_t aMaxLength);
+		base_string(
+			const std::string& aTitle,
+			const std::string& aDescription,
+			const std::string& aValue,
+			const std::string& aPattern,
+			std::size_t aLength, std::size_t aMinLength,
+			std::size_t aMaxLength);
+
 		std::string getPattern() const;
 		std::size_t getLength() const;
 		std::size_t getMinLength() const;
@@ -75,7 +88,14 @@ namespace ouroboros
 	class base_integer : var_field
 	{
 	public:
-		base_integer(const std::string& aTitle, const std::string& aDescription, const std::string& aValue, std::size_t aMinInclusive, std::size_t aMaxInclusive, std::size_t aMinExclusive, std::size_t aMaxExclusive);
+		base_integer(
+			const std::string& aTitle,
+			const std::string& aDescription,
+			const std::string& aValue,
+			std::size_t aMinInclusive,
+			std::size_t aMaxInclusive,
+			std::size_t aMinExclusive,
+			std::size_t aMaxExclusive);
 
 		std::size_t getMaxInclusive() const;
 		std::size_t getMinInclusive() const;
