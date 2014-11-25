@@ -10,16 +10,16 @@ SLRE_LIB=${LIB_FOLDER}/slre/
 
 .PHONY = all clean
 
-OBJECT_FILES= server.o mongoose.o rest.o frozen.o slre.o base.o data.o
+OBJECT_FILES= server.o mongoose.o rest.o frozen.o slre.o
 
 all: Server
 
-Server: server.o mongoose.o slre.o rest.o base.o
+Server: server.o mongoose.o slre.o rest.o
 	${CXX} ${LDFLAGS} $^ -o $@
 
 mongoose.o: mongoose.c mongoose.h
 
-rest.o: rest.c rest.h
+rest.o: rest.cpp rest.hpp
 
 server.o: server.cpp mongoose.h frozen.h slre.h
 

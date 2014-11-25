@@ -1,10 +1,12 @@
 #include "mongoose.h"
-#include "rest.h"
+#include "rest.hpp"
 #include "slre.h"
 #include <cstring>
 #include <ctime>
 #include <cstdlib>
 #include <cstdio>
+
+using namespace ouroboros;
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
