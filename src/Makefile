@@ -7,3 +7,7 @@ all:
 
 clean:
 	make -C server/ clean
+	make -C test/ clean
+
+test:
+	make -C test/
