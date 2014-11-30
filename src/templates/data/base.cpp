@@ -91,7 +91,7 @@ namespace ouroboros
 	std::string base_string::getValue() const
 	{
 			return std::string(
-				"{ " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
+				"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
 	}
 
 	void base_string::setPattern(const std::string& aPattern)
@@ -139,6 +139,6 @@ namespace ouroboros
 	std::string base_integer::getValue() const
 	{
 			return std::string(
-				"{ " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
+				"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
 	}
 }
