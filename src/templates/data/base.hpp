@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <utility>
 
 namespace ouroboros
 {
@@ -32,14 +33,11 @@ namespace ouroboros
 	public:
 		var_field(
 			const std::string& aTitle,
-			const std::string& aDescription,
-			const std::string& aValue);
+			const std::string& aDescription);
 
-		virtual ~var_field() = 0;
+		virtual ~var_field() = default;
 
-		std::string getValue() const;
-	private:
-		std::string mValue;
+		virtual std::string getValue() const = 0; //has a default implementation available.
 	};
 
 	class group
@@ -77,12 +75,16 @@ namespace ouroboros
 		void setLength(const std::size_t& aLength);
 		void setMinLength(const std::size_t& aMinLength);
 		void setMaxLength(const std::size_t& aMaxLength);
+		
+		virtual std::string getValue() const override;
 
 	private:
 		std::string mPattern;
 		std::size_t mLength;
 		std::size_t mMinLength;
 		std::size_t mMaxLength;
+		
+		std::string mValue;
 	};
 
 	class base_integer : public var_field
@@ -91,25 +93,20 @@ namespace ouroboros
 		base_integer(
 			const std::string& aTitle,
 			const std::string& aDescription,
-			const std::string& aValue,
-			std::size_t aMinInclusive,
-			std::size_t aMaxInclusive,
-			std::size_t aMinExclusive,
-			std::size_t aMaxExclusive);
+			int aValue,
+			const std::pair<int,int>& aRange);
 
-		std::size_t getMaxInclusive() const;
-		std::size_t getMinInclusive() const;
-		std::size_t getMaxExclusive() const;
-		std::size_t getMinExclusive() const;
+		std::pair<int,int> getInclusiveRange() const;
 
-		void setMaxInclusive(const std::size_t& aMaxInclusive);
-		void setMinInclusive(const std::size_t& aMinInclusive);
-		void setMaxExclusive(const std::size_t& aMaxExclusive);
-		void setMinExclusive(const std::size_t& aMinExclusive);
+		void setInclusiveRange(const std::pair<int,int>& aPair);
+		
+		
+		virtual std::string getValue() const override;
 
 	private:
-		std::size_t mMaxInclusive;
-		std::size_t mMinInclusive;
+		std::pair<int, int> mRange;
+		
+		int mValue;
 	};
 }
 

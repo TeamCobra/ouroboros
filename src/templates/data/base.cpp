@@ -1,5 +1,7 @@
 #include <string>
 #include <memory>
+#include <algorithm>
+#include <utility>
 #include "base.hpp"
 
 namespace ouroboros
@@ -34,15 +36,15 @@ namespace ouroboros
 	}
 
 
-	var_field::var_field(const std::string& aTitle, const std::string& aDescription, const std::string& aValue)
-	:base_field(aTitle, aDescription), mValue(aValue)
+	var_field::var_field(const std::string& aTitle, const std::string& aDescription)
+	:base_field(aTitle, aDescription)
 	{}
-
-	var_field::~var_field() {}
 
 	std::string var_field::getValue() const
 	{
-			return mValue;
+			return std::string(
+				"{ \"title\" : \"" + this->getTitle() + "\", "
+				"\"description\" : \"" + this->getDescription() + "\" }");
 	}
 
 /*
@@ -63,7 +65,7 @@ namespace ouroboros
 */
 
 	base_string::base_string(const std::string& aTitle, const std::string& aDescription, const std::string& aValue, const std::string& aPattern, std::size_t aLength, std::size_t aMinLength, std::size_t aMaxLength)
-	:var_field(aTitle, aDescription, aValue), mPattern(aPattern), mLength(aLength), mMinLength(aMinLength), mMaxLength(aMaxLength)
+	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), mMinLength(aMinLength), mMaxLength(aMaxLength), mValue(aValue)
 	{}
 
 	std::string base_string::getPattern() const
@@ -84,6 +86,12 @@ namespace ouroboros
 	std::size_t base_string::getMaxLength() const
 	{
 		return mMaxLength;
+	}
+	
+	std::string base_string::getValue() const
+	{
+			return std::string(
+				"{ " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
 	}
 
 	void base_string::setPattern(const std::string& aPattern)
@@ -106,49 +114,31 @@ namespace ouroboros
 		mMaxLength = aMaxLength;
 	}
 
-	base_integer::base_integer(const std::string& aTitle, const std::string& aDescription, const std::string& aValue, std::size_t aMinInclusive, std::size_t aMaxInclusive, std::size_t aMinExclusive, std::size_t aMaxExclusive)
-	:var_field(aTitle, aDescription, aValue), mMaxInclusive(aMaxInclusive), mMinInclusive(aMinInclusive)
-	{}
-	
-	std::size_t base_integer::getMaxInclusive() const
+	base_integer::base_integer(
+		const std::string& aTitle,
+		const std::string& aDescription,
+		int aValue,
+		const std::pair<int,int>& aRange)
+	:var_field(aTitle, aDescription), mValue(aValue)
 	{
-		return mMaxInclusive;
-	}
-
-	std::size_t base_integer::getMinInclusive() const
-	{
-		return mMinInclusive;
-	}
-
-	std::size_t base_integer::getMaxExclusive() const
-	{
-		//return mMaxExclusive;
-		return 0;
-	}
-
-	std::size_t base_integer::getMinExclusive() const
-	{
-		//return mMinExclusive;
-		return 0;
-	}
-
-	void base_integer::setMaxInclusive(const std::size_t& aMaxInclusive)
-	{
-		mMaxInclusive = aMaxInclusive;
+		mRange.first = std::min(aRange.first, aRange.second);
+		mRange.second = std::max(aRange.first, aRange.second);
+		
 	}
 	
-	void base_integer::setMinInclusive(const std::size_t& aMinInclusive)
+	std::pair<int,int> base_integer::getInclusiveRange() const
 	{
-		mMinInclusive = aMinInclusive;
-	}
-	
-	void base_integer::setMaxExclusive(const std::size_t& aMaxExclusive)
-	{
-	
+		return mRange;
 	}
 
-	void base_integer::setMinExclusive(const std::size_t& aMinExclusive)
+	void base_integer::setInclusiveRange(const std::pair<int,int>& aRange)
 	{
+		mRange = aRange;
+	}
 	
+	std::string base_integer::getValue() const
+	{
+			return std::string(
+				"{ " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
 	}
 }

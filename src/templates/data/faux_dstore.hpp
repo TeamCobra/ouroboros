@@ -10,8 +10,10 @@ namespace ouroboros
 	{
 	public:
 		LED()
-		:var_field("1","2","3")
+		:var_field("LED","This is a fake LED")
 		{}
+		
+		std::string getValue() const override;
 	private:
 		
 	};
