@@ -4,6 +4,8 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include <vector>
+#include <map>
 
 namespace ouroboros
 {
@@ -40,19 +42,27 @@ namespace ouroboros
 		virtual std::string getValue() const = 0; //has a default implementation available.
 	};
 
-	class group
+	template <class T>
+	class group : base_field
 	{
 	public:
-		group() = default;
+		group(const std::string& aTitle, const std::string& aDescription);
 		virtual ~group() = default;
 
-		void add(std::unique_ptr<base_field>&& aField);
-		std::unique_ptr<base_field>&& remove();
+		void add(T&& aField);
+		void add(group<T>&& aField);
+		T&& removeItem(const std::string& aName);
+		group<T>&& removeGroup(const std::string& aName);
 
-		base_field *get(std::size_t aIndex) const;
-		base_field *find(std::string aName) const;
+		T *findItem(const std::string& aName) const;
+		group<T> *findGroup(const std::string& aName) const;
 
 		std::size_t getSize() const;
+		
+	private:
+		std::string aTitle;
+		std::map<std::string, T> mItems;
+		std::map<std::string, group<T>> mGroups;
 	};
 
 	class base_string : public var_field
@@ -109,5 +119,7 @@ namespace ouroboros
 		int mValue;
 	};
 }
+
+#include "base.ipp"
 
 #endif//_OUROBOROS_BASE_HPP_

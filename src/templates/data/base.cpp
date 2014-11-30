@@ -47,23 +47,6 @@ namespace ouroboros
 				"\"description\" : \"" + this->getDescription() + "\" }");
 	}
 
-/*
-	class group
-	{
-	public:
-		group() = default;
-		virtual ~group() = default;
-
-		void add(std::unique_ptr<base_field>&& aField);
-		std::unique_ptr<base_field>&& remove();
-
-		base_field *get(std::size_t aIndex) const;
-		base_field *find(std::string aName) const;
-
-		std::size_t getSize() const;
-	};
-*/
-
 	base_string::base_string(
 		const std::string& aTitle,
 		const std::string& aDescription,
