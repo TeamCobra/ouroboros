@@ -45,4 +45,4 @@ mongoose.h:
 	cp ${MONGOOSE_DIR}/$@ ./
 
 clean:
-	rm -rf server.o Server frozen.c frozen.h mongoose.h mongoose.c slre.h slre.c ${OBJECT_FILES}
+	rm -rf server.o Server frozen.c frozen.h mongoose.h mongoose.c slre.h slre.c ${OBJECT_FILES} ${BUILD_DIR}/Server
