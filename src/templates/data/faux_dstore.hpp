@@ -9,20 +9,20 @@ namespace ouroboros
 	class LED : public var_field
 	{
 	public:
-		LED()
-		:var_field("LED","This is a fake LED")
+		LED(int aNum)
+		:var_field("LED","This is a fake LED"), mNum(aNum)
 		{}
 		
 		std::string getValue() const override;
 	private:
-		
+		int mNum;
 	};
 	
 	class faux_dstore
 	{
 	public:
-		base_field *get(const std::string& aName, const std::string& aGroup);
-		std::vector<base_field *> get(const std::string& aGroup);
+		var_field *get(const std::string& aName, const std::string& aGroup);
+		std::vector<var_field *> get(const std::string& aGroup);
 	};
 }
 
