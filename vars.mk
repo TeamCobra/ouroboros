@@ -9,6 +9,7 @@ export OBJ_DIR=${BUILD_DIR}/obj
 export SLRE_DIR=${LIB_DIR}/slre
 export FROZEN_DIR=${LIB_DIR}/frozen
 export MONGOOSE_DIR=${LIB_DIR}/mongoose
+export GTEST_DIR=${LIB_DIR}/googletest
 
 export CORE_FLAGS=-Wall -Wextra -Wpedantic -ggdb
 
