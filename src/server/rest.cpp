@@ -4,7 +4,6 @@
 #include "rest.hpp"
 
 namespace ouroboros
-
 {
 	static const char * full_regex = "^/group/([^/]+)/name/([^/]+)$";
 	static const char * group_regex = "^/group/([^/]+)$";
@@ -12,8 +11,8 @@ namespace ouroboros
 	bool is_REST_URI(const char* aURI)
 	{
 		int result = slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
-		result |= slre_match(group_regex, aURI, strlen(aURI), NULL, 0, 0);
-		return (result >= 0);
+		int group_result = slre_match(group_regex, aURI, strlen(aURI), NULL, 0, 0);
+		return (result >= 0 || group_result >= 0);
 	}
 
 	void extract_group_name(const char* aURI, char *aGroupName, size_t groupLength, char *aName, size_t aNameLength)
