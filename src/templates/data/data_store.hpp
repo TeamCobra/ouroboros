@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include <string>
+#include <vector>
 
 namespace ouroboros
 {
@@ -11,7 +12,8 @@ namespace ouroboros
 	public:
 		data_store(group aRoot);
 		base_field *get(const std::string& aName, const std::string& aGroup);
-		
+		std::vector<base_field *> get(const std::string& aGroup);
+
 	private:
 		group mRoot;
 	};

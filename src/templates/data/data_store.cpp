@@ -11,4 +11,9 @@ namespace ouroboros
 		{
 			
 		}
+
+		std::vector<base_field *> get(const std::string& aGroup)
+		{
+			
+		}
 }
