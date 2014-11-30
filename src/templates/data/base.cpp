@@ -64,9 +64,17 @@ namespace ouroboros
 	};
 */
 
-	base_string::base_string(const std::string& aTitle, const std::string& aDescription, const std::string& aValue, const std::string& aPattern, std::size_t aLength, std::size_t aMinLength, std::size_t aMaxLength)
-	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), mMinLength(aMinLength), mMaxLength(aMaxLength), mValue(aValue)
-	{}
+	base_string::base_string(
+		const std::string& aTitle,
+		const std::string& aDescription,
+		const std::string& aValue,
+		const std::string& aPattern,
+		std::size_t aLength,
+		std::size_t aMinLength,
+		std::size_t aMaxLength)
+	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), 
+		mMinLength(aMinLength), mMaxLength(aMaxLength), mValue(aValue)
+	{} //FIXME: what if the given string doesn't match the length requirements?
 
 	std::string base_string::getPattern() const
 	{
