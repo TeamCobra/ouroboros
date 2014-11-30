@@ -27,7 +27,7 @@ namespace ouroboros
 		std::string mDescription;
 	};
 
-	class var_field : base_field
+	class var_field : public base_field
 	{
 	public:
 		var_field(
@@ -57,7 +57,7 @@ namespace ouroboros
 		std::size_t getSize() const;
 	};
 
-	class base_string : var_field
+	class base_string : public var_field
 	{
 	public:
 		base_string(
@@ -85,7 +85,7 @@ namespace ouroboros
 		std::size_t mMaxLength;
 	};
 
-	class base_integer : var_field
+	class base_integer : public var_field
 	{
 	public:
 		base_integer(
