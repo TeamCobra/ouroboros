@@ -1,2 +1,7 @@
 .DS_Store
 build
+prototype/output/server
+prototype/output/server.c
+prototype/output/*.dSYM
+prototype/output/*.html
+prototype/output/*.js

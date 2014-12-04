@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <deviceConfig>
+    <libraries>
+      <file>myfile.h</file>
+    </libraries>
+ 
+      <field type="intField">
+        <title>A number</title>
+        <description>
+          A number for use in the program. 
+        </description>
+        <value>0</value>
+      </field>
+  
+      <field type="stringField">
+        <title>A string</title>
+        <description>
+          A string for use in the program. 
+        </description>
+        <value>hello</value>
+      </field>
+
+  </deviceConfig>
+</xml>
