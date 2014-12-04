@@ -13,7 +13,7 @@ namespace ouroboros
 	public:
 		data_store() = delete;
 		data_store(group<T>&& aRoot);
-		var_field *get(const std::string& aName, const std::string& aGroup);
+		T *get(const std::string& aName, const std::string& aGroup);
 		group<T> *get(const std::string& aGroup);
 
 	private:

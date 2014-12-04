@@ -53,6 +53,20 @@ TEST_F(DataStoreTest, Test_Group) {
 	ASSERT_FALSE(root.findGroup("g1-g1") == &root);
 }
 
+TEST_F(DataStoreTest, Test_DataStore) {
+	// Exercises the Xyz feature of Foo.
+	
+	group<var_field> root("g1", "");
+	base_integer integer("number", "", 1, std::pair<int,int>(0,10));
+	root.add(&integer);
+	root.add(&root);
+	data_store<var_field> store(std::move(root));
+	
+	ASSERT_TRUE(nullptr != store.get("number", "g1"));
+	ASSERT_TRUE(nullptr != store.get("g1"));
+	ASSERT_TRUE(nullptr != store.get("g1-g1"));
+}
+
 }	// namespace
 
 int main(int argc, char **argv) {
