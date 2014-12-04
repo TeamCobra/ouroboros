@@ -3,9 +3,11 @@
 include ../vars.mk
 
 all:
-	make -C server/
+	make -C server/ all
+	make -C templates/ all
 
 clean:
+	make -C templates/ clean
 	make -C server/ clean
 	make -C test/ clean
 

@@ -49,20 +49,22 @@ namespace ouroboros
 		group(const std::string& aTitle, const std::string& aDescription);
 		virtual ~group() = default;
 
-		void add(T&& aField);
-		void add(group<T>&& aField);
-		T&& removeItem(const std::string& aName);
-		group<T>&& removeGroup(const std::string& aName);
+		void add(T *apField);
+		void add(group<T> *apField);
+		T* removeItem(const std::string& aName);
+		group<T>* removeGroup(const std::string& aName);
 
-		T *findItem(const std::string& aName) const;
-		group<T> *findGroup(const std::string& aName) const;
+		T *findItem(const std::string& aName);
+		group<T> *findGroup(const std::string& aName);
+		const T *findItem(const std::string& aName) const;
+		const group<T> *findGroup(const std::string& aName) const;
 
 		std::size_t getSize() const;
 		
 	private:
 		std::string aTitle;
-		std::map<std::string, T> mItems;
-		std::map<std::string, group<T>> mGroups;
+		std::map<std::string, T*> mItems;
+		std::map<std::string, group<T>*> mGroups;
 	};
 
 	class base_string : public var_field

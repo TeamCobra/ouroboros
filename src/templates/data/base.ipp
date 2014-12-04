@@ -8,51 +8,73 @@ namespace ouroboros
 	{}
 	
 	template<class T>
-	void group<T>::add(T&& aField)
+	void group<T>::add(T *apField)
 	{
-		mItems[aField.getTitle()] = aField;
+		//FIXME What if it is null?
+		mItems[apField->getTitle()] = apField;
 	}
 	
 	template<class T>
-	void group<T>::add(group<T>&& aField)
+	void group<T>::add(group<T> *apField)
 	{
-		mGroups[aField.getTitle()] = aField;
+		//FIXME what if it is null?
+		mGroups[apField->getTitle()] = apField;
 	}
 	
 	template<class T>
-	T&& group<T>::removeItem(const std::string& aName)
+	T *group<T>::removeItem(const std::string& aName)
 	{
 		//FIXME Should this throw an exception?
-		T result = std::move(mItems.at(aName));
+		T *result = mItems.at(aName);
 		mItems.erase(aName);
-		return std::move(result);
+		return result;
 	}
 
 	template<class T>
-	group<T>&& group<T>::removeGroup(const std::string& aName)
+	group<T> *group<T>::removeGroup(const std::string& aName)
 	{
 		//FIXME Should this throw an exception?
-		group<T> result = std::move(mGroups.at(aName));
+		group<T> *result = mGroups.at(aName);
 		mGroups.erase(aName);
-		return std::move(result);
+		return result;
 	}
 	
 	template<class T>
-	T *group<T>::findItem(const std::string& aName) const
+	T *group<T>::findItem(const std::string& aName)
 	{
 		if (mItems.count(aName))
 		{
-			return &mItems.at(aName);
+			return mItems.at(aName);
 		}
 		return nullptr;
 	}
 	
 	template<class T>
-	group<T>* group<T>::findGroup(const std::string& aName) const
+	group<T>* group<T>::findGroup(const std::string& aName)
+	{	
+		if (mGroups.count(aName))
+		{
+			return mGroups.at(aName);
+		}
+		return nullptr;
+	}
+	
+	template<class T>
+	const T *group<T>::findItem(const std::string& aName) const
 	{
 		if (mItems.count(aName))
 		{
-			return &mGroups.at(aName);
+			return mItems.at(aName);
+		}
+		return nullptr;
+	}
+	
+	template<class T>
+	const group<T>* group<T>::findGroup(const std::string& aName) const
+	{
+		if (mItems.count(aName))
+		{
+			return mGroups.at(aName);
 		}
 		return nullptr;
 	}

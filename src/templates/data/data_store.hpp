@@ -7,17 +7,21 @@
 
 namespace ouroboros
 {
+	template <class T>
 	class data_store
 	{
 	public:
-		data_store(group aRoot);
-		base_field *get(const std::string& aName, const std::string& aGroup);
-		std::vector<base_field *> get(const std::string& aGroup);
+		data_store() = delete;
+		data_store(group<T>&& aRoot);
+		var_field *get(const std::string& aName, const std::string& aGroup);
+		group<T> *get(const std::string& aGroup);
 
 	private:
-		group mRoot;
+		group<T> mRoot;
 	};
 
 }
+
+#include "data_store.ipp"
 
 #endif//_OUROBOROS_DATASTORE_H_
