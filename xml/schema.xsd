@@ -1,70 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <xs:complexType name="baseField">
-    <xs:sequence>
-      <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="type" type="typeChoice" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="tagName" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1" />
-    </xs:sequence>
-  </xs:complexType> <!-- end field -->
+  <xsd:complexType name="baseField" abstract="true">
+    <xsd:sequence>
+      <xsd:element name="title" type="xsd:string"/>
+      <xsd:element name="description" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
 
-  <xs:complexType name="baseString">
-    <xs:all>
-      <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="pattern" type="xs:string" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="length" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="minLength" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="maxLength" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <!-- <xs:element name="enum" type="baseEnum" /> TODO make baseEnum-->
-      <xs:element name="constant" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
-    </xs:all>
-  </xs:complexType> <!-- end baseString -->
 
-  <xs:complexType name="baseInteger">
-    <xs:all >
-      <xs:element name="maxInclusive" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="value" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="maxExclusive" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="minInclusive" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="minExclusive" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-      <!-- <xs:element name="precision" type="xs:string" /> this is complex type, needs regex restriction -->
-      <xs:element name="constant" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
-    </xs:all>
-  </xs:complexType> <!-- end baseInteger -->
+  <xsd:complexType name="varField" abstract="true" >
+    <xsd:complexContent>
+      <xsd:extension base="baseField">
+        <xsd:sequence>
 
-  <xs:complexType name="typeChoice">
-    <xs:choice>
-      <xs:element name="integer" type="baseInteger" />
-      <xs:element name="string" type="baseString" />
-      <xs:element name="boolean" type="xs:boolean"/>
-    </xs:choice>
-  </xs:complexType> <!-- end typeChoice -->
+          <xsd:element name="value" type="xsd:string" />
+		  <xsd:element name="constant" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 
-  <xs:element name="deviceConfig">
-    <xs:complexType>
-      <xs:sequence>
+  <xsd:complexType name="group" >
+    <xsd:complexContent>
+      <xsd:extension base="baseField">
+        <xs:sequence>
+          <xs:element name="field" type="baseField" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 
-        <xs:element name="libraries" minOccurs="0" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="file" type="xs:string" minOccurs="0" maxOccurs="unbounded" /> <!-- TODO add regex to end in .h and have no spaces -->
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        
-        <xs:element name="group" minOccurs="1" maxOccurs="unbounded">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="field" type="baseField" minOccurs="1" maxOccurs="unbounded" />
-            </xs:sequence>
-            <xs:attribute name="name" type="xs:string" use="required" />
-          </xs:complexType>
-        </xs:element> <!-- end group --> 
 
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element> <!-- end deviceConfig -->
+  <xsd:complexType name="stringField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+    		  <xsd:element name="pattern" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    		  <xsd:element name="length" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+    		  <xsd:element name="minLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+    		  <xsd:element name="maxLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 
-</xs:schema>
+  <xsd:complexType name="intField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+			<xsd:element name="maxInclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="maxExclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="minInclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="minExclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:element name="deviceConfig">
+    <xsd:complexType>
+      <xsd:sequence>
+
+        <xsd:element name="libraries" minOccurs="0" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="file" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+              <!-- TODO add regex to end in .h and have no spaces -->
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:sequence>
+          <xsd:element name="field" type="baseField" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <!-- end deviceConfig -->
+
+</xsd:schema>
