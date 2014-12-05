@@ -1,7 +1,7 @@
 .DS_Store
-prototype/output/server
-prototype/output/server.c
-prototype/output/*.dSYM
-prototype/output/*.html
-prototype/output/*.js
-prototype/output/*.json
+target/server
+target/server.c
+target/*.dSYM
+target/*.html
+target/*.js
+target/*.json
