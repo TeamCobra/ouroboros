@@ -16,7 +16,7 @@ ${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o
 
 ${OBJ_DIR}/mongoose.o: mongoose.c mongoose.h
 
-${OBJ_DIR}/rest.o: rest.cpp rest.hpp ${OBJ_DIR}/slre.o
+${OBJ_DIR}/rest.o: rest.cpp rest.h ${OBJ_DIR}/slre.o
 
 ${OBJ_DIR}/server.o: server.cpp mongoose.h frozen.h slre.h
 

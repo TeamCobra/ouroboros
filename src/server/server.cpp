@@ -1,5 +1,5 @@
 #include "mongoose.h"
-#include "rest.hpp"
+#include "rest.h"
 #include "slre.h"
 #include <cstring>
 #include <ctime>

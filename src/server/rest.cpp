@@ -1,7 +1,9 @@
 #include "slre.h"
 #include <string.h>
 #include <stdbool.h>
-#include "rest.hpp"
+#include "rest.h"
+#include <string>
+#include <utility>
 
 namespace ouroboros
 {
@@ -15,20 +17,24 @@ namespace ouroboros
 		return (result >= 0 || group_result >= 0);
 	}
 
-	void extract_group_name(const char* aURI, char *aGroupName, size_t agroupLength, char *aName, size_t aNameLength)
+	std::pair<std::string, std::string> extract_group_name(const char* aURI)
 	{
 		struct slre_cap match[2];
 		//FIXME should we limit the size?
 		slre_match(full_regex, aURI, strlen(aURI), match, 2, 0);
-		memcpy(aGroupName, match[0].ptr, match[0].len); //FIXME actually limit the size
-		memcpy(aName, match[1].ptr, match[1].len); //FIXME actually limit the size
+		std::pair<std::string, std::string> result;
+		result.first.assign(match[0].ptr, match[0].len);
+		result.first.assign(match[1].ptr, match[1].len);
+		return result;
 	}
 
-	void extract_group(const char* aURI, char *aGroupName, size_t agroupLength)
+	std::string extract_group(const char* aURI)
 	{
 		struct slre_cap match[1];
 	    //FIXME should we limit the size?
 	    slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
-	    memcpy(aGroupName, match[0].ptr, match[0].len); //FIXME actually limit the size
+	    std::string result;
+		result.assign(match[0].ptr, match[0].len);
+		return result;
 	}
 }

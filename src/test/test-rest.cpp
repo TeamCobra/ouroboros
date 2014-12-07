@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <rest.hpp>
+#include <rest.h>
 
 using namespace ouroboros;
 
