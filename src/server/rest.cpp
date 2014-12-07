@@ -15,7 +15,7 @@ namespace ouroboros
 		return (result >= 0 || group_result >= 0);
 	}
 
-	void extract_group_name(const char* aURI, char *aGroupName, size_t groupLength, char *aName, size_t aNameLength)
+	void extract_group_name(const char* aURI, char *aGroupName, size_t agroupLength, char *aName, size_t aNameLength)
 	{
 		struct slre_cap match[2];
 		//FIXME should we limit the size?
@@ -24,7 +24,7 @@ namespace ouroboros
 		memcpy(aName, match[1].ptr, match[1].len); //FIXME actually limit the size
 	}
 
-	void extract_group(const char* aURI, char *aGroupName, size_t groupLength)
+	void extract_group(const char* aURI, char *aGroupName, size_t agroupLength)
 	{
 		struct slre_cap match[1];
 	    //FIXME should we limit the size?

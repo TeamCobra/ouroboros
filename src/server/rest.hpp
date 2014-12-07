@@ -9,12 +9,12 @@ namespace ouroboros
 	void extract_group(
 		const char* aURI,
 		char *aGroupName,
-		size_t groupLength);
+		size_t agroupLength);
 
 	void extract_group_name(
 		const char* aURI,
 		char *aGroupName,
-		size_t groupLength,
+		size_t agroupLength,
 		char *aName,
 		size_t aNameLength);
 }
