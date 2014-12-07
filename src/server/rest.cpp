@@ -10,7 +10,7 @@ namespace ouroboros
 
 	bool is_REST_URI(const char* aURI)
 	{
-		int result = slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
+		slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
 		int group_result = slre_match(group_regex, aURI, strlen(aURI), NULL, 0, 0);
 		return (result >= 0 || group_result >= 0);
 	}
@@ -19,7 +19,7 @@ namespace ouroboros
 	{
 		struct slre_cap match[2];
 		//FIXME should we limit the size?
-		int result = slre_match(full_regex, aURI, strlen(aURI), match, 2, 0);
+		slre_match(full_regex, aURI, strlen(aURI), match, 2, 0);
 		memcpy(aGroupName, match[0].ptr, match[0].len); //FIXME actually limit the size
 		memcpy(aName, match[1].ptr, match[1].len); //FIXME actually limit the size
 	}
@@ -28,7 +28,7 @@ namespace ouroboros
 	{
 		struct slre_cap match[1];
 	    //FIXME should we limit the size?
-	    int result = slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
+	    slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
 	    memcpy(aGroupName, match[0].ptr, match[0].len); //FIXME actually limit the size
 	}
 }
