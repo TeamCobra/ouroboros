@@ -31,9 +31,9 @@ namespace ouroboros
 	std::string extract_group(const char* aURI)
 	{
 		struct slre_cap match[1];
-	    //FIXME should we limit the size?
-	    slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
-	    std::string result;
+	  //FIXME should we limit the size?
+	  slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
+	  std::string result;
 		result.assign(match[0].ptr, match[0].len);
 		return result;
 	}

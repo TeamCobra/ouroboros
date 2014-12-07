@@ -15,13 +15,13 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 		char data[256];
 
 		data[0] = '\0';
-    	strcat(data, "<html><head><title>Hello world!</title></head><body>");
-	    time_t current_time = time(NULL);
-	    strcat(data, ctime(&current_time));
-    	strcat(data, "</body></html>");
+  	strcat(data, "<html><head><title>Hello world!</title></head><body>");
+    time_t current_time = time(NULL);
+    strcat(data, ctime(&current_time));
+  	strcat(data, "</body></html>");
 
-    	mg_send_data(conn, data, strlen(data));
-	    return MG_TRUE;
+  	mg_send_data(conn, data, strlen(data));
+    return MG_TRUE;
 	}
 	return MG_FALSE;
 }
@@ -48,8 +48,8 @@ int main(void) {
 	mg_set_option(server, "listening_port", "8080");  // Open port 8080
 
 	for (;;) {
-    	mg_poll_server(server, 1000);   // Infinite loop, Ctrl-C to stop
-    }
+    mg_poll_server(server, 1000);   // Infinite loop, Ctrl-C to stop
+  }
 	mg_destroy_server(&server);
 
 	return 0;
