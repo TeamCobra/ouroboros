@@ -10,6 +10,7 @@ namespace ouroboros
 
 	std::string extract_group(const char* aURI);
 
+	//pair.first is group, pair.second is name
 	std::pair<std::string, std::string> extract_group_name(const char* aURI);
 }
 
