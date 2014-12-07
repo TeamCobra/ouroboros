@@ -10,7 +10,7 @@ namespace ouroboros
 
 	bool is_REST_URI(const char* aURI)
 	{
-		slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
+		int result = slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
 		int group_result = slre_match(group_regex, aURI, strlen(aURI), NULL, 0, 0);
 		return (result >= 0 || group_result >= 0);
 	}
