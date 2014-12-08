@@ -32,6 +32,27 @@ namespace ouroboros
 		return REST_call_type::NONE;
 	}
 
+	HTTP_request_type get_HTTP_request_type(const std::string& aURI)
+	{
+		if (aURI == "PUT")
+		{
+			return HTTP_request_type::PUT;
+		}
+		else if (aURI == "POST")
+		{
+			return HTTP_request_type::POST;
+		}
+		else if (aURI == "GET")
+		{
+			return HTTP_request_type::GET;
+		}
+		else if (aURI == "DELETE")
+		{
+			return HTTP_request_type::DELETE;
+		}
+		return HTTP_request_type::UNKNOWN;
+	}
+
 	//pair<Group, Name>
 	std::pair<std::string, std::string> extract_group_name(const char* aURI)
 	{

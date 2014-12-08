@@ -8,11 +8,19 @@ namespace ouroboros
 {
 	bool is_REST_URI(const char* aURI);
 
-	enum class REST_call_type {
+	enum class REST_call_type
+	{
 		GROUP, NAME, CUSTOM, NONE
 	};
 
+	enum class HTTP_request_type
+	{
+		POST, GET, DELETE, PUT, UNKNOWN
+	};
+
 	REST_call_type get_REST_call_type(const std::string& aURI);
+	HTTP_request_type get_HTTP_request_type(const std::string& aURI);
+
 
 	std::string extract_group(const char* aURI);
 
