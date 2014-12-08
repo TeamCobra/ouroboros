@@ -1,0 +1,42 @@
+info it worked if it ends with ok
+verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'localtunnel' ]
+info using npm@1.1.4
+info using node@v0.6.19
+verbose config file /root/.npmrc
+verbose config file /usr/etc/npmrc
+verbose config file /usr/share/npm/npmrc
+verbose cache add [ 'localtunnel', null ]
+silly cache add: name, spec, args [ undefined, 'localtunnel', [ 'localtunnel', null ] ]
+verbose parsed url { pathname: 'localtunnel',
+verbose parsed url   path: 'localtunnel',
+verbose parsed url   href: 'localtunnel' }
+verbose addNamed [ 'localtunnel', '' ]
+verbose addNamed [ null, '' ]
+silly name, range, hasData [ 'localtunnel', '', false ]
+verbose raw, before any munging localtunnel
+verbose url resolving [ 'https://registry.npmjs.org/', './localtunnel' ]
+verbose url resolved https://registry.npmjs.org/localtunnel
+http GET https://registry.npmjs.org/localtunnel
+ERR! Error: failed to fetch from registry: localtunnel
+ERR!     at /usr/share/npm/lib/utils/npm-registry-client/get.js:139:12
+ERR!     at cb (/usr/share/npm/lib/utils/npm-registry-client/request.js:31:9)
+ERR!     at Request._callback (/usr/share/npm/lib/utils/npm-registry-client/request.js:136:18)
+ERR!     at Request.callback (/usr/lib/nodejs/request/main.js:119:22)
+ERR!     at Request.<anonymous> (/usr/lib/nodejs/request/main.js:212:58)
+ERR!     at Request.emit (events.js:88:20)
+ERR!     at ClientRequest.<anonymous> (/usr/lib/nodejs/request/main.js:412:12)
+ERR!     at ClientRequest.g (events.js:156:14)
+ERR!     at ClientRequest.emit (events.js:67:17)
+ERR!     at HTTPParser.parserOnIncomingClient [as onIncoming] (http.js:1256:7)
+ERR! You may report this log at:
+ERR!     <http://bugs.debian.org/npm>
+ERR! or use
+ERR!     reportbug --attach /home/pi/ouroboros/npm-debug.log npm
+ERR! 
+ERR! System Linux 3.12.28+
+ERR! command "/usr/bin/nodejs" "/usr/bin/npm" "install" "localtunnel"
+ERR! cwd /home/pi/ouroboros
+ERR! node -v v0.6.19
+ERR! npm -v 1.1.4
+ERR! message failed to fetch from registry: localtunnel
+verbose exit [ 1, true ]
