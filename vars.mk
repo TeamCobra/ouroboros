@@ -13,7 +13,7 @@ export FROZEN_DIR=${LIB_DIR}/frozen
 export MONGOOSE_DIR=${LIB_DIR}/mongoose
 export GTEST_DIR=${LIB_DIR}/googletest
 
-export CORE_FLAGS=-Wall -Wextra -Wpedantic -ggdb
+export CORE_FLAGS=-Wall -Wextra -Wpedantic -ggdb ${INCLUDE}
 
 $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

@@ -11,12 +11,38 @@
 
 using namespace ouroboros;
 
+//TODO make a singleton for the device tree
 data_store<var_field> device_tree = get_data_store();
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
-	if (is_REST_URI(uri))
+	if (get_REST_call_type(uri) != REST_call_type::NONE)
 	{
+		std::string output;
+		//Check type of REST API call
+		switch (get_REST_call_type(uri))
+		{
+		case REST_call_type::NAME:
+		{
+			std::pair<std::string, std::string> group_name = extract_group_name(uri);
+			//Determine type of REST Request Types
+		}
+			
+			break;
+		case REST_call_type::GROUP:
+		{
+			std::string group = extract_group(uri);
+			//Determine type of REST Request Types
+		}
+			break;
+		case REST_call_type::CUSTOM:
+		{
+			//FIXME Implement this somehow
+			break;
+		}
+		}
+		
+		
 		char data[256];
 	   	base_string* bstring = reinterpret_cast<base_string*>(device_tree.get("main", "root"));
 
@@ -30,6 +56,7 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
     	strcat(data, "</body></html>");
 
     	mg_send_data(conn, data, strlen(data));
+    	
 	    return MG_TRUE;
 	}
 	return MG_FALSE;
