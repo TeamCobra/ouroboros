@@ -13,8 +13,7 @@
 using namespace ouroboros;
 
 
-//TODO make a singleton for the device tree
-data_store<var_field> device_tree = get_data_store();
+
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
@@ -26,17 +25,17 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 		{
 			case REST_call_type::NAME:
 			{
-				handle_name_REST(uri);
+				handle_name_REST(conn, uri);
 			}
 			break;
 			case REST_call_type::GROUP:
 			{
-				handle_group_REST(uri);
+				handle_group_REST(conn, uri);
 			}
 			break;
 			case REST_call_type::CUSTOM:
 			{
-				handle_custom_REST(uri);
+				handle_custom_REST(conn, uri);
 				break;
 			}
 			default:
@@ -44,21 +43,6 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 				return MG_FALSE; //Something really bad just took place... We got a REST call type that wasn't NONE but we didn't recognize!
 			}
 		}
-		
-		char data[256];
-	   	base_string* bstring = reinterpret_cast<base_string*>(device_tree.get("main", "root"));
-
-		data[0] = '\0';
-    	strcat(data, "<html><head><title>Hello world!</title></head><body>");
-	    time_t current_time = time(NULL);
-	    strcat(data, ctime(&current_time));
-	    strcat(data, "</br>");
-		bstring->setString("TESTING");
-	   	strcat(data, device_tree.get("main", "root")->getValue().c_str());
-    	strcat(data, "</body></html>");
-
-    	mg_send_data(conn, data, strlen(data));
-    	
 	    return MG_TRUE;
 	}
 	return MG_FALSE;
