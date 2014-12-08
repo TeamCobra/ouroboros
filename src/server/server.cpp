@@ -8,8 +8,10 @@
 #include <data/base.hpp>
 #include <data/data_store.hpp>
 #include <device_tree.h>
+#include <server/rest_handlers.h>
 
 using namespace ouroboros;
+
 
 //TODO make a singleton for the device tree
 data_store<var_field> device_tree = get_data_store();
@@ -22,26 +24,26 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 		//Check type of REST API call
 		switch (get_REST_call_type(uri))
 		{
-		case REST_call_type::NAME:
-		{
-			std::pair<std::string, std::string> group_name = extract_group_name(uri);
-			//Determine type of REST Request Types
-		}
-			
+			case REST_call_type::NAME:
+			{
+				handle_name_REST(uri);
+			}
 			break;
-		case REST_call_type::GROUP:
-		{
-			std::string group = extract_group(uri);
-			//Determine type of REST Request Types
-		}
+			case REST_call_type::GROUP:
+			{
+				handle_group_REST(uri);
+			}
 			break;
-		case REST_call_type::CUSTOM:
-		{
-			//FIXME Implement this somehow
-			break;
+			case REST_call_type::CUSTOM:
+			{
+				handle_custom_REST(uri);
+				break;
+			}
+			default:
+			{
+				return MG_FALSE; //Something really bad just took place... We got a REST call type that wasn't NONE but we didn't recognize!
+			}
 		}
-		}
-		
 		
 		char data[256];
 	   	base_string* bstring = reinterpret_cast<base_string*>(device_tree.get("main", "root"));
