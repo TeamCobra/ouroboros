@@ -3,8 +3,10 @@ CURRENT_DIR := $(patsubst %/,%,$(dir $(mkfile_path)))
 
 export LIB_DIR=${CURRENT_DIR}/lib
 export SRC_DIR=${CURRENT_DIR}/src
-export BUILD_DIR=${CURRENT_DIR}/build
-export OBJ_DIR=${BUILD_DIR}/obj
+export BUILD_DIR=${CURRENT_DIR}/target
+export OBJ_DIR=${BUILD_DIR}
+
+export INCLUDE=-I. -I${SRC_DIR} -I${SRC_DIR}/templates -I${SRC_DIR}/test -I${SRC_DIR}/server -I${LIB_DIR}
 
 export SLRE_DIR=${LIB_DIR}/slre
 export FROZEN_DIR=${LIB_DIR}/frozen

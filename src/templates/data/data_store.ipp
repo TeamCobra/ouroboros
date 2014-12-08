@@ -1,58 +1,52 @@
 #include "data_store.hpp"
+#include "misc.h"
 
 namespace ouroboros
 {
-		template<class T>
-		data_store<T>::data_store(group<T>&& aRoot)
-		:mRoot(std::move(aRoot))
-		{}
+	template<class T>
+	data_store<T>::data_store(group<T>&& aRoot)
+	:mRoot(std::move(aRoot))
+	{}
 
-		namespace detail
+	template <class T>
+	T *data_store<T>::get(const std::string& aName, const std::string& aGroup)
+	{
+		group<T> *pGroup = this->get(aGroup);
+
+		if (pGroup == nullptr)
 		{
-			std::vector<std::string> split(const std::string& aString, const std::string& aDelim)
-			{
-				//FIXME this returns empty strings if there are consecutive delims
-				std::vector<std::string> result;
-				std::size_t end = std::string::npos, start = 0;
-				while ((end = aString.substr(start, end).find(aDelim)) != std::string::npos)
-				{
-					result.push_back(aString.substr(start, end));
-					start = end + aDelim.length();
-				}
-				result.push_back(aString.substr(start, end));
-				
-				return result;
-			}
+			return nullptr;
 		}
 
-		template <class T>
-		T *data_store<T>::get(const std::string& aName, const std::string& aGroup)
+		var_field *field = pGroup->findItem(aName);
+
+		return field;
+	}
+
+	template <class T>
+	group<T>* data_store<T>::get(const std::string& aGroup)
+	{
+		group<T>* result;
+		//Check that the group string is valid syn
+		//Break aGroup into tokens
+		std::vector<std::string> groups = detail::split(aGroup, "-");
+		
+		//In case we're trying to access the root group
+		if (groups.size() == 1)
 		{
-			group<T> *pGroup = this->get(aGroup);
-
-			if (pGroup == nullptr)
+			if (mRoot.getTitle() == groups.front())
 			{
-				return nullptr;
+				return &mRoot;
 			}
-
-			var_field *field = pGroup->findItem(aName);
-
-			return field;
+			return nullptr;
 		}
+		
+		result = mRoot.findGroup(groups.front());
 
-		template <class T>
-		group<T>* data_store<T>::get(const std::string& aGroup)
+		for (std::size_t index = 1; (result && (index < groups.size())); ++index)
 		{
-			group<T>* result;
-			//Check that the group string is valid syn
-			//Break aGroup into tokens
-			std::vector<std::string> groups = detail::split(aGroup, "-");
-			result = mRoot.findGroup(groups.front());
-
-			for (std::size_t index = 1; (result && (index < groups.size())); ++index)
-			{
-				result = mRoot.findGroup(groups[index]);
-			}
-			return result;
+			result = mRoot.findGroup(groups[index]);
 		}
+		return result;
+	}
 }

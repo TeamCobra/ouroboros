@@ -104,6 +104,11 @@ namespace ouroboros
 	{
 		mMaxLength = aMaxLength;
 	}
+	
+	void base_string::setString(const std::string& aString)
+	{
+		mValue = aString;
+	}
 
 	base_integer::base_integer(
 		const std::string& aTitle,

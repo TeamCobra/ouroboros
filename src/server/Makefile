@@ -1,17 +1,17 @@
 include ../../vars.mk
 
-CFLAGS=${CORE_FLAGS} -std=c99
-CXXFLAGS=${CORE_FLAGS} -std=c++11
+CFLAGS=${CORE_FLAGS} ${INCLUDE} -std=c99
+CXXFLAGS=${CORE_FLAGS} ${INCLUDE} -std=c++11
 
 LDFLAGS=-lpthread
 
 .PHONY=all clean
 
-OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o
+OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o
 
 all: $(BUILD_DIR)/Server
 
-${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o
+${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o
 	${CXX} ${LDFLAGS} $^ -o $@
 
 ${OBJ_DIR}/mongoose.o: mongoose.c mongoose.h
@@ -24,7 +24,13 @@ ${OBJ_DIR}/frozen.o: frozen.c frozen.h
 
 ${OBJ_DIR}/slre.o: slre.c slre.h
 
-${OBJ_DIR}/base.o: base.cpp base.hpp
+${OBJ_DIR}/base.o:
+	make -C ../templates/data $@
+
+${OBJ_DIR}/misc.o:
+	make -C ../templates/data $@
+
+${OBJ_DIR}/device_tree.o: device_tree.cpp device_tree.h
 
 slre.c:
 	cp ${SLRE_DIR}/$@ ./

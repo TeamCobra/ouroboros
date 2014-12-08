@@ -43,7 +43,7 @@ namespace ouroboros
 	};
 
 	template <class T>
-	class group : base_field
+	class group : public base_field
 	{
 	public:
 		group(const std::string& aTitle, const std::string& aDescription);
@@ -60,7 +60,7 @@ namespace ouroboros
 		const group<T> *findGroup(const std::string& aName) const;
 
 		std::size_t getSize() const;
-		
+
 	private:
 		std::string aTitle;
 		std::map<std::string, T*> mItems;
@@ -87,6 +87,7 @@ namespace ouroboros
 		void setLength(const std::size_t& aLength);
 		void setMinLength(const std::size_t& aMinLength);
 		void setMaxLength(const std::size_t& aMaxLength);
+		void setString(const std::string& aValue);
 		
 		virtual std::string getValue() const override;
 
