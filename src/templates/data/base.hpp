@@ -75,7 +75,8 @@ namespace ouroboros
 			const std::string& aDescription,
 			const std::string& aValue,
 			const std::string& aPattern,
-			std::size_t aLength, std::size_t aMinLength,
+			std::size_t aLength, 
+			std::size_t aMinLength,
 			std::size_t aMaxLength);
 
 		std::string getPattern() const;

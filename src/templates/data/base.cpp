@@ -42,9 +42,9 @@ namespace ouroboros
 
 	std::string var_field::getValue() const
 	{
-			return std::string(
-				"{ \"title\" : \"" + this->getTitle() + "\", "
-				"\"description\" : \"" + this->getDescription() + "\" }");
+		return std::string(
+			"{ \"title\" : \"" + this->getTitle() + "\", "
+			"\"description\" : \"" + this->getDescription() + "\" }");
 	}
 
 	base_string::base_string(
@@ -81,8 +81,8 @@ namespace ouroboros
 	
 	std::string base_string::getValue() const
 	{
-			return std::string(
-				"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
+		return std::string(
+			"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
 	}
 
 	void base_string::setPattern(const std::string& aPattern)
@@ -119,7 +119,6 @@ namespace ouroboros
 	{
 		mRange.first = std::min(aRange.first, aRange.second);
 		mRange.second = std::max(aRange.first, aRange.second);
-		
 	}
 	
 	std::pair<int,int> base_integer::getInclusiveRange() const
@@ -134,7 +133,7 @@ namespace ouroboros
 	
 	std::string base_integer::getValue() const
 	{
-			return std::string(
-				"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
+		return std::string(
+			"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
 	}
 }
