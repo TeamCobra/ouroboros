@@ -7,11 +7,11 @@ LDFLAGS=-lpthread
 
 .PHONY=all clean
 
-OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o
+OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o
 
 all: $(BUILD_DIR)/Server
 
-${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o
+${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o
 	${CXX} ${LDFLAGS} $^ -o $@
 
 ${OBJ_DIR}/mongoose.o: mongoose.c mongoose.h
@@ -31,8 +31,6 @@ ${OBJ_DIR}/base.o:
 
 ${OBJ_DIR}/misc.o:
 	make -C ../templates/data $@
-
-${OBJ_DIR}/device_tree.o: device_tree.cpp device_tree.h
 
 slre.c:
 	cp ${SLRE_DIR}/$@ ./

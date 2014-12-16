@@ -6,35 +6,27 @@
 #include <cstring>
 
 #include <data/base.hpp>
-#include <server/device_tree.h>
+#include <server/device_tree.hpp>
 #include <data/data_store.hpp>
 
 #include <mongoose/mongoose.h>
 
+//TODO make this work by using templates instead of different functions for different types(!)
+
 namespace ouroboros
 {
 	//TODO make a singleton for the device tree
-	data_store<var_field> device_tree = get_data_store();
+	device_tree<var_field> &tree = device_tree<var_field>::get_device_tree();
+	data_store<var_field> &store = tree.get_data_store();
 	
 	void handle_name_REST(struct mg_connection *conn, const std::string& aURI)
 	{
-		std::pair<std::string, std::string> group_name = extract_group_name(aURI.c_str());
+		std::pair<std::string, std::string> group_name =
+			extract_group_name(aURI.c_str());
 		//Determine type of REST Request Types
-		auto type = get_HTTP_request_type(aURI);
+		auto type = get_HTTP_request_type(aURI); //TODO This looks like I am trying to use typing to select functionality. This is a candidate for using templates and SFINAE.
 		
-		char data[256];
-	   	base_string* bstring = reinterpret_cast<base_string*>(device_tree.get("main", "root"));
-
-		data[0] = '\0';
-    	strcat(data, "<html><head><title>Hello world!</title></head><body>");
-	    time_t current_time = time(NULL);
-	    strcat(data, ctime(&current_time));
-	    strcat(data, "</br>");
-		bstring->setString("TESTING");
-	   	strcat(data, device_tree.get("main", "root")->getValue().c_str());
-    	strcat(data, "</body></html>");
-
-    	mg_send_data(conn, data, strlen(data));
+		
 	}
 
 	void handle_group_REST(struct mg_connection *conn, const std::string& aURI)

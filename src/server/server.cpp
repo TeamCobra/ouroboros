@@ -7,13 +7,10 @@
 #include <cstdio>
 #include <data/base.hpp>
 #include <data/data_store.hpp>
-#include <device_tree.h>
+#include <device_tree.hpp>
 #include <server/rest_handlers.h>
 
 using namespace ouroboros;
-
-
-
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
@@ -21,6 +18,7 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 	{
 		std::string output;
 		//Check type of REST API call
+		//TODO FIXME This looks like I'm trying to use types, I should use templates instead
 		switch (get_REST_call_type(uri))
 		{
 			case REST_call_type::NAME:
@@ -36,8 +34,8 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 			case REST_call_type::CUSTOM:
 			{
 				handle_custom_REST(conn, uri);
-				break;
 			}
+			break;
 			default:
 			{
 				return MG_FALSE; //Something really bad just took place... We got a REST call type that wasn't NONE but we didn't recognize!
