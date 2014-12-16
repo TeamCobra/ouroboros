@@ -4,19 +4,19 @@ $(function() { <%iinc%>
   loadGroups();
   <% field.each do |field| %>
   $("#<%= field.id %>_button").click(updateValue);
-  <% end %><%idec%>
+  <% end %> <%idec%>
 }); <%idec%>
 
 var groups;
 
-var loadJSON = function() {
-  $.getJSON( "config.json", function( data ) {
+var loadJSON = function() { <%iinc%>
+  $.getJSON( "config.json", function( data ) { <%iinc%>
     groups = data.groups;
-    loadNavigation();
-  });
+    loadNavigation(); <%idec%>
+  }); <%idec%>
 }
 
-var loadGroups = function() {
+var loadGroups = function() { <%iinc%>
   $.ajax({ <%iinc%>
     url: '/<%= id %>/get',
     method: 'GET',
@@ -26,14 +26,14 @@ var loadGroups = function() {
       $('#<%= field.id %>').val(json.<%= field.id %>);
       <% end %> <%idec%>
     } <%idec%>
-  });
+  }); <%idec%>
 }
 
-var loadNavigation = function() {
-  for (i in groups) {
+var loadNavigation = function() { <%iinc%>
+  for (i in groups) { <%iinc%>
     $link = $("<a href='/" + groups[i] + "'>" + groups[i] + "</a>")
-    $('nav').append($link)
-  }
+    $('nav').append($link) <%idec%>
+  } <%idec%>
 }
 
 var updateValue = function(event) {<%iinc%>
