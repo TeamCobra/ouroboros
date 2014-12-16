@@ -7,9 +7,12 @@ $(function() { <%iinc%>
   <% end %><%idec%>
 }); <%idec%>
 
+var groups;
+
 var loadJSON = function() {
   $.getJSON( "config.json", function( data ) {
-    debugger;
+    groups = data.groups;
+    loadNavigation();
   });
 }
 
@@ -24,6 +27,13 @@ var loadGroups = function() {
       <% end %> <%idec%>
     } <%idec%>
   });
+}
+
+var loadNavigation = function() {
+  for (i in groups) {
+    $link = $("<a href='/" + groups[i] + "'>" + groups[i] + "</a>")
+    $('nav').append($link)
+  }
 }
 
 var updateValue = function(event) {<%iinc%>
