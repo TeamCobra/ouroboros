@@ -6,9 +6,18 @@
 	
 	<% expand 'Groups', :foreach => group %> 
 	
+	static int get_config(struct mg_connection *conn) { <%iinc%>
+			mg_send_file(conn, "config.json", NULL);
+			return MG_MORE; <%idec%>
+		}
 	<% group.each do |group| %>
 		static int get_<%= group.id %>_page(struct mg_connection *conn) { <%iinc%>
 			mg_send_file(conn, "<%= group.id %>.html", NULL);
+			return MG_MORE; <%idec%>
+		}
+
+		static int get_<%= group.id %>_js(struct mg_connection *conn) { <%iinc%>
+			mg_send_file(conn, "<%= group.id %>.js", NULL);
 			return MG_MORE; <%idec%>
 		}
 		
@@ -38,9 +47,14 @@
 	    case MG_AUTH: <%iinc%>
 	    	return MG_TRUE; <%idec%>
 	    case MG_REQUEST: <%iinc%>
-	    
+	    	if(!strcmp(conn->uri, "/config.json")){ <%iinc%>
+            return get_config(conn); 
+         }
 	    	<% group.each do |group| %>
-		    	if(!strcmp(conn->uri, "/<%= group.id %>")){ <%iinc%>
+	    	if(!strcmp(conn->uri, "/<%= group.id %>.js")){ <%iinc%>
+					return get_<%= group.id %>_js(conn); <%idec%>
+				}
+		    if(!strcmp(conn->uri, "/<%= group.id %>")){ <%iinc%>
 					return get_<%= group.id %>_page(conn); <%idec%>
 				}
 				if(!strcmp(conn->uri, "/<%= group.id %>/get")){ <%iinc%>
