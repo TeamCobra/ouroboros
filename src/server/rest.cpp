@@ -32,21 +32,21 @@ namespace ouroboros
 		return REST_call_type::NONE;
 	}
 
-	HTTP_request_type get_HTTP_request_type(const std::string& aURI)
+	HTTP_request_type get_HTTP_request_type(const std::string& aMethodType)
 	{
-		if (aURI == "PUT")
+		if (aMethodType == "PUT")
 		{
 			return HTTP_request_type::PUT;
 		}
-		else if (aURI == "POST")
+		else if (aMethodType == "POST")
 		{
 			return HTTP_request_type::POST;
 		}
-		else if (aURI == "GET")
+		else if (aMethodType == "GET")
 		{
 			return HTTP_request_type::GET;
 		}
-		else if (aURI == "DELETE")
+		else if (aMethodType == "DELETE")
 		{
 			return HTTP_request_type::DELETE;
 		}
@@ -62,7 +62,7 @@ namespace ouroboros
 
 		std::pair<std::string, std::string> result;
 		result.first.assign(match[0].ptr, match[0].len);
-		result.second.assign(match[1].ptr, match[1].len);
+		result.second.assign(match[1].ptr, match[1].len-1); //BUG SLRE includes NULL for some reason in length
 		return result;
 	}
 

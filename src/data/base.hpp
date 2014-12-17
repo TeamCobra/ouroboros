@@ -62,7 +62,6 @@ namespace ouroboros
 		std::size_t getSize() const;
 
 	private:
-		std::string aTitle;
 		std::map<std::string, T*> mItems;
 		std::map<std::string, group<T>*> mGroups;
 	};

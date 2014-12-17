@@ -19,7 +19,7 @@ namespace ouroboros
 	};
 
 	REST_call_type get_REST_call_type(const std::string& aURI);
-	HTTP_request_type get_HTTP_request_type(const std::string& aURI);
+	HTTP_request_type get_HTTP_request_type(const std::string& aHTTP_Type);
 
 
 	std::string extract_group(const char* aURI);
