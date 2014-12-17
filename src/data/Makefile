@@ -1,4 +1,4 @@
-include ../../../vars.mk
+include ../../vars.mk
 
 CFLAGS=${CORE_FLAGS} -std=c99
 CXXFLAGS=${CORE_FLAGS} -std=c++11
