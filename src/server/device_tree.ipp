@@ -1,5 +1,6 @@
 #include <data/base.hpp>
 #include <data/data_store.hpp>
+#include <server/device_tree.tpp>
 #include <memory>
 
 namespace ouroboros
@@ -18,10 +19,7 @@ namespace ouroboros
 	template <class field>
 	device_tree<field>::device_tree()
 	{
-		//Load data store here TODO
-		group<var_field> result("root", "Root node");
-		result.add(new base_string("main", "This is the main text.", "", "", 10, 10, 10));
-		
+		group<field> result = detail::build_tree<field>();
 		mpDataStore.reset(new data_store<field>(std::move(result)));
 	}
 	
