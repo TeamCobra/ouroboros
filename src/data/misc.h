@@ -8,7 +8,17 @@ namespace ouroboros
 {
 	namespace detail
 	{
-		std::vector<std::string> split(const std::string& aString, const std::string& aDelim);
+		/**	Splits the given string into tokens, separated by the given
+		 *	delimiter. Consecutive delimiters are not ignored and result in
+		 *	empty tokens.
+		 *
+		 *	@param split aString String to split.
+		 *	@param aDelim Delimiter to use for splitting.
+		 *
+		 *	@returns Vector containing tokens resulting from the splitting.
+		 */
+		std::vector<std::string> split
+			const std::string& aString, const std::string& aDelim);
 	}
 }
 
