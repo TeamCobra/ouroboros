@@ -61,6 +61,16 @@ namespace ouroboros
 		 */
 		void setDescription(const std::string& aDescription);
 
+		/**	Returns the JSON representation of the field. Even though it is
+		 *	declared abstract, it has a default implementation available (TODO
+		 *	describe what it is).
+		 *
+		 * @returns The JSON representation of the field.
+		 */
+		virtual std::string getJSON() const = 0;
+		
+
+		
 	private:
 		std::string mTitle;
 		std::string mDescription;
@@ -87,20 +97,14 @@ namespace ouroboros
 		 * 
 		 */
 		virtual ~var_field() = default;
-
-		/**	Returns the JSON representation of the field. Even though it is
-		 *	declared abstract, it has a default implementation available (TODO
-		 *	describe what it is).
-		 *
-		 * @returns The JSON representation of the field.
-		 */
-		virtual std::string getJSON() const = 0;
 		
 		/**	Tries to set the object to the JSON received.
 		 *
 		 * @returns True upon success, false otherwise.
 		 */
 		virtual bool setJSON(const JSON& aJSON) = 0;
+
+
 	};
 
 	/**	Class representing a collection of groups and items.

@@ -36,16 +36,39 @@ namespace ouroboros
 		mDescription = aDescription;
 	}
 
-
-	var_field::var_field(const std::string& aTitle, const std::string& aDescription)
-	:base_field(aTitle, aDescription)
-	{}
-
-	std::string var_field::getJSON() const
+	std::string base_field::getJSON() const
 	{
 		return std::string(
 			"{ \"title\" : \"" + this->getTitle() + "\", "
 			"\"description\" : \"" + this->getDescription() + "\" }");
 	}
+	
+	bool var_field::setJSON(const JSON& aJSON)
+	{
+		std::string title_backup(getTitle());
+		std::string desc_backup(getDescription());
+		bool result = true, found = false;
+		if (aJSON.exists("title"))
+		{
+			found = true;
+			this->setTitle(aJSON.get("title"));
+		}
+		if (aJSON.exists("description"))
+		{
+			found = true;
+			this->setDescription(aJSON.get("description"));
+		}
+
+		if(!result)
+		{
+			setTitle(title_backup);
+			setDescription(desc_backup);
+		}
+		return result && found;
+	}
+
+	var_field::var_field(const std::string& aTitle, const std::string& aDescription)
+	:base_field(aTitle, aDescription)
+	{}
 	
 }

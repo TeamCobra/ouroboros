@@ -77,7 +77,7 @@ namespace ouroboros
 		if (aJSON.exists("base.description"))
 		{
 			found = true;
-			this->setDescription(aJSON.get("base.title"));
+			this->setDescription(aJSON.get("base.description"));
 		}
 		
 		if (aJSON.exists("value"))
