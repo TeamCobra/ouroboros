@@ -3,7 +3,6 @@
 
 namespace ouroboros
 {
-	
 	JSON::JSON()
 	:mpArr(nullptr)
 	{}
@@ -41,6 +40,11 @@ namespace ouroboros
 			}
 		}
 		return std::string();
+	}
+	
+	bool JSON::empty() const
+	{
+		return (!mpArr);
 	}
 	
 }

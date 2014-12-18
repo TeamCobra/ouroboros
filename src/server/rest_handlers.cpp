@@ -11,8 +11,6 @@
 #include <data/JSON.h>
 #include <mongoose/mongoose.h>
 
-//TODO make this work by using templates instead of different functions for different types(!)
-
 namespace ouroboros
 {
 	device_tree<var_field> &tree = device_tree<var_field>::get_device_tree();
@@ -36,7 +34,7 @@ namespace ouroboros
 		std::pair<std::string, std::string> group_name =
 			extract_group_name(aURI.c_str());
 		//Determine type of REST Request Types
-		auto type = get_HTTP_request_type(conn->request_method); //TODO This looks like I am trying to use typing to select functionality. This is a candidate for using templates and SFINAE.
+		auto type = get_HTTP_request_type(conn->request_method);
 		
 		//get reference to named thing
 		var_field *named = store.get(group_name.first, group_name.second);
@@ -47,7 +45,7 @@ namespace ouroboros
 			switch (type)
 			{
 				case HTTP_request_type::PUT:	
-				{	//TODO Read PUT information to update named item
+				{	
 					std::string data(conn->content, conn->content_len);
 					JSON json(data);
 					if (named->setJSON(json))
@@ -111,6 +109,6 @@ namespace ouroboros
 
 	void handle_custom_REST(struct mg_connection *conn, const std::string& aURI)
 	{
-		//FIXME Implement this somehow
+		//TODO Implement this somehow
 	}
 }

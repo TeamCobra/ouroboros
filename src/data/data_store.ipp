@@ -11,11 +11,13 @@ namespace ouroboros
 	template <class T>
 	T *data_store<T>::get(const std::string& aGroup, const std::string& aName)
 	{
-		return const_cast<T *>(static_cast<const data_store&>(*this).get(aGroup, aName));
+		return const_cast<T *>(
+			static_cast<const data_store&>(*this).get(aGroup, aName));
 	}
 	
 	template <class T>
-	const T *data_store<T>::get(const std::string& aGroup, const std::string& aName) const
+	const T *data_store<T>::get(
+		const std::string& aGroup, const std::string& aName) const
 	{
 		const group<T> *pGroup = this->get(aGroup);
 
@@ -32,7 +34,8 @@ namespace ouroboros
 	template <class T>
 	group<T>* data_store<T>::get(const std::string& aGroup)
 	{
-		return const_cast<group<T> *>(static_cast<const data_store&>(*this).get(aGroup));
+		return const_cast<group<T> *>(
+			static_cast<const data_store&>(*this).get(aGroup));
 	}
 	
 	template <class T>
@@ -56,7 +59,9 @@ namespace ouroboros
 				
 				result = mRoot.findGroup(groups[1]);
 				
-				for (std::size_t index = 2; (result && (index < groups.size())); ++index)
+				for (std::size_t index = 2;
+					(result && (index < groups.size()));
+					++index)
 				{
 					result = result->findGroup(groups[index]);
 				}

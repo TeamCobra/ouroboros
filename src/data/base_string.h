@@ -19,12 +19,12 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param aTitle Title of the field.
-		 *	@param aDescription Description of the field.
-		 *	@param aValue Contents of the string.
-		 *	@param aPattern Pattern to match the content of the string to.
-		 *	@param aLength FIXME What is this field for?
-		 *	@param aLengthRange Range of the length of the string (inclusive).
+		 *	@param [in] aTitle Title of the field.
+		 *	@param [in] aDescription Description of the field.
+		 *	@param [in] aValue Contents of the string.
+		 *	@param [in] aPattern Pattern to match the content of the string to.
+		 *	@param [in] aLength FIXME What is this field for?
+		 *	@param [in] aLengthRange Range of the length of the string (inclusive).
 		 *
 		 *	@throws std::out_of_range When aValue does not meet range requirements.
 		 * 	@throws std::invalid_argument When aValue does not meet pattern requirements.
@@ -65,7 +65,7 @@ namespace ouroboros
 		 *	the new pattern were to invalidate the current string, this function
 		 *	call fails.
 		 *
-		 *	@param aPattern The new pattern to match the contents of the string
+		 *	@param [in] aPattern The new pattern to match the contents of the string
 		 *		field to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -81,7 +81,7 @@ namespace ouroboros
 		
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *
-		 *	@param aMinLength The new minimum length (inclusive) of the string
+		 *	@param [in] aMinLength The new minimum length (inclusive) of the string
 		 *		field.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -91,7 +91,7 @@ namespace ouroboros
 		
 		/**	Sets the maximum length (inclusive) of the string field.
 		 *
-		 *	@param aMaxLength The new maximum length (inclusive) of the string
+		 *	@param [in] aMaxLength The new maximum length (inclusive) of the string
 		 *		field.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -103,9 +103,9 @@ namespace ouroboros
 		 *	the new pattern were to invalidate the current string, this function
 		 *	call fails, unless the new value specified matches the new pattern.
 		 *
-		 *	@param aPattern The new pattern to match the contents of the string
+		 *	@param [in] aPattern The new pattern to match the contents of the string
 		 *		field to.
-		 *	@param aNewValue An optional new value to update the string to.
+		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -124,9 +124,9 @@ namespace ouroboros
 		
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *
-		 *	@param aMinLength The new minimum length (inclusive) of the string
+		 *	@param [in] aMinLength The new minimum length (inclusive) of the string
 		 *		field.
-		 *	@param aNewValue An optional new value to update the string to.
+		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -137,9 +137,9 @@ namespace ouroboros
 		
 		/**	Sets the maximum length (inclusive) of the string field.
 		 *
-		 *	@param aMaxLength The new maximum length (inclusive) of the string
+		 *	@param [in] aMaxLength The new maximum length (inclusive) of the string
 		 *		field.
-		 *	@param aNewValue An optional new value to update the string to.
+		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -150,7 +150,7 @@ namespace ouroboros
 		
 		/**	Sets the current string value of the string field.
 		 *
-		 *	@param aValue The new string value.
+		 *	@param [in] aValue The new string value.
 		 * 
 		 */
 		bool setString(const std::string& aValue);

@@ -36,7 +36,7 @@ namespace ouroboros
 
 	/**	Checks the given URI and determines the type of REST call that it needs.
 	 * 
-	 *	@param aURI String to check for the type of REST call needed to handle
+	 *	@param [in] aURI String to check for the type of REST call needed to handle
 	 *		the pattern matched.
 	 *
 	 *	@returns An enum describing the type of REST call needed to handle the
@@ -46,7 +46,7 @@ namespace ouroboros
 	
 	/**	Converts a string representation of the HTTP request type to an enum.
 	 * 
-	 *	@param aHTTP_Type String representation of the HTTP request type.
+	 *	@param [in] aHTTP_Type String representation of the HTTP request type.
 	 *
 	 *	@returns An enum describing the type of HTTP request type received.
 	 *
@@ -55,7 +55,7 @@ namespace ouroboros
 
 	/**	Extracts the group from the given REST URI.
 	 * 
-	 *	@param aURI URI containing a REST group.
+	 *	@param [in] aURI URI containing a REST group.
 	 *
 	 *	@returns String representation of the groups found in the URI,
 	 *		'-' delimited.
@@ -64,7 +64,7 @@ namespace ouroboros
 
 	/**	Extracts the group and item name from the given REST URI.
 	 * 
-	 *	@param aURI URI containing a REST group and name.
+	 *	@param [in] aURI URI containing a REST group and name.
 	 *
 	 *	@returns Pair containing a string representation of the groups found in
 	 *		the URI (first), '-' delimited, and the string representation of the

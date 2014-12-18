@@ -10,7 +10,8 @@
 
 namespace ouroboros
 {
-	base_field::base_field(const std::string& aTitle, const std::string& aDescription)
+	base_field::base_field(
+		const std::string& aTitle, const std::string& aDescription)
 	:mTitle(aTitle), mDescription(aDescription)
 	{}
 
@@ -67,7 +68,8 @@ namespace ouroboros
 		return result && found;
 	}
 
-	var_field::var_field(const std::string& aTitle, const std::string& aDescription)
+	var_field::var_field(
+		const std::string& aTitle, const std::string& aDescription)
 	:base_field(aTitle, aDescription)
 	{}
 	

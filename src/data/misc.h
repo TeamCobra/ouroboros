@@ -12,8 +12,8 @@ namespace ouroboros
 		 *	delimiter. Consecutive delimiters are not ignored and result in
 		 *	empty tokens.
 		 *
-		 *	@param split aString String to split.
-		 *	@param aDelim Delimiter to use for splitting.
+		 *	@param [in] split aString String to split.
+		 *	@param [in] aDelim Delimiter to use for splitting.
 		 *
 		 *	@returns Vector containing tokens resulting from the splitting.
 		 */

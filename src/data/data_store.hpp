@@ -20,7 +20,7 @@ namespace ouroboros
 	public:
 		/**	Initializes the data_store by moving a group into its control.
 		 * 
-		 *	@param aRoot Group to be moved (i.e. std::move) into the control of
+		 *	@param [in] aRoot Group to be moved (i.e. std::move) into the control of
 		 * 		the data_store.
 		 *
 		 *	@post The data_store has control over the group and the contents of
@@ -32,8 +32,8 @@ namespace ouroboros
 		/**	Gets a pointer to the item specified by its group and name in the
 		 *		structure.
 		 * 
-		 *	@param aGroup Group name of item.
-		 *	@param aName Name of item.
+		 *	@param [in] aGroup Group name of item.
+		 *	@param [in] aName Name of item.
 		 *
 		 *	@returns A pointer to the element found in the group specified and
 		 *		identified by the name specified. Returns std::nullptr if no
@@ -48,8 +48,8 @@ namespace ouroboros
 		/**	Gets a pointer to the item specified by its group and name in the
 		 *		structure.
 		 * 
-		 *	@param aGroup Group name of item.
-		 *	@param aName Name of item.
+		 *	@param [in] aGroup Group name of item.
+		 *	@param [in] aName Name of item.
 		 *
 		 *	@returns A pointer to the element found in the group specified and
 		 *		identified by the name specified. Returns std::nullptr if no

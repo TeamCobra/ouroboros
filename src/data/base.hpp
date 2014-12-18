@@ -22,8 +22,8 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param aTitle Title of the field.
-		 *	@param aDescription Description of the field.
+		 *	@param [in] aTitle Title of the field.
+		 *	@param [in] aDescription Description of the field.
 		 * 
 		 */
 		base_field(
@@ -49,14 +49,14 @@ namespace ouroboros
 
 		/**	Sets the title of the field.
 		 *
-		 * @param aTitle New title for the field.
+		 * @param [in] aTitle New title for the field.
 		 * @post Title of the field has been set to the given parameter.
 		 */
 		void setTitle(const std::string& aTitle);
 		
 		/**	Sets the description of the field.
 		 *
-		 * @param aTitle New description for the field.
+		 * @param [in] aTitle New description for the field.
 		 * @post Description of the field has been set to the given parameter.
 		 */
 		void setDescription(const std::string& aDescription);
@@ -86,8 +86,8 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param aTitle Title of the field.
-		 *	@param aDescription Description of the field. 
+		 *	@param [in] aTitle Title of the field.
+		 *	@param [in] aDescription Description of the field. 
 		 */
 		var_field(
 			const std::string& aTitle,
@@ -118,8 +118,8 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param aTitle Title of the field.
-		 *	@param aDescription Description of the field. 
+		 *	@param [in] aTitle Title of the field.
+		 *	@param [in] aDescription Description of the field. 
 		 */
 		group(const std::string& aTitle, const std::string& aDescription);
 
@@ -132,7 +132,7 @@ namespace ouroboros
 		
 		/**	Adds the given field to the group. FIXME Who's responsibility is to keep track of the lifecycle of the pointer?
 		 * 
-		 *	@param apField Pointer to the field to add to the group.
+		 *	@param [in] apField Pointer to the field to add to the group.
 		 * 
 		 *	@post Group has associated the given field with itself.
 		 */
@@ -140,7 +140,7 @@ namespace ouroboros
 		
 		/**	Adds the given group to the group. FIXME Who's responsibility is to keep track of the lifecycle of the pointer?
 		 * 
-		 *	@param apField Pointer to the group to add to the group.
+		 *	@param [in] apField Pointer to the group to add to the group.
 		 * 
 		 *	@post Group has associated the given group with itself.
 		 */
@@ -148,7 +148,7 @@ namespace ouroboros
 		
 		/**	Removes the given field from the group.
 		 * 
-		 *	@param aName Name of the field to remove.
+		 *	@param [in] aName Name of the field to remove.
 		 * 
 		 *	@post Group has removed the field given from itself. If the field
 		 *		does not exist, nothing happens.
@@ -157,7 +157,7 @@ namespace ouroboros
 		
 		/**	Removes the given group from the group.
 		 * 
-		 *	@param aName Name of the group to remove.
+		 *	@param [in] aName Name of the group to remove.
 		 * 
 		 *	@post Group has removed the group given from itself. If the group
 		 *		does not exist, nothing happens.
@@ -167,7 +167,7 @@ namespace ouroboros
 		///@{
 		/**	Finds the given field in the group.
 		 * 
-		 *	@param aName Name of the field to find.
+		 *	@param [in] aName Name of the field to find.
 		 * 
 		 *	@returns Pointer to the field specified to be found by its name if
 		 *		it was found. std::nullptr is returned otherwise.
@@ -179,7 +179,7 @@ namespace ouroboros
 		///@{
 		/**	Finds the given group in the group.
 		 * 
-		 *	@param aName Name of the group to find.
+		 *	@param [in] aName Name of the group to find.
 		 * 
 		 *	@returns Pointer to the group specified to be found by its name if
 		 *		it was found. std::nullptr is returned otherwise.

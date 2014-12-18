@@ -19,10 +19,10 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param aTitle Title of the field.
-		 *	@param aDescription Description of the field.
-		 *	@param aValue Contents of the integer field..
-		 *	@param aRange A pair of values specifying the valid range
+		 *	@param [in] aTitle Title of the field.
+		 *	@param [in] aDescription Description of the field.
+		 *	@param [in] aValue Contents of the integer field..
+		 *	@param [in] aRange A pair of values specifying the valid range
 		 *		(inclusive) for the integer (lower first, higher second).
 		 *
 		 *	@throws std::out_of_range When aValue does not meet range requirements.
@@ -41,7 +41,7 @@ namespace ouroboros
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param aPair The inclusive range of values accepted by the field,
+		 *	@param [in] aPair The inclusive range of values accepted by the field,
 		 *		with the lower number first, and the higher number second.
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
@@ -50,7 +50,7 @@ namespace ouroboros
 		
 		/**	Sets the number held by the field.
 		 *
-		 *	@param aInt The new number to give to the field.
+		 *	@param [in] aInt The new number to give to the field.
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
@@ -58,9 +58,9 @@ namespace ouroboros
 		
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param aPair The inclusive range of values accepted by the field,
+		 *	@param [in] aPair The inclusive range of values accepted by the field,
 		 *		with the lower number first, and the higher number second.
-		 *	@param aValue The new Value to set the field to, should the new
+		 *	@param [in] aValue The new Value to set the field to, should the new
 		 *		range be beyond what the current value can handle.
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
