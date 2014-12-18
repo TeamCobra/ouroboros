@@ -39,7 +39,7 @@ namespace ouroboros
 		auto type = get_HTTP_request_type(conn->request_method); //TODO This looks like I am trying to use typing to select functionality. This is a candidate for using templates and SFINAE.
 		
 		//get reference to named thing
-		var_field *named = store.get(group_name.second, group_name.first);
+		var_field *named = store.get(group_name.first, group_name.second);
 		
 		std::string json;
 		if (named)

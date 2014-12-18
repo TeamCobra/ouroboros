@@ -9,16 +9,22 @@ namespace ouroboros
 	{}
 
 	template <class T>
-	T *data_store<T>::get(const std::string& aName, const std::string& aGroup)
+	T *data_store<T>::get(const std::string& aGroup, const std::string& aName)
 	{
-		group<T> *pGroup = this->get(aGroup);
+		return const_cast<T *>(static_cast<const data_store&>(*this).get(aGroup, aName));
+	}
+	
+	template <class T>
+	const T *data_store<T>::get(const std::string& aGroup, const std::string& aName) const
+	{
+		const group<T> *pGroup = this->get(aGroup);
 
 		if (pGroup == nullptr)
 		{
 			return nullptr;
 		}
 
-		var_field *field = pGroup->findItem(aName);
+		const var_field *field = pGroup->findItem(aName);
 
 		return field;
 	}
@@ -26,7 +32,13 @@ namespace ouroboros
 	template <class T>
 	group<T>* data_store<T>::get(const std::string& aGroup)
 	{
-		group<T>* result;
+		return const_cast<group<T> *>(static_cast<const data_store&>(*this).get(aGroup));
+	}
+	
+	template <class T>
+	const group<T>* data_store<T>::get(const std::string& aGroup) const
+	{
+		const group<T>* result;
 		//Check that the group string is valid syn
 		//Break aGroup into tokens
 		std::vector<std::string> groups = detail::split(aGroup, "-");

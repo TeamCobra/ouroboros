@@ -5,6 +5,8 @@
 #include <string>
 #include <utility>
 
+//FIXME Look into using templates to replace type queries
+
 namespace ouroboros
 {
 	static const char * full_regex = "^/group/([^/]+)/name/([^/]+)$";
@@ -26,9 +28,7 @@ namespace ouroboros
 		int group_result = slre_match(group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (group_result >= 0)
 			return REST_call_type::GROUP;
-
-		//FIXME custom types?
-
+		
 		return REST_call_type::NONE;
 	}
 

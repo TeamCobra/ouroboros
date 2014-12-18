@@ -42,21 +42,13 @@ namespace ouroboros
 	template<class T>
 	T *group<T>::findItem(const std::string& aName)
 	{
-		if (mItems.count(aName))
-		{
-			return mItems.at(aName);
-		}
-		return nullptr;
+		return const_cast<T *>(static_cast<const group&>(*this).findItem(aName));
 	}
 	
 	template<class T>
 	group<T>* group<T>::findGroup(const std::string& aName)
 	{	
-		if (mGroups.count(aName))
-		{
-			return mGroups.at(aName);
-		}
-		return nullptr;
+		return const_cast<T *>(static_cast<const group&>(*this).findGroup(aName));
 	}
 	
 	template<class T>
