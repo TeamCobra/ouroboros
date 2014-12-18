@@ -53,11 +53,11 @@ namespace ouroboros
 		return mLengthRange.second;
 	}
 	
-	std::string base_string::getValue() const
+	std::string base_string::getJSON() const
 	{
 		return std::string(
 			"{ \"type\" : \"base_string\", " 
-			"\"base\" : " + var_field::getValue() + ", " +
+			"\"base\" : " + var_field::getJSON() + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
 			"\"length\" : " + std::to_string(mLength) + " ," +

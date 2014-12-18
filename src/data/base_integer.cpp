@@ -59,10 +59,10 @@ namespace ouroboros
 		return false;
 	}
 	
-	std::string base_integer::getValue() const
+	std::string base_integer::getJSON() const
 	{
 		return std::string(
-			"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
+			"{ \"base\" : " + var_field::getJSON() + ", \"value\" : " + std::to_string(mValue) + " }");
 	}
 	
 	bool base_integer::setJSON(const JSON& aJSON)

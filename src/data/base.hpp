@@ -94,7 +94,7 @@ namespace ouroboros
 		 *
 		 * @returns The JSON representation of the field.
 		 */
-		virtual std::string getValue() const = 0;
+		virtual std::string getJSON() const = 0;
 		
 		/**	Tries to set the object to the JSON received.
 		 *
@@ -196,7 +196,7 @@ namespace ouroboros
 		 *
 		 * @returns The JSON representation of the field.
 		 */
-		std::string getValue() const;
+		std::string getJSON() const;
 
 	private:
 		std::map<std::string, T*> mItems;

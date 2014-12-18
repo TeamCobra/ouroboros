@@ -78,18 +78,18 @@ namespace ouroboros
 	}
 	
 	template<class T>
-	std::string group<T>::getValue() const
+	std::string group<T>::getJSON() const
 	{
 		std::string result = "{ ";
 		
 		for (auto &subgroup : mGroups)
 		{
-			result += "\"" + subgroup.first + "\" : " + subgroup.second->getValue();
+			result += "\"" + subgroup.first + "\" : " + subgroup.second->getJSON();
 		}
 		
 		for (auto &item : mItems)
 		{
-			result += "\"" + item.first + "\" : " + item.second->getValue();
+			result += "\"" + item.first + "\" : " + item.second->getJSON();
 		}
 		result = " }";
 		return std::string();

@@ -41,14 +41,11 @@ namespace ouroboros
 	:base_field(aTitle, aDescription)
 	{}
 
-	std::string var_field::getValue() const
+	std::string var_field::getJSON() const
 	{
 		return std::string(
 			"{ \"title\" : \"" + this->getTitle() + "\", "
 			"\"description\" : \"" + this->getDescription() + "\" }");
 	}
 	
-
-
-
 }

@@ -63,7 +63,7 @@ namespace ouroboros
 				
 				case HTTP_request_type::GET:
 					//Send JSON describing named item
-					sjson = named->getValue();
+					sjson = named->getJSON();
 					break;
 				
 				default:
@@ -94,7 +94,7 @@ namespace ouroboros
 			{
 				case HTTP_request_type::GET:
 					//Send JSON describing named item
-					sjson = pgroup->getValue();
+					sjson = pgroup->getJSON();
 					break;
 				
 				default:

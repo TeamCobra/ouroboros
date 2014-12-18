@@ -157,9 +157,9 @@ namespace ouroboros
 		
 		/**	Returns the JSON representation of the string field.
 		 * 
-		 * @see ouroboros::var_field::getValue()
+		 * @see ouroboros::var_field::getJSON()
 		 */
-		virtual std::string getValue() const override;
+		virtual std::string getJSON() const override;
 		
 		/**	Tries to set the object to the JSON received.
 		 *

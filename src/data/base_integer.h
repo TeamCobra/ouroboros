@@ -72,7 +72,7 @@ namespace ouroboros
 		 * 
 		 * @see ouroboros::var_field::get_value()
 		 */
-		virtual std::string getValue() const override;
+		virtual std::string getJSON() const override;
 		
 		/**	Tries to set the field to the JSON representation given.
 		 * 
