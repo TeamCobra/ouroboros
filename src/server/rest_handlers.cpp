@@ -8,7 +8,7 @@
 #include <data/base.hpp>
 #include <server/device_tree.hpp>
 #include <data/data_store.hpp>
-
+#include <data/JSON.hpp>
 #include <mongoose/mongoose.h>
 
 //TODO make this work by using templates instead of different functions for different types(!)

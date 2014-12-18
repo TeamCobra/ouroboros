@@ -11,14 +11,14 @@ OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_
 
 all: $(BUILD_DIR)/Server
 
-${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o
+${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/frozen.o
 	${CXX} ${LDFLAGS} $^ -o $@
 
 ${OBJ_DIR}/mongoose.o: mongoose.c mongoose.h
 
 ${OBJ_DIR}/rest.o: rest.cpp rest.h ${OBJ_DIR}/slre.o
 
-${OBJ_DIR}/rest_handlers.o: rest_handlers.cpp rest_handlers.h ${OBJ_DIR}/rest.o
+${OBJ_DIR}/rest_handlers.o: rest_handlers.cpp rest_handlers.h ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o
 
 ${OBJ_DIR}/server.o: server.cpp mongoose.h frozen.h slre.h
 

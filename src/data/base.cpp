@@ -92,7 +92,12 @@ namespace ouroboros
 	std::string base_string::getValue() const
 	{
 		return std::string(
-			"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
+			"{ \"base\" : " + var_field::getValue() + ", " +
+			"\"value\" : \"" + mValue + "\" ," +
+			"\"pattern\" : \"" + mPattern + "\" ," +
+			"\"length\" : " + std::to_string(mLength) + " ," +
+			"\"range\" : [" + std::to_string(mLengthRange.first) + ", "
+				+ std::to_string(mLengthRange.first) + "] }");
 	}
 
 	bool base_string::setPattern(const std::string& aPattern)
