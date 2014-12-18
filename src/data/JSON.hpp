@@ -1,10 +1,15 @@
 #ifndef _OUROBOROS_JSON_HPP_
 #define _OUROBOROS_JSON_HPP_
 
+#include <data/base.hpp>
+
 #include <string>
 
 namespace ouroboros
 {
+	
+	std::string get_JSON_type(const std::string& aString);
+	
 	template<class item>
 	item read_JSON(const std::string& aString);
 	

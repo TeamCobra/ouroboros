@@ -92,7 +92,8 @@ namespace ouroboros
 	std::string base_string::getValue() const
 	{
 		return std::string(
-			"{ \"base\" : " + var_field::getValue() + ", " +
+			"{ \"type\" : \"base_string\", " 
+			"\"base\" : " + var_field::getValue() + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
 			"\"length\" : " + std::to_string(mLength) + " ," +
