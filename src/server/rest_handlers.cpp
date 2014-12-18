@@ -47,7 +47,7 @@ namespace ouroboros
 			switch (type)
 			{
 				case HTTP_request_type::PUT:	
-					//Read PUT information to update named item
+					//TODO Read PUT information to update named item
 					json = detail::good_JSON();
 					break;
 				
