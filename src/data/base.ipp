@@ -64,7 +64,7 @@ namespace ouroboros
 	template<class T>
 	const group<T>* group<T>::findGroup(const std::string& aName) const
 	{
-		if (mItems.count(aName))
+		if (mGroups.count(aName))
 		{
 			return mGroups.at(aName);
 		}

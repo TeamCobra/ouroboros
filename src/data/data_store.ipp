@@ -38,26 +38,29 @@ namespace ouroboros
 	template <class T>
 	const group<T>* data_store<T>::get(const std::string& aGroup) const
 	{
-		const group<T>* result;
+		const group<T>* result = nullptr;
 		//Check that the group string is valid syn
 		//Break aGroup into tokens
 		std::vector<std::string> groups = detail::split(aGroup, "-");
 		
-		//In case we're trying to access the root group
-		if (groups.size() == 1)
+		
+		if (!groups.empty())
 		{
+			//In case we're trying to access the root group
 			if (mRoot.getTitle() == groups.front())
 			{
-				return &mRoot;
+				if (groups.size() == 1)
+				{
+					return &mRoot;
+				}
+				
+				result = mRoot.findGroup(groups[1]);
+				
+				for (std::size_t index = 2; (result && (index < groups.size())); ++index)
+				{
+					result = result->findGroup(groups[index]);
+				}
 			}
-			return nullptr;
-		}
-		
-		result = mRoot.findGroup(groups.front());
-
-		for (std::size_t index = 1; (result && (index < groups.size())); ++index)
-		{
-			result = mRoot.findGroup(groups[index]);
 		}
 		return result;
 	}
