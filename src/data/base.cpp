@@ -57,6 +57,8 @@ namespace ouroboros
 	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), 
 		mLengthRange(aLengthRange), mValue(aValue)
 	{
+		mLengthRange.first = std::min(aLengthRange.first, aLengthRange.second);
+		mLengthRange.second = std::max(aLengthRange.first, aLengthRange.second);
 		//check string pattern TODO
 		
 		//check string size range
@@ -93,6 +95,26 @@ namespace ouroboros
 			"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
 	}
 
+	bool base_string::setPattern(const std::string& aPattern)
+	{
+		return setPattern(aPattern, mValue);
+	}
+
+	bool base_string::setLength(const std::size_t& aLength)
+	{
+		return setLength(aLength, mValue);
+	}
+
+	bool base_string::setMinLength(const std::size_t& aMinLength)
+	{
+		return setMinLength(aMinLength, mValue);
+	}
+
+	bool base_string::setMaxLength(const std::size_t& aMaxLength)
+	{
+		return setMaxLength(aMaxLength, mValue);
+	}
+	
 	bool base_string::setPattern(const std::string& aPattern, const std::string& aNewValue)
 	{
 		bool success = true;
@@ -111,7 +133,7 @@ namespace ouroboros
 	{
 		bool success = true;
 		
-		if (!aNewValue.empty() && checkValidity(aNewValue))
+		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
 		}
@@ -127,7 +149,7 @@ namespace ouroboros
 		const std::size_t oldMin = mLengthRange.first;
 		mLengthRange.first = aMinLength;
 		
-		if (!aNewValue.empty() && checkValidity(aNewValue))
+		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
 		}
@@ -147,7 +169,7 @@ namespace ouroboros
 		const std::size_t oldMax = mLengthRange.second;
 		mLengthRange.second = aMaxLength;
 		
-		if (!aNewValue.empty() && checkValidity(aNewValue))
+		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
 		}
@@ -187,8 +209,10 @@ namespace ouroboros
 		const std::pair<int,int>& aRange)
 	:var_field(aTitle, aDescription), mValue(aValue)
 	{
-		mRange.first = std::min(aRange.first, aRange.second);
-		mRange.second = std::max(aRange.first, aRange.second);
+		if (!setInclusiveRange(aRange))
+		{
+			throw(std::out_of_range("Given value is out of range!"));
+		}
 	}
 	
 	std::pair<int,int> base_integer::getInclusiveRange() const
@@ -196,14 +220,41 @@ namespace ouroboros
 		return mRange;
 	}
 
-	void base_integer::setInclusiveRange(const std::pair<int,int>& aRange)
+	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange)
 	{
-		mRange = aRange;
+		return setInclusiveRange(aRange, mValue);
+	}
+	
+	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange, int aValue)
+	{
+		auto orig_range = mRange;
+		
+		mValue = aValue;
+		mRange.first = std::min(aRange.first, aRange.second);
+		mRange.second = std::max(aRange.first, aRange.second);
+		
+		if (checkValidity(aValue))
+		{
+			mValue = aValue;
+			return true;
+		}
+		
+		mRange = orig_range;
+		return false;
 	}
 	
 	std::string base_integer::getValue() const
 	{
 		return std::string(
 			"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
+	}
+	
+	bool base_integer::checkValidity (int aInt)
+	{
+		if (mRange.first <= aInt && aInt <= mRange.second)
+		{
+			return true;
+		}
+		return false;
 	}
 }

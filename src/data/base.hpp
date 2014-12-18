@@ -240,6 +240,44 @@ namespace ouroboros
 
 		/**	Sets the pattern to match the contents of the string field to. If
 		 *	the new pattern were to invalidate the current string, this function
+		 *	call fails.
+		 *
+		 *	@param aPattern The new pattern to match the contents of the string
+		 *		field to.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
+		 */
+		bool setPattern(const std::string& aPattern);
+		
+		/**	Sets the FIXME see constructor for questions.
+		 *
+		 *	@returns The ?.
+		 */
+		bool setLength(const std::size_t& aLength);
+		
+		/**	Sets the minimum length (inclusive) of the string field.
+		 *
+		 *	@param aMinLength The new minimum length (inclusive) of the string
+		 *		field.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
+		 */
+		bool setMinLength(const std::size_t& aMinLength);
+		
+		/**	Sets the maximum length (inclusive) of the string field.
+		 *
+		 *	@param aMaxLength The new maximum length (inclusive) of the string
+		 *		field.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
+		 */
+		bool setMaxLength(const std::size_t& aMaxLength);
+		
+		/**	Sets the pattern to match the contents of the string field to. If
+		 *	the new pattern were to invalidate the current string, this function
 		 *	call fails, unless the new value specified matches the new pattern.
 		 *
 		 *	@param aPattern The new pattern to match the contents of the string
@@ -251,7 +289,7 @@ namespace ouroboros
 		 */
 		bool setPattern(
 			const std::string& aPattern,
-			const std::string& aNewValue = std::string());
+			const std::string& aNewValue);
 		
 		/**	Sets the FIXME see constructor for questions.
 		 *
@@ -259,7 +297,7 @@ namespace ouroboros
 		 */
 		bool setLength(
 			const std::size_t& aLength,
-			const std::string& aNewValue = std::string());
+			const std::string& aNewValue);
 		
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *
@@ -272,7 +310,7 @@ namespace ouroboros
 		 */
 		bool setMinLength(
 			const std::size_t& aMinLength,
-			const std::string& aNewValue = std::string());
+			const std::string& aNewValue);
 		
 		/**	Sets the maximum length (inclusive) of the string field.
 		 *
@@ -285,7 +323,7 @@ namespace ouroboros
 		 */
 		bool setMaxLength(
 			const std::size_t& aMaxLength,
-			const std::string& aNewValue = std::string());
+			const std::string& aNewValue);
 		
 		/**	Sets the current string value of the string field.
 		 *
@@ -322,7 +360,9 @@ namespace ouroboros
 		 *	@param aDescription Description of the field.
 		 *	@param aValue Contents of the integer field..
 		 *	@param aRange A pair of values specifying the valid range
-		 *		(inclusive) for the integer (lower first, higher second). FIXME What if the value specified does not meet the range requirement?
+		 *		(inclusive) for the integer (lower first, higher second).
+		 *
+		 *	@throws std::out_of_range When aValue does not meet range requirements.
 		 */
 		base_integer(
 			const std::string& aTitle,
@@ -340,8 +380,22 @@ namespace ouroboros
 		 *
 		 *	@param aPair The inclusive range of values accepted by the field,
 		 *		with the lower number first, and the higher number second.
+		 *
+		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
-		void setInclusiveRange(const std::pair<int,int>& aPair);
+		bool setInclusiveRange(const std::pair<int,int>& aPair);
+		
+		/**	Sets the inclusive range of values accepted by the field.
+		 *
+		 *	@param aPair The inclusive range of values accepted by the field,
+		 *		with the lower number first, and the higher number second.
+		 *	@param aValue The new Value to set the field to, should the new
+		 *		range be beyond what the current value can handle.
+		 *
+		 *	@returns True if setting the new range succeeded, false otherwise.
+		 */
+		bool setInclusiveRange(
+			const std::pair<int,int>& aRange, int aValue);
 		
 		/**	Returns the JSON representation of the integer field.
 		 * 
@@ -352,6 +406,8 @@ namespace ouroboros
 	private:
 		std::pair<int, int> mRange;
 		int mValue;
+		
+		bool checkValidity (int aInt);
 	};
 }
 
