@@ -8,3 +8,11 @@ prototype/output/*.js
 
 src/test/test-data_store
 src/test/test-rest
+
+target/server
+target/server.c
+target/*.dSYM
+target/*.html
+target/*.js
+target/*.json
+target/*.o

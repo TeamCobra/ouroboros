@@ -5,6 +5,9 @@
 	   </head> 
 	
 	<body> <%iinc%>
+		<nav>
+			
+		</nav>
 	   <h1><%= id %></h1>
 	   
 	   <% field.each do |field| %>

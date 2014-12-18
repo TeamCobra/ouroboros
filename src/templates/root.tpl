@@ -2,6 +2,10 @@
 	<% file 'server.c' do %>
 		<% expand 'code/server::Server', :for => server %>
 	<% end %>
+
+  <% file 'config.json' do %>
+    <% expand 'code/config::Config', :for => server %>
+  <% end %>
   
   <% server.group.each do |group| %> 
     <% file group.id+'.html' do %>
