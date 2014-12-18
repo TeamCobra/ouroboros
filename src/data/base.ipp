@@ -70,7 +70,7 @@ namespace ouroboros
 		}
 		return nullptr;
 	}
-
+	
 	template<class T>
 	std::size_t group<T>::getSize() const
 	{
@@ -80,6 +80,18 @@ namespace ouroboros
 	template<class T>
 	std::string group<T>::getValue() const
 	{
+		std::string result = "{ ";
+		
+		for (auto &subgroup : mGroups)
+		{
+			result += "\"" + subgroup.first + "\" : " + subgroup.second->getValue();
+		}
+		
+		for (auto &item : mItems)
+		{
+			result += "\"" + item.first + "\" : " + item.second->getValue();
+		}
+		result = " }";
 		return std::string();
 	}
 }
