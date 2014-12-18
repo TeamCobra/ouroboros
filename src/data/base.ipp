@@ -76,4 +76,10 @@ namespace ouroboros
 	{
 		return mItems.size() + mGroups.size();
 	}
+	
+	template<class T>
+	std::string group<T>::getValue() const
+	{
+		return std::string();
+	}
 }

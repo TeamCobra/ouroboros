@@ -80,7 +80,33 @@ namespace ouroboros
 
 	void handle_group_REST(struct mg_connection *conn, const std::string& aURI)
 	{
-		std::string group = extract_group(aURI.c_str());
+		std::string sgroup = extract_group(aURI.c_str());
+		
+		auto type = get_HTTP_request_type(conn->request_method);
+		
+		//get reference to named thing
+		group<var_field> *pgroup = store.get(sgroup);
+		
+		std::string sjson;
+		if (pgroup)
+		{
+			switch (type)
+			{
+				case HTTP_request_type::GET:
+					//Send JSON describing named item
+					sjson = pgroup->getValue();
+					break;
+				
+				default:
+					sjson = detail::bad_JSON();
+			}
+		}
+		else
+		{
+			sjson = detail::bad_JSON();
+		}
+		
+		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
 	void handle_custom_REST(struct mg_connection *conn, const std::string& aURI)

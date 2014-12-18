@@ -7,11 +7,11 @@ LDFLAGS=-pthread
 
 .PHONY=all clean
 
-OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o
+OBJECT_FILES= ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/base_string.o ${OBJ_DIR}/base_integer.o
 
 all: $(BUILD_DIR)/Server
 
-${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/JSON.o
+${BUILD_DIR}/Server: ${OBJ_DIR}/server.o ${OBJ_DIR}/mongoose.o ${OBJ_DIR}/slre.o ${OBJ_DIR}/rest.o ${OBJ_DIR}/base.o ${OBJ_DIR}/misc.o ${OBJ_DIR}/rest_handlers.o ${OBJ_DIR}/device_tree.o ${OBJ_DIR}/frozen.o ${OBJ_DIR}/JSON.o ${OBJ_DIR}/base_string.o ${OBJ_DIR}/base_integer.o
 	${CXX} ${LDFLAGS} $^ -o $@
 
 ${OBJ_DIR}/mongoose.o: mongoose.c mongoose.h
@@ -35,6 +35,12 @@ ${OBJ_DIR}/misc.o:
 	make -C ../data $@
 
 ${OBJ_DIR}/JSON.o:
+	make -C ../data $@
+	
+${OBJ_DIR}/base_integer.o:
+	make -C ../data $@
+	
+${OBJ_DIR}/base_string.o:
 	make -C ../data $@
 
 slre.c:
