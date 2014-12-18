@@ -292,7 +292,7 @@ namespace ouroboros
 		 *	@param aValue The new string value.
 		 * 
 		 */
-		void setString(const std::string& aValue);
+		bool setString(const std::string& aValue);
 		
 		/**	Returns the JSON representation of the string field.
 		 * 
@@ -306,6 +306,8 @@ namespace ouroboros
 		std::pair<std::size_t, std::size_t> mLengthRange;
 		
 		std::string mValue;
+		
+		bool checkValidity (const std::string& aString);
 	};
 	/**	Class representing an integer field.
 	 *

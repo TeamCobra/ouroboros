@@ -98,13 +98,24 @@ namespace ouroboros
 		bool success = true;
 		//TODO check if new pattern matches current strings, and/or new string
 		mPattern = aPattern;
+		
+		if (!aNewValue.empty() && checkValidity(aNewValue))
+		{
+			mValue = aNewValue;
+		}
+		
 		return success;
 	}
 
 	bool base_string::setLength(const std::size_t& aLength, const std::string& aNewValue)
 	{
 		bool success = true;
-		mLength = aLength;
+		
+		if (!aNewValue.empty() && checkValidity(aNewValue))
+		{
+			mValue = aNewValue;
+		}
+		
 		return success;
 	}
 
@@ -113,17 +124,16 @@ namespace ouroboros
 		if (aMinLength > mLengthRange.second)
 			return false;
 		
-		if (!aNewValue.empty() && aNewValue.length() >= aMinLength && aNewValue.length() <= mLengthRange.second)
+		const std::size_t oldMin = mLengthRange.first;
+		mLengthRange.first = aMinLength;
+		
+		if (!aNewValue.empty() && checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
-			mLengthRange.first = aMinLength;
 		}
-		else if(mValue.length() >= aMinLength)
+		else if(mValue.length() < aMinLength)
 		{
-			mLengthRange.first = aMinLength;
-		}
-		else
-		{
+			mLengthRange.first = oldMin;
 			return false;
 		}
 		return true;
@@ -134,25 +144,40 @@ namespace ouroboros
 		if (aMaxLength < mLengthRange.first)
 			return false;
 		
-		if (!aNewValue.empty() && aNewValue.length() <= aMaxLength && aNewValue.length() >= mLengthRange.first)
+		const std::size_t oldMax = mLengthRange.second;
+		mLengthRange.second = aMaxLength;
+		
+		if (!aNewValue.empty() && checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
-			mLengthRange.second = aMaxLength;
 		}
-		else if(mValue.length() <= aMaxLength)
+		else if(mValue.length() > aMaxLength)
 		{
-			mLengthRange.second = aMaxLength;
-		}
-		else
-		{
+			mLengthRange.second = oldMax;
 			return false;
 		}
 		return true;
 	}
 	
-	void base_string::setString(const std::string& aString)
+	bool base_string::setString(const std::string& aString)
 	{
-		mValue = aString;
+		if (checkValidity(aString))
+		{
+			mValue = aString;
+			return true;
+		}
+		return false;
+	}
+	
+	bool base_string::checkValidity (const std::string& aString)
+	{
+		if ((aString.length() >= mLengthRange.first) &&
+			(aString.length() <= mLengthRange.second) &&
+			(true /*TODO check for pattern match*/))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	base_integer::base_integer(
