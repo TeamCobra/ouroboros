@@ -60,7 +60,7 @@ namespace ouroboros
 	 *	@returns String representation of the groups found in the URI,
 	 *		'-' delimited.
 	 */
-	std::string extract_group(const char* aURI);
+	std::string extract_group(const std::string& aURI);
 
 	/**	Extracts the group and item name from the given REST URI.
 	 * 
@@ -70,7 +70,8 @@ namespace ouroboros
 	 *		the URI (first), '-' delimited, and the string representation of the
 	 *		name of the item (second).
 	 */
-	std::pair<std::string, std::string> extract_group_name(const char* aURI);
+	std::pair<std::string, std::string> extract_group_name(
+		const std::string& aURI);
 }
 
 #endif//_OUROBOROS_REST_H_

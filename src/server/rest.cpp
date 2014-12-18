@@ -56,10 +56,10 @@ namespace ouroboros
 		return HTTP_request_type::UNKNOWN;
 	}
 
-	std::pair<std::string, std::string> extract_group_name(const char* aURI)
+	std::pair<std::string, std::string> extract_group_name(const std::string& aURI)
 	{
 		struct slre_cap match[2];
-		slre_match(full_regex, aURI, strlen(aURI), match, 2, 0);
+		slre_match(full_regex, aURI.c_str(), aURI.length(), match, 2, 0);
 
 		std::pair<std::string, std::string> result;
 		result.first.assign(match[0].ptr, match[0].len);
@@ -67,10 +67,10 @@ namespace ouroboros
 		return result;
 	}
 
-	std::string extract_group(const char* aURI)
+	std::string extract_group(const std::string& aURI)
 	{
 		struct slre_cap match[1];
-		slre_match(group_regex, aURI, strlen(aURI), match, 1, 0);
+		slre_match(group_regex, aURI.c_str(), aURI.length(), match, 1, 0);
 
 		std::string result;
 		result.assign(match[0].ptr, match[0].len);
