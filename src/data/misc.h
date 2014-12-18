@@ -17,7 +17,7 @@ namespace ouroboros
 		 *
 		 *	@returns Vector containing tokens resulting from the splitting.
 		 */
-		std::vector<std::string> split
+		std::vector<std::string> split(
 			const std::string& aString, const std::string& aDelim);
 	}
 }
