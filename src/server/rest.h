@@ -16,7 +16,7 @@ namespace ouroboros
 	 *	@returns True if the given C string represents a REST URI,
 	 *		false otherwise.
 	 */
-	bool is_REST_URI(const char* aURI);
+	bool is_REST_URI(const std::string& aURI);
 
 	/**	Represents the type of REST call received. FIXME This may be abstractable into template classes.
 	 * 

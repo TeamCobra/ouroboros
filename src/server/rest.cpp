@@ -10,11 +10,13 @@ namespace ouroboros
 	static const char * full_regex = "^/group/([^/]+)/name/([^/]+)$";
 	static const char * group_regex = "^/group/([^/]+)$";
 
-	bool is_REST_URI(const char* aURI)
+	bool is_REST_URI(const std::string& aURI)
 	{
-		int result = slre_match(full_regex, aURI, strlen(aURI), NULL, 0, 0);
+		int result =
+			slre_match(full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int group_result =
-			slre_match(group_regex, aURI, strlen(aURI), NULL, 0, 0);
+			slre_match(group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+
 		return (result >= 0 || group_result >= 0);
 	}
 
