@@ -3,7 +3,7 @@ include ../../vars.mk
 CFLAGS=${CORE_FLAGS} ${INCLUDE} -std=c99
 CXXFLAGS=${CORE_FLAGS} ${INCLUDE} -std=c++11
 
-LDFLAGS=-lpthread
+LDFLAGS=-pthread
 
 .PHONY=all clean
 

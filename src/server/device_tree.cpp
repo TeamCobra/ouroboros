@@ -1,4 +1,6 @@
 #include <server/device_tree.tpp>
+#include <data/base.hpp>
+#include <string>
 
 namespace ouroboros
 {
