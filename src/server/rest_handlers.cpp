@@ -22,12 +22,12 @@ namespace ouroboros
 	{
 		std::string bad_JSON()
 		{
-			return std::string("{ \"description\" : \"Bad JSON request.\"}");
+			return std::string("{ \"status\" : \"Bad JSON request.\"}");
 		}
 		
 		std::string good_JSON()
 		{
-			return std::string("{ \"description\" : \"OK.\"}");
+			return std::string("{ \"status\" : \"OK.\"}");
 		}
 	}
 	

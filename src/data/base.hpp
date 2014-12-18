@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 namespace ouroboros
 {
@@ -198,10 +199,12 @@ namespace ouroboros
 		 *	@param aTitle Title of the field.
 		 *	@param aDescription Description of the field.
 		 *	@param aValue Contents of the string.
-		 *	@param aPattern Pattern to match the content of the string to. (FIXME should this be matched in the constructor too and throw and exception if it is bad?)
+		 *	@param aPattern Pattern to match the content of the string to.
 		 *	@param aLength FIXME What is this field for?
-		 *	@param aMinLength Minimum length of the string (inclusive). (FIXME What happens if the original value is too small?)
-		 *	@param aMaxLength Maximum length of the string (exclusive). (FIXME What happens if the original value is too small?)
+		 *	@param aLengthRange Range of the length of the string (inclusive).
+		 *
+		 *	@throws std::out_of_range When aValue does not meet range requirements.
+		 * 	@throws std::invalid_argument When aValue does not meet pattern requirements.
 		 */
 		base_string(
 			const std::string& aTitle,
@@ -209,8 +212,7 @@ namespace ouroboros
 			const std::string& aValue,
 			const std::string& aPattern,
 			std::size_t aLength, 
-			std::size_t aMinLength,
-			std::size_t aMaxLength);
+			std::pair<std::size_t, std::size_t> aLengthRange);
 
 		/**	Gets the pattern to match the contents of the string field to.
 		 *
@@ -236,36 +238,59 @@ namespace ouroboros
 		 */
 		std::size_t getMaxLength() const;
 
-		/**	Sets the pattern to match the contents of the string field to.
+		/**	Sets the pattern to match the contents of the string field to. If
+		 *	the new pattern were to invalidate the current string, this function
+		 *	call fails, unless the new value specified matches the new pattern.
 		 *
 		 *	@param aPattern The new pattern to match the contents of the string
 		 *		field to.
+		 *	@param aNewValue An optional new value to update the string to.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
 		 */
-		void setPattern(const std::string& aPattern);
+		bool setPattern(
+			const std::string& aPattern,
+			const std::string& aNewValue = std::string());
 		
 		/**	Sets the FIXME see constructor for questions.
 		 *
 		 *	@returns The ?.
 		 */
-		void setLength(const std::size_t& aLength);
+		bool setLength(
+			const std::size_t& aLength,
+			const std::string& aNewValue = std::string());
 		
-		/**	Sets the minimum length (inclusive) of the string field. FIXME What should happen if the current string violates the new minimum?
+		/**	Sets the minimum length (inclusive) of the string field.
 		 *
 		 *	@param aMinLength The new minimum length (inclusive) of the string
 		 *		field.
+		 *	@param aNewValue An optional new value to update the string to.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
 		 */
-		void setMinLength(const std::size_t& aMinLength);
+		bool setMinLength(
+			const std::size_t& aMinLength,
+			const std::string& aNewValue = std::string());
 		
-		/**	Sets the maximum length (inclusive) of the string field. FIXME What should happen if the current string violates the new maximum?
+		/**	Sets the maximum length (inclusive) of the string field.
 		 *
 		 *	@param aMaxLength The new maximum length (inclusive) of the string
 		 *		field.
+		 *	@param aNewValue An optional new value to update the string to.
+		 *
+		 *	@returns True upon success, false upon failure. Upon failure, no
+		 *		change took place in the system.
 		 */
-		void setMaxLength(const std::size_t& aMaxLength);
+		bool setMaxLength(
+			const std::size_t& aMaxLength,
+			const std::string& aNewValue = std::string());
 		
 		/**	Sets the current string value of the string field.
 		 *
-		 *	@param aMinLength The new string value.
+		 *	@param aValue The new string value.
+		 * 
 		 */
 		void setString(const std::string& aValue);
 		
@@ -278,8 +303,7 @@ namespace ouroboros
 	private:
 		std::string mPattern;
 		std::size_t mLength;
-		std::size_t mMinLength;
-		std::size_t mMaxLength;
+		std::pair<std::size_t, std::size_t> mLengthRange;
 		
 		std::string mValue;
 	};

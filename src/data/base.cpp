@@ -1,14 +1,14 @@
+#include "base.hpp"
+
 #include <string>
 #include <memory>
 #include <algorithm>
 #include <utility>
-#include "base.hpp"
+#include <stdexcept>
+
 
 namespace ouroboros
 {
-	//Have this verify that our code generator is generating valid structures
-	bool validateStructure();
-
 	base_field::base_field(const std::string& aTitle, const std::string& aDescription)
 	:mTitle(aTitle), mDescription(aDescription)
 	{}
@@ -53,11 +53,19 @@ namespace ouroboros
 		const std::string& aValue,
 		const std::string& aPattern,
 		std::size_t aLength,
-		std::size_t aMinLength,
-		std::size_t aMaxLength)
+		std::pair<std::size_t, std::size_t> aLengthRange)
 	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), 
-		mMinLength(aMinLength), mMaxLength(aMaxLength), mValue(aValue)
-	{} //FIXME: what if the given string doesn't match the length requirements?
+		mLengthRange(aLengthRange), mValue(aValue)
+	{
+		//check string pattern TODO
+		
+		//check string size range
+		if (mLengthRange.first > mValue.length() || mLengthRange.second < mValue.length())
+		{
+			throw std::out_of_range("Length of value is outside of the range specified!");
+		}
+		
+	}
 
 	std::string base_string::getPattern() const
 	{
@@ -71,12 +79,12 @@ namespace ouroboros
 
 	std::size_t base_string::getMinLength() const
 	{
-		return mMinLength;
+		return mLengthRange.first;
 	}
 
 	std::size_t base_string::getMaxLength() const
 	{
-		return mMaxLength;
+		return mLengthRange.second;
 	}
 	
 	std::string base_string::getValue() const
@@ -85,24 +93,61 @@ namespace ouroboros
 			"{ \"base\" : " + var_field::getValue() + ", \"value\" : \"" + mValue + "\" }");
 	}
 
-	void base_string::setPattern(const std::string& aPattern)
+	bool base_string::setPattern(const std::string& aPattern, const std::string& aNewValue)
 	{
+		bool success = true;
+		//TODO check if new pattern matches current strings, and/or new string
 		mPattern = aPattern;
+		return success;
 	}
 
-	void base_string::setLength(const std::size_t& aLength)
+	bool base_string::setLength(const std::size_t& aLength, const std::string& aNewValue)
 	{
+		bool success = true;
 		mLength = aLength;
+		return success;
 	}
 
-	void base_string::setMinLength(const std::size_t& aMinLength)
+	bool base_string::setMinLength(const std::size_t& aMinLength, const std::string& aNewValue)
 	{
-		mMinLength = aMinLength;
+		if (aMinLength > mLengthRange.second)
+			return false;
+		
+		if (!aNewValue.empty() && aNewValue.length() >= aMinLength && aNewValue.length() <= mLengthRange.second)
+		{
+			mValue = aNewValue;
+			mLengthRange.first = aMinLength;
+		}
+		else if(mValue.length() >= aMinLength)
+		{
+			mLengthRange.first = aMinLength;
+		}
+		else
+		{
+			return false;
+		}
+		return true;
 	}
 
-	void base_string::setMaxLength(const std::size_t& aMaxLength)
+	bool base_string::setMaxLength(const std::size_t& aMaxLength, const std::string& aNewValue)
 	{
-		mMaxLength = aMaxLength;
+		if (aMaxLength < mLengthRange.first)
+			return false;
+		
+		if (!aNewValue.empty() && aNewValue.length() <= aMaxLength && aNewValue.length() >= mLengthRange.first)
+		{
+			mValue = aNewValue;
+			mLengthRange.second = aMaxLength;
+		}
+		else if(mValue.length() <= aMaxLength)
+		{
+			mLengthRange.second = aMaxLength;
+		}
+		else
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	void base_string::setString(const std::string& aString)
