@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <data/JSON.h>
 
 namespace ouroboros
 {
@@ -94,6 +95,12 @@ namespace ouroboros
 		 * @returns The JSON representation of the field.
 		 */
 		virtual std::string getValue() const = 0;
+		
+		/**	Tries to set the object to the JSON received.
+		 *
+		 * @returns True upon success, false otherwise.
+		 */
+		virtual bool setJSON(const JSON& aJSON) = 0;
 	};
 
 	/**	Class representing a collection of groups and items.
@@ -194,6 +201,12 @@ namespace ouroboros
 	class base_string : public var_field
 	{
 	public:
+		
+		/**	Default constructor.
+		 *
+		 */
+		base_string();
+		
 		/**	Constructor.
 		 *
 		 *	@param aTitle Title of the field.
@@ -334,9 +347,15 @@ namespace ouroboros
 		
 		/**	Returns the JSON representation of the string field.
 		 * 
-		 * @see ouroboros::var_field::get_value()
+		 * @see ouroboros::var_field::getValue()
 		 */
 		virtual std::string getValue() const override;
+		
+		/**	Tries to set the object to the JSON received.
+		 *
+		 * @see ouroboros::var_field::setJSON()
+		 */
+		virtual bool setJSON(const JSON& aJSON) override;
 
 	private:
 		std::string mPattern;
@@ -353,6 +372,11 @@ namespace ouroboros
 	class base_integer : public var_field
 	{
 	public:
+		
+		/**	Default constructor.
+		 *
+		 */
+		base_integer();
 		
 		/**	Constructor.
 		 *
@@ -402,6 +426,12 @@ namespace ouroboros
 		 * @see ouroboros::var_field::get_value()
 		 */
 		virtual std::string getValue() const override;
+		
+		/**	Tries to set the field to the JSON representation given.
+		 * 
+		 * @see ouroboros::var_field::setJSON()
+		 */
+		bool setJSON(const JSON& aJSON) override;
 
 	private:
 		std::pair<int, int> mRange;

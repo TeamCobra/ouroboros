@@ -16,4 +16,4 @@ ${OBJ_DIR}/base.o: base.cpp base.hpp base.ipp
 
 ${OBJ_DIR}/misc.o: misc.cpp misc.h
 
-${OBJ_DIR}/JSON.o: JSON.cpp JSON.hpp JSON.ipp
+${OBJ_DIR}/JSON.o: JSON.cpp JSON.h

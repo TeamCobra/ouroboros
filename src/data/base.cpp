@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <utility>
 #include <stdexcept>
-
+#include <limits>
+#include <data/JSON.h>
 
 namespace ouroboros
 {
@@ -46,6 +47,14 @@ namespace ouroboros
 			"{ \"title\" : \"" + this->getTitle() + "\", "
 			"\"description\" : \"" + this->getDescription() + "\" }");
 	}
+	
+	base_string::base_string()
+	:var_field("", ""), mPattern(""), mLength(0), 
+		mLengthRange(
+			{std::numeric_limits<std::size_t>::min(),
+			std::numeric_limits<std::size_t>::max()}),
+		mValue("")
+	{}
 
 	base_string::base_string(
 		const std::string& aTitle,
@@ -98,7 +107,84 @@ namespace ouroboros
 			"\"pattern\" : \"" + mPattern + "\" ," +
 			"\"length\" : " + std::to_string(mLength) + " ," +
 			"\"range\" : [" + std::to_string(mLengthRange.first) + ", "
-				+ std::to_string(mLengthRange.first) + "] }");
+				+ std::to_string(mLengthRange.second) + "] }");
+	}
+	
+	bool base_string::setJSON(const JSON& aJSON)
+	{
+		base_string backup(*this);
+		bool result = true, found = false;
+		if (aJSON.exists("base.title"))
+		{
+			found = true;
+			this->setTitle(aJSON.get("base.title"));
+		}
+		if (aJSON.exists("base.description"))
+		{
+			found = true;
+			this->setDescription(aJSON.get("base.title"));
+		}
+		
+		if (aJSON.exists("value"))
+		{
+			found = true;
+			if (!this->setString(aJSON.get("value")))
+			{
+				result = false;
+			}
+		}
+		if (result && aJSON.exists("pattern"))
+		{
+			found = true;
+			if (!this->setPattern(aJSON.get("pattern")))
+			{
+				result = false;
+			}
+		}
+		if (result && aJSON.exists("length"))
+		{
+			found = true;
+			std::size_t num;
+			try
+			{
+				num = std::stol(aJSON.get("length"));
+			}
+			catch (std::invalid_argument& e)
+			{
+				//do not change anything.
+				result = false;
+			}
+			if (!result || !this->setLength(num))
+			{
+				result = false;
+			}
+		}
+		if (result && aJSON.exists("range[0]") && aJSON.exists("range[1]"))
+		{
+			found = true;
+			std::size_t min, max;
+			try
+			{
+				min = std::stol(aJSON.get("range[0]"));
+				max = std::stol(aJSON.get("range[1]"));
+			}
+			catch (std::invalid_argument& e)
+			{
+				//do not change anything.
+				result = false;
+			}
+			
+			if (!result || !this->setMinLength(min) || !this->setMaxLength(max))
+			{
+				result = false;
+			}
+		}
+		
+		if(!result)
+		{
+			*this = backup;
+		}
+		return result && found;
 	}
 
 	bool base_string::setPattern(const std::string& aPattern)
@@ -208,6 +294,11 @@ namespace ouroboros
 		return false;
 	}
 
+	base_integer::base_integer()
+	:var_field("", ""), mValue(0), mRange(
+		{std::numeric_limits<int>::min(), std::numeric_limits<int>::max()})
+	{}
+	
 	base_integer::base_integer(
 		const std::string& aTitle,
 		const std::string& aDescription,
@@ -253,6 +344,12 @@ namespace ouroboros
 	{
 		return std::string(
 			"{ \"base\" : " + var_field::getValue() + ", \"value\" : " + std::to_string(mValue) + " }");
+	}
+	
+	bool base_integer::setJSON(const JSON& aJSON)
+	{
+		return false;
+		
 	}
 	
 	bool base_integer::checkValidity (int aInt)

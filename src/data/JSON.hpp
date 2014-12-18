@@ -4,21 +4,19 @@
 #include <data/base.hpp>
 
 #include <string>
+#include <frozen.h>
 
 namespace ouroboros
 {
+	namespace detail
+	{
+		std::string getJSONElement(json_token *arr, const std::string& aElement);
+
+		template<typename number>
+		number extractNumber(const std::string& aString);
+	}
 	
-	std::string get_JSON_type(const std::string& aString);
-	
-	template<class item>
-	item read_JSON(const std::string& aString);
-	
-	template<>
-	base_string read_JSON<base_string>(const std::string& aString);
-	
-	template<>
-	base_integer read_JSON<base_integer>(const std::string& aString);
-	
+	std::map<std::string, std::string> readJSON(const std::string& aJSON);
 }
 
 #include "JSON.ipp"

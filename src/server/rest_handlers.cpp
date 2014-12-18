@@ -8,7 +8,7 @@
 #include <data/base.hpp>
 #include <server/device_tree.hpp>
 #include <data/data_store.hpp>
-#include <data/JSON.hpp>
+#include <data/JSON.h>
 #include <mongoose/mongoose.h>
 
 //TODO make this work by using templates instead of different functions for different types(!)
@@ -41,33 +41,43 @@ namespace ouroboros
 		//get reference to named thing
 		var_field *named = store.get(group_name.first, group_name.second);
 		
-		std::string json;
+		std::string sjson;
 		if (named)
 		{
 			switch (type)
 			{
 				case HTTP_request_type::PUT:	
-					//TODO Read PUT information to update named item
-					json = detail::good_JSON();
+				{	//TODO Read PUT information to update named item
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+					if (named->setJSON(json))
+					{
+						sjson = detail::good_JSON();
+					}
+					else
+					{
+						sjson = detail::bad_JSON();
+					}
+				}
 					break;
 				
 				case HTTP_request_type::GET:
 					//Send JSON describing named item
-					json = named->getValue();
+					sjson = named->getValue();
 					break;
 				
 				default:
-					json = detail::bad_JSON();
+					sjson = detail::bad_JSON();
 				
 			}
 		
 		}
 		else
 		{
-			json = detail::bad_JSON();
+			sjson = detail::bad_JSON();
 		}
 		
-		mg_send_data(conn, json.c_str(), json.length());
+		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
 	void handle_group_REST(struct mg_connection *conn, const std::string& aURI)
