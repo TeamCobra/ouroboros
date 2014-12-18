@@ -40,6 +40,8 @@ TEST_F(RestTest, Test_is_Rest_URI) {
 	// Exercises the Xyz feature of Foo.
 	ASSERT_FALSE(is_REST_URI(""));
 	ASSERT_TRUE(is_REST_URI("/group/1/name/2"));
+	ASSERT_TRUE(is_REST_URI("/group/a"));
+	ASSERT_FALSE(is_REST_URI("/group//name/2"));
 }
 
 }	// namespace

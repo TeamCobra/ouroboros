@@ -48,7 +48,7 @@ namespace ouroboros
 	template<class T>
 	group<T>* group<T>::findGroup(const std::string& aName)
 	{	
-		return const_cast<T *>(static_cast<const group&>(*this).findGroup(aName));
+		return const_cast<group<T> *>(static_cast<const group&>(*this).findGroup(aName));
 	}
 	
 	template<class T>

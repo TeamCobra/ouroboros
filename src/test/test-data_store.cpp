@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <data_store.hpp>
+#include <data/data_store.hpp>
 #include <base.hpp>
 
 using namespace ouroboros;
@@ -62,7 +62,7 @@ TEST_F(DataStoreTest, Test_DataStore) {
 	root.add(&root);
 	data_store<var_field> store(std::move(root));
 	
-	ASSERT_TRUE(nullptr != store.get("number", "g1"));
+	ASSERT_TRUE(nullptr != store.get("g1", "number"));
 	ASSERT_TRUE(nullptr != store.get("g1"));
 	ASSERT_TRUE(nullptr != store.get("g1-g1"));
 }
