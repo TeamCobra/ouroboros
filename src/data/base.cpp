@@ -340,6 +340,16 @@ namespace ouroboros
 		return false;
 	}
 	
+	bool base_integer::setNumber(int aNum)
+	{
+		if (checkValidity(aNum))
+		{
+			mValue = aNum;
+			return true;
+		}
+		return false;
+	}
+	
 	std::string base_integer::getValue() const
 	{
 		return std::string(
@@ -348,7 +358,63 @@ namespace ouroboros
 	
 	bool base_integer::setJSON(const JSON& aJSON)
 	{
-		return false;
+		base_integer backup(*this);
+		bool result = true, found = false;
+		if (aJSON.exists("base.title"))
+		{
+			found = true;
+			this->setTitle(aJSON.get("base.title"));
+		}
+		if (aJSON.exists("base.description"))
+		{
+			found = true;
+			this->setDescription(aJSON.get("base.title"));
+		}
+		
+		if (aJSON.exists("value"))
+		{
+			found = true;
+			int num;
+			try
+			{
+				num = std::stoi(aJSON.get("value"));
+			}
+			catch (std::invalid_argument& e)
+			{
+				//do not change anything.
+				result = false;
+			}
+			if (!result || !this->setNumber(num))
+			{
+				result = false;
+			}
+		}
+		if (result && aJSON.exists("range[0]") && aJSON.exists("range[1]"))
+		{
+			found = true;
+			int min, max;
+			try
+			{
+				min = std::stoi(aJSON.get("range[0]"));
+				max = std::stoi(aJSON.get("range[1]"));
+			}
+			catch (std::invalid_argument& e)
+			{
+				//do not change anything.
+				result = false;
+			}
+			
+			if (!result || !this->setInclusiveRange({min, max}))
+			{
+				result = false;
+			}
+		}
+		
+		if(!result)
+		{
+			*this = backup;
+		}
+		return result && found;
 		
 	}
 	

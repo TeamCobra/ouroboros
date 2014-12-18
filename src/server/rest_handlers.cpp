@@ -68,9 +68,7 @@ namespace ouroboros
 				
 				default:
 					sjson = detail::bad_JSON();
-				
 			}
-		
 		}
 		else
 		{

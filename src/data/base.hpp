@@ -409,6 +409,14 @@ namespace ouroboros
 		 */
 		bool setInclusiveRange(const std::pair<int,int>& aPair);
 		
+		/**	Sets the number held by the field.
+		 *
+		 *	@param aInt The new number to give to the field.
+		 *
+		 *	@returns True if setting the new range succeeded, false otherwise.
+		 */
+		bool setNumber(int aNum);
+		
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
 		 *	@param aPair The inclusive range of values accepted by the field,
