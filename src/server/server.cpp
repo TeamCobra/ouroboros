@@ -17,29 +17,23 @@ enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 	if (get_REST_call_type(uri) != REST_call_type::NONE)
 	{
 		std::string output;
-		//Check type of REST API call
-		//TODO FIXME This looks like I'm trying to use types, I should use templates instead
+
 		switch (get_REST_call_type(uri))
 		{
 			case REST_call_type::NAME:
-			{
 				handle_name_REST(conn, uri);
-			}
-			break;
+				break;
+				
 			case REST_call_type::GROUP:
-			{
 				handle_group_REST(conn, uri);
-			}
-			break;
+				break;
+			
 			case REST_call_type::CUSTOM:
-			{
 				handle_custom_REST(conn, uri);
-			}
-			break;
+				break;
+			
 			default:
-			{
 				return MG_FALSE; //Something really bad just took place... We got a REST call type that wasn't NONE but we didn't recognize!
-			}
 		}
 	    return MG_TRUE;
 	}

@@ -18,7 +18,7 @@ namespace ouroboros
 	 */
 	bool is_REST_URI(const std::string& aURI);
 
-	/**	Represents the type of REST call received. FIXME This may be abstractable into template classes.
+	/**	Represents the type of REST call received.
 	 * 
 	 */
 	enum class REST_call_type
@@ -26,7 +26,7 @@ namespace ouroboros
 		GROUP, NAME, CUSTOM, NONE
 	};
 
-	/**	Represents the HTTP request type received. FIXME This may be abstractable into template classes.
+	/**	Represents the HTTP request type received.
 	 * 
 	 */
 	enum class HTTP_request_type
