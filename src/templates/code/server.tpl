@@ -1,4 +1,4 @@
-<% define 'Server', :for => Server do %>
+<% define 'Server', :for => DeviceConfig do %>
 	#include <string.h>
 	#include <time.h>
 	#include "mongoose.h"

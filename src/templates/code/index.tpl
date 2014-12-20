@@ -1,4 +1,4 @@
-<% define 'Index', :for => Group do %>
+<% define 'Index', :for => DeviceConfig do %>
 $(function() { <%iinc%>
   loadJSON();
   loadGroups();

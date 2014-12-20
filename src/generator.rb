@@ -5,12 +5,12 @@ require 'rgen/template_language'
 
 module Model
   class XML
-    attr_accessor :server
+    attr_accessor :deviceConfig
   end
 end
 
 module MetaModel
-  class Server < RGen::MetamodelBuilder::MMBase; end
+  class DeviceConfig < RGen::MetamodelBuilder::MMBase; end
 end
 
 XML_MODEL = Model::XML.new()
@@ -19,7 +19,7 @@ env = RGen::Environment.new
 inst = RGen::Instantiator::DefaultXMLInstantiator.new(env, MetaModel, true)
 inst.instantiate_file("serverconfig.xml")
 
-XML_MODEL.server = env.find(:class => MetaModel::Server)[0]
+XML_MODEL.deviceConfig = env.find(:class => MetaModel::DeviceConfig)[0]
   
 def generateCode
   tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([MetaModel], OUTPUT_DIR)
