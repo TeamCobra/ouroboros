@@ -1,0 +1,26 @@
+Template code that needs to be generated (from declaration in device_tree.tpp):
+
+namespace ouroboros
+{
+	namespace detail
+	{
+		template<class field>
+		group<field> build_tree();
+	}
+}
+
+Specifically, this function needs to be specialized. The code would look something like this (in a file called device_tree.cpp):
+
+namespace ouroboros
+{
+	namespace detail
+	{
+		template<>
+		group<var_field> build_tree()
+		{
+			group<var_field> result("root", "Root node");
+			result.add(new base_string("main", "This is the main text.", "", "", 10, 10, 10));
+			return result;
+		}
+	}
+}

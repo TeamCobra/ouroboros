@@ -1,0 +1,8 @@
+*.o
+Server
+mongoose.c
+mongoose.h
+frozen.h
+frozen.c
+slre.c
+slre.h

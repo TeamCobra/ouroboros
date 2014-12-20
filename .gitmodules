@@ -1,3 +1,12 @@
 [submodule "lib/mongoose"]
 	path = lib/mongoose
 	url = https://github.com/cesanta/mongoose.git
+[submodule "lib/frozen"]
+	path = lib/frozen
+	url = git@github.com:cesanta/frozen.git
+[submodule "lib/slre"]
+	path = lib/slre
+	url = git@github.com:cesanta/slre.git
+[submodule "lib/googletest"]
+	path = lib/googletest
+	url = http://git.chromium.org/external/googletest.git
