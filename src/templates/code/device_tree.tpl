@@ -1,4 +1,4 @@
-<% define 'Tree', :for => DeviceConfig do %>
+<% define 'Tree', :for => this do %>
 	
 	#include <server/device_tree.tpp>
 	#include <data/base.hpp>
