@@ -1,5 +1,4 @@
 <% define 'Tree', :for => this do %>
-	
 	#include <server/device_tree.tpp>
 	#include <data/base.hpp>
 	#include <data/base_string.h>
@@ -13,24 +12,12 @@
 		{<%iinc%>
 			template<>
 			group<var_field> build_tree()
-			{<%iinc%>
-			
+			{<%iinc%>		
 				group<var_field> result("server", "Root node.");
-				
-				<% if defined? this.field %>
-					<% field.each do |field| %>
-						<% if field.type === "intField" %>
-							result.add(new base_integer("<%= field.title.chardata[0].strip %>", "<%= field.description.chardata[0].strip %>", <%= field.value.chardata[0].strip %>, <% expand 'Range', :for => field %>));
-						<% elsif field.type === "stringField" %>
-							result.add(new base_string("<%= field.title.chardata[0].strip %>", "", "", "", 10, {0, 10}));
-						<% end %>
-					<% end %>
-				<% end %>
+				<% expand 'Field', :foreach => field %>
 				<%nl%>
-				<% if defined? this.group %>		
-					<% expand 'Group', :foreach => group %>
-					<% expand 'AddGroup', :foreach => group %>
-				<% end %>
+				<% expand 'Group', :foreach => group %>
+				<% expand 'AddGroup', :foreach => group %>
 				<%nl%>
 				return result;
 			<%idec%>}
@@ -38,23 +25,32 @@
 	<%idec%>}
 <% end %>
 
+<% define 'Field', :for => this do %>
+	<% if parent === root %>
+		<% parentGroupVar = 'result' %> 
+	<% else %>
+		<% parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ') %>
+	<% end %>
+	<% if type === "intField" %>
+		<%= parentGroupVar %>.add(new base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>));
+	<% elsif type === "stringField" %>
+		<%= parentGroupVar %>.add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, {0, 10}));
+	<% end %>
+<% end %>
+
 <% define 'Group', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
-	group<var_field> *<%= groupVar %> = new group<var_field>("<%= title.chardata[0] %>", "<%= description.chardata[0].strip %>");	
-	<% field.each do |field| %>
-		<%= groupVar %>->add(new base_string("<%= field.title.chardata[0].strip %>", "", "", "", 10, {0, 10}));
-	<% end %>
+	group<var_field> *<%= groupVar %> = new group<var_field>("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>");	
+	<% expand 'Field', :foreach => field %>
 	<%nl%>
-	<% if defined? this.group %>		
-		<% expand 'Group', :foreach => group %>
-		<% expand 'AddGroup', :foreach => group %>
-	<% end %>
+	<% expand 'Group', :foreach => group %>
+	<% expand 'AddGroup', :foreach => group %>
 <% end %>
 
 <% define 'AddGroup', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
-	<% if defined? this.parent.title %>
-		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar%>);
+	<% if parent != root %>
+		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);
 	<% else %>
 		result.add(<%= groupVar %>);
 	<% end %>
