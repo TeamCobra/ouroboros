@@ -27,14 +27,16 @@
 
 <% define 'Field', :for => this do %>
 	<% if parent === root %>
-		<% parentGroupVar = 'result' %> 
+		<% parentGroupVar = 'result' %>
+		<% operator = '.' %> 
 	<% else %>
 		<% parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ') %>
+		<% operator = '->' %> 
 	<% end %>
 	<% if type === "intField" %>
-		<%= parentGroupVar %>.add(new base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>));
+		<%= parentGroupVar %><%= operator %>add(new base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>));
 	<% elsif type === "stringField" %>
-		<%= parentGroupVar %>.add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, {0, 10}));
+		<%= parentGroupVar %><%= operator %>add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, {0, 10}));
 	<% end %>
 <% end %>
 
