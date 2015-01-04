@@ -3,11 +3,16 @@ require 'rgen/environment'
 require 'rgen/template_language'
 require './server_model'
 
+class XML
+  attr_accessor :deviceConfig
+end
+
 env = RGen::Environment.new
 inst = RGen::Instantiator::DefaultXMLInstantiator.new(env, ServerModel, true)
 inst.instantiate_file("serverconfig.xml")
 
-MODEL = env.find(:class => ServerModel::DeviceConfig).first
+MODEL = XML.new
+MODEL.deviceConfig = env.find(:class => ServerModel::DeviceConfig).first
 
 def generateCode
   tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([ServerModel], OUTPUT_DIR)
