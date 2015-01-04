@@ -1,16 +1,15 @@
 module ServerModel
   extend RGen::MetamodelBuilder::ModuleExtension
-  class Field < RGen::MetamodelBuilder::MMBase
-    include RGen::Ext::NavigationExtensions
-  end
+  
+  class Field < RGen::MetamodelBuilder::MMBase; end
+  
   class Group < RGen::MetamodelBuilder::MMBase
-    include RGen::Ext::NavigationExtensions
-    contains_many_uni 'group', Group
-    contains_many_uni 'field', Field
+    contains_many 'group', Group, 'parent'
+    contains_many 'field', Field, 'parent'
   end
+  
   class DeviceConfig < RGen::MetamodelBuilder::MMBase
-    include RGen::Ext::NavigationExtensions
-    contains_many_uni 'group', Group
-    contains_many_uni 'field', Field
+    contains_many 'group', Group, 'parent'
+    contains_many 'field', Field, 'parent'
   end
 end

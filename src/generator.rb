@@ -1,7 +1,6 @@
 require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
 require 'rgen/template_language'
-require 'rgen/ext'
 require './server_model'
 
 env = RGen::Environment.new

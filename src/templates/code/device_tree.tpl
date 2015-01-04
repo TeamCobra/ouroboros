@@ -26,7 +26,7 @@
 <% end %>
 
 <% define 'Field', :for => this do %>
-	<% if parent === root %>
+	<% if parent.class.to_s === ServerModel::DeviceConfig.to_s %>
 		<% parentGroupVar = 'result' %>
 		<% operator = '.' %> 
 	<% else %>
@@ -51,7 +51,7 @@
 
 <% define 'AddGroup', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
-	<% if parent != root %>
+	<% if parent.class.to_s != ServerModel::DeviceConfig.to_s %>
 		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);
 	<% else %>
 		result.add(<%= groupVar %>);
