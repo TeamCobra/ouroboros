@@ -1,5 +1,6 @@
 #include "JSON.h"
 #include <string>
+#include <cstdlib>
 
 namespace ouroboros
 {
