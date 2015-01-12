@@ -7,8 +7,8 @@
 
 namespace ouroboros
 {
-	static const char * full_regex = "^/group/([a-z0-9-_]+)/name/([a-z0-9-_]+)$";
-	static const char * group_regex = "^/group/([a-z0-9-_]+)$";
+	static const char * full_regex = "^/group/([a-z0-9-_]+)/name/([a-z0-9-_]+)/?$";
+	static const char * group_regex = "^/group/([a-z0-9-_]+)/?$";
 
 	bool is_REST_URI(const std::string& aURI)
 	{
@@ -24,7 +24,7 @@ namespace ouroboros
 	{	
 		int item_result = slre_match(
 			full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
-		if (item_result >=0)
+		if (item_result >= 0)
 			return REST_call_type::NAME;
 		
 		int group_result = slre_match(
