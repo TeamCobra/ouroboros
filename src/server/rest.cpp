@@ -21,20 +21,16 @@ namespace ouroboros
 	}
 
 	REST_call_type get_REST_call_type(const std::string& aURI)
-	{
-		
+	{	
 		int item_result = slre_match(
 			full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (item_result >=0)
 			return REST_call_type::NAME;
 		
-
-		
 		int group_result = slre_match(
 			group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (group_result >= 0)
 			return REST_call_type::GROUP;
-		
 		
 		return REST_call_type::NONE;
 	}
