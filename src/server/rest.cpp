@@ -7,8 +7,8 @@
 
 namespace ouroboros
 {
-	static const char * full_regex = "^/group/([^/]+)/name/([^/]+)$";
-	static const char * group_regex = "^/group/([^/]+)$";
+	static const char * full_regex = "^/group/([a-z0-9-_]+)/name/([a-z0-9-_]+)$";
+	static const char * group_regex = "^/group/([a-z0-9-_]+)$";
 
 	bool is_REST_URI(const std::string& aURI)
 	{
@@ -22,15 +22,19 @@ namespace ouroboros
 
 	REST_call_type get_REST_call_type(const std::string& aURI)
 	{
+		
 		int item_result = slre_match(
 			full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (item_result >=0)
 			return REST_call_type::NAME;
+		
 
+		
 		int group_result = slre_match(
 			group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (group_result >= 0)
 			return REST_call_type::GROUP;
+		
 		
 		return REST_call_type::NONE;
 	}
@@ -62,8 +66,13 @@ namespace ouroboros
 		slre_match(full_regex, aURI.c_str(), aURI.length(), match, 2, 0);
 
 		std::pair<std::string, std::string> result;
-		result.first.assign(match[0].ptr, match[0].len);
-		result.second.assign(match[1].ptr, match[1].len-1); //BUG SLRE includes NULL for some reason in length. Subtracting 1 from final length
+		
+		//Copy group title from match to remove remaining characters
+		std::string groupTitle(match[0].ptr);
+		groupTitle.erase(groupTitle.begin()+match[0].len, groupTitle.end());
+
+		result.first.assign(groupTitle);
+		result.second.assign(match[1].ptr, match[1].len);
 		return result;
 	}
 
