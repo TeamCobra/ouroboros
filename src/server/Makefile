@@ -22,6 +22,9 @@ ${OBJ_DIR}/rest_handlers.o: rest_handlers.cpp rest_handlers.h ${OBJ_DIR}/rest.o 
 
 ${OBJ_DIR}/server.o: server.cpp mongoose.h frozen.h slre.h
 
+device_tree.cpp:
+	cp ${OBJ_DIR}/device_tree.cpp ./
+
 ${OBJ_DIR}/device_tree.o: device_tree.cpp device_tree.hpp device_tree.ipp device_tree.tpp
 
 ${OBJ_DIR}/frozen.o: frozen.c frozen.h
@@ -36,10 +39,10 @@ ${OBJ_DIR}/misc.o:
 
 ${OBJ_DIR}/JSON.o:
 	make -C ../data $@
-	
+
 ${OBJ_DIR}/base_integer.o:
 	make -C ../data $@
-	
+
 ${OBJ_DIR}/base_string.o:
 	make -C ../data $@
 
@@ -62,4 +65,4 @@ mongoose.h:
 	cp ${MONGOOSE_DIR}/$@ ./
 
 clean:
-	rm -rf server.o Server frozen.c frozen.h mongoose.h mongoose.c slre.h slre.c ${OBJECT_FILES} ${BUILD_DIR}/Server
+	rm -rf server.o Server frozen.c frozen.h mongoose.h mongoose.c slre.h slre.c device_tree.cpp ${OBJECT_FILES} ${BUILD_DIR}/Server

@@ -21,7 +21,7 @@ def generateCode
 end
 
 TEMPLATES_DIR = "templates/"
-OUTPUT_DIR = "server/"
+OUTPUT_DIR = "../target/"
 
 #TODO:
 #Create separate function for webpage generation so that we
