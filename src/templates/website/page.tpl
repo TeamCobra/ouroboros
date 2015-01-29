@@ -1,4 +1,4 @@
-<% define 'Page', :for => Group do %>
+<% define 'Page', :for => DeviceConfig do %>
 	<html> <%iinc%>
 	   <head> <%iinc%>
 	      <title>Mongoose Server</title> <%idec%>

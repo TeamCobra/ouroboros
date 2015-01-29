@@ -1,4 +1,5 @@
 #include <memory>
+#include <algorithm>
 
 namespace ouroboros
 {
@@ -11,14 +12,22 @@ namespace ouroboros
 	void group<T>::add(T *apField)
 	{
 		//FIXME What if it is null?
-		mItems[apField->getTitle()] = apField;
+		//Create a new string for lookup purposes with all lower case letters and no spaces
+		std::string lookupTitle = apField->getTitle();
+		std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
+		std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
+		mItems[lookupTitle] = apField;
 	}
 	
 	template<class T>
 	void group<T>::add(group<T> *apField)
 	{
 		//FIXME what if it is null?
-		mGroups[apField->getTitle()] = apField;
+		//Create a new string for lookup purposes with all lower case letters and no spaces
+		std::string lookupTitle = apField->getTitle();
+		std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
+		std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
+		mGroups[lookupTitle] = apField;
 	}
 	
 	template<class T>

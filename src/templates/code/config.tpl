@@ -1,4 +1,4 @@
-<% define 'Config', for: Server do %>
+<% define 'Config', for: DeviceConfig do %>
 
 {
   <%# we need to use '+' for concatenation because using the normal %>
