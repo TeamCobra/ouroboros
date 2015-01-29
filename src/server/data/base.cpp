@@ -6,7 +6,7 @@
 #include <utility>
 #include <stdexcept>
 #include <limits>
-#include <data/JSON.h>
+#include "JSON.h"
 
 namespace ouroboros
 {
