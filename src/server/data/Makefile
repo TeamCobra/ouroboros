@@ -102,6 +102,10 @@ AM_V_AR = $(am__v_AR_$(V))
 am__v_AR_ = $(am__v_AR_$(AM_DEFAULT_VERBOSITY))
 am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
+libJSON_a_AR = $(AR) $(ARFLAGS)
+libJSON_a_LIBADD =
+am_libJSON_a_OBJECTS = JSON.$(OBJEXT)
+libJSON_a_OBJECTS = $(am_libJSON_a_OBJECTS)
 libdata_a_AR = $(AR) $(ARFLAGS)
 libdata_a_LIBADD =
 am_libdata_a_OBJECTS = base.$(OBJEXT) base_integer.$(OBJEXT) \
@@ -148,8 +152,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libdata_a_SOURCES)
-DIST_SOURCES = $(libdata_a_SOURCES)
+SOURCES = $(libJSON_a_SOURCES) $(libdata_a_SOURCES)
+DIST_SOURCES = $(libJSON_a_SOURCES) $(libdata_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -211,7 +215,7 @@ MAKEINFO = ${SHELL} /home/gabriel/Projects/ouroboros/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = ouroboros
-PACKAGE_BUGREPORT = ?FIXME?
+PACKAGE_BUGREPORT = 
 PACKAGE_NAME = ouroboros
 PACKAGE_STRING = ouroboros 1.0
 PACKAGE_TARNAME = ouroboros
@@ -269,8 +273,9 @@ top_builddir = ../../..
 top_srcdir = ../../..
 AM_CXXFLAGS = -std=c++11
 AM_CPPFLAGS = -I$(top_srcdir)/lib/frozen
-noinst_LIBRARIES = libdata.a
+noinst_LIBRARIES = libdata.a libJSON.a
 libdata_a_SOURCES = base.cpp base_integer.cpp base.ipp base_string.h data_store.ipp misc.cpp base.hpp base_integer.h base_string.cpp data_store.hpp misc.h
+libJSON_a_SOURCES = JSON.cpp JSON.h JSON.hpp
 all: all-am
 
 .SUFFIXES:
@@ -308,6 +313,11 @@ $(am__aclocal_m4_deps):
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
+libJSON.a: $(libJSON_a_OBJECTS) $(libJSON_a_DEPENDENCIES) $(EXTRA_libJSON_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libJSON.a
+	$(AM_V_AR)$(libJSON_a_AR) libJSON.a $(libJSON_a_OBJECTS) $(libJSON_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libJSON.a
+
 libdata.a: $(libdata_a_OBJECTS) $(libdata_a_DEPENDENCIES) $(EXTRA_libdata_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libdata.a
 	$(AM_V_AR)$(libdata_a_AR) libdata.a $(libdata_a_OBJECTS) $(libdata_a_LIBADD)
@@ -319,6 +329,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/JSON.Po
 include ./$(DEPDIR)/base.Po
 include ./$(DEPDIR)/base_integer.Po
 include ./$(DEPDIR)/base_string.Po
