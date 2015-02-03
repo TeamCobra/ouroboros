@@ -20,3 +20,15 @@ target/*.o
 *.in
 *.a
 *.o
+
+aclocal.m4
+ar-lib
+compile
+depcomp
+install-sh
+missing
+autom4te.cache/
+config.log
+config.status
+.deps/
+stamp-h1
