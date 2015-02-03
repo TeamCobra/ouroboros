@@ -18,3 +18,5 @@ target/*.json
 target/*.o
 
 *.in
+*.a
+*.o
