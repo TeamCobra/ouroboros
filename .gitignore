@@ -16,3 +16,5 @@ target/*.html
 target/*.js
 target/*.json
 target/*.o
+
+*.in
