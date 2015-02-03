@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = server$(EXEEXT)
+bin_PROGRAMS = ouroboros-server$(EXEEXT)
 subdir = src/server
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -99,11 +99,12 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_server_OBJECTS = device_tree.$(OBJEXT) rest.$(OBJEXT) \
+am_ouroboros_server_OBJECTS = device_tree.$(OBJEXT) rest.$(OBJEXT) \
 	rest_handlers.$(OBJEXT) server.$(OBJEXT)
-server_OBJECTS = $(am_server_OBJECTS)
-server_LDADD = $(LDADD)
-server_DEPENDENCIES = $(top_srcdir)/src/server/data/libJSON.a \
+ouroboros_server_OBJECTS = $(am_ouroboros_server_OBJECTS)
+ouroboros_server_LDADD = $(LDADD)
+ouroboros_server_DEPENDENCIES =  \
+	$(top_srcdir)/src/server/data/libJSON.a \
 	$(top_srcdir)/src/server/data/libdata.a \
 	$(top_srcdir)/lib/libmongoose.a $(top_srcdir)/lib/libslre.a \
 	$(top_srcdir)/lib/libfrozen.a
@@ -148,8 +149,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(server_SOURCES)
-DIST_SOURCES = $(server_SOURCES)
+SOURCES = $(ouroboros_server_SOURCES)
+DIST_SOURCES = $(ouroboros_server_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -313,7 +314,7 @@ SUBDIRS = data
 LDADD = $(top_srcdir)/src/server/data/libJSON.a $(top_srcdir)/src/server/data/libdata.a $(top_srcdir)/lib/libmongoose.a $(top_srcdir)/lib/libslre.a $(top_srcdir)/lib/libfrozen.a
 AM_CPPFLAGS = -I$(top_srcdir)/lib/mongoose -I$(top_srcdir)/lib/slre -I$(top_srcdir)/lib/frozen -I$(top_srcdir)/lib/googletest -I$(top_srcdir)/src/ -I$(top_srcdir)/lib/
 AM_CXXFLAGS = -Wall -Wextra -Wpedantic -std=c++11 -pthread
-server_SOURCES = device_tree.cpp  device_tree.hpp  device_tree.ipp  device_tree.tpp rest.cpp  rest.h  rest_handlers.cpp  rest_handlers.h  server.cpp
+ouroboros_server_SOURCES = device_tree.cpp  device_tree.hpp  device_tree.ipp  device_tree.tpp rest.cpp  rest.h  rest_handlers.cpp  rest_handlers.h  server.cpp
 all: all-recursive
 
 .SUFFIXES:
@@ -390,9 +391,9 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-server$(EXEEXT): $(server_OBJECTS) $(server_DEPENDENCIES) $(EXTRA_server_DEPENDENCIES) 
-	@rm -f server$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(server_OBJECTS) $(server_LDADD) $(LIBS)
+ouroboros-server$(EXEEXT): $(ouroboros_server_OBJECTS) $(ouroboros_server_DEPENDENCIES) $(EXTRA_ouroboros_server_DEPENDENCIES) 
+	@rm -f ouroboros-server$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(ouroboros_server_OBJECTS) $(ouroboros_server_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
