@@ -93,14 +93,23 @@ namespace ouroboros
 		
 		for (auto &subgroup : mGroups)
 		{
-			result += "\"" + subgroup.first + "\" : " + subgroup.second->getJSON();
+			result += "\"" + subgroup.first + "\" : " + subgroup.second->getJSON() + ",";
+		}
+		if (!mGroups.empty() && mItems.empty())
+		{
+			result.erase(result.end()-1);
 		}
 		
 		for (auto &item : mItems)
 		{
-			result += "\"" + item.first + "\" : " + item.second->getJSON();
+			result += "\"" + item.first + "\" : " + item.second->getJSON() + ",";
 		}
-		result = " }";
-		return std::string();
+		if (!mItems.empty())
+		{
+			result.erase(result.end()-1);		
+		}
+		
+		result += " }";
+		return result;
 	}
 }
