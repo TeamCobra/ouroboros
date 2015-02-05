@@ -7,7 +7,7 @@
 
 namespace ouroboros
 {
-	static const char * full_regex = "^/groups/([a-z0-9-_]+)/field/([a-z0-9-_]+)/?$";
+	static const char * full_regex = "^/groups/([a-z0-9-_]+)/fields/([a-z0-9-_]+)/?$";
 	static const char * group_regex = "^/groups/([a-z0-9-_]+)/?$";
 
 	bool is_REST_URI(const std::string& aURI)
