@@ -64,11 +64,10 @@ namespace ouroboros
 	std::pair<std::string, std::string> extract_group_name(const std::string& aURI)
 	{
 		std::pair<std::string, std::string> result;
-		struct slre_cap match[1];
+		
 		//Check if user is accessing field in root first
+		struct slre_cap match[1];
 		if(slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0){
-			//struct slre_cap match[1];
-			//slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0);	
 			//Root group is "server"
 			result.first.assign("server");
 			result.second.assign(match[0].ptr, match[0].len);
