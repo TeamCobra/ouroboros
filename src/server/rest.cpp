@@ -63,30 +63,30 @@ namespace ouroboros
 
 	std::pair<std::string, std::string> extract_group_name(const std::string& aURI)
 	{
-		//Check if user is accessing field in root first
+		std::pair<std::string, std::string> result;
 		struct slre_cap match[1];
-		if(slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0)){
-			std::pair<std::string, std::string> result;
+		//Check if user is accessing field in root first
+		if(slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0){
+			//struct slre_cap match[1];
+			//slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0);	
 			//Root group is "server"
 			result.first.assign("server");
 			result.second.assign(match[0].ptr, match[0].len);
-			
-			return result;
 		}
 		else{
 			struct slre_cap match[2];
 			slre_match(full_regex, aURI.c_str(), aURI.length(), match, 2, 0);
-
-			std::pair<std::string, std::string> result;
-			
+						
 			//Copy group title from match to remove remaining characters
 			std::string groupTitle(match[0].ptr);
 			groupTitle.erase(groupTitle.begin()+match[0].len, groupTitle.end());
+			groupTitle.insert(0, "server-");
 
 			result.first.assign(groupTitle);
-			result.second.assign(match[1].ptr, match[1].len);
-			return result;
+			result.second.assign(match[1].ptr, match[1].len);	
 		}
+
+		return result;
 	}
 
 	std::string extract_group(const std::string& aURI)
@@ -96,6 +96,11 @@ namespace ouroboros
 
 		std::string result;
 		result.assign(match[0].ptr, match[0].len);
+		
+		if(result != "server"){
+			result.insert(0, "server-");
+		}
+
 		return result;
 	}
 	
