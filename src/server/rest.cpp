@@ -10,7 +10,8 @@ namespace ouroboros
 	static const char * full_regex = "^/groups/([a-z0-9-_]+)/fields/([a-z0-9-_]+)/?$";
 	static const char * group_regex = "^/groups/([a-z0-9-_]+)/?$";
 	static const char * root_field_regex = "^/fields/([a-z0-9-_]+)/?$";
-
+	static const char * root_group_regex = "^/groups/?$";
+	
 	bool is_REST_URI(const std::string& aURI)
 	{
 		int result =
@@ -19,8 +20,11 @@ namespace ouroboros
 			slre_match(group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_field_result =
 			slre_match(root_field_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
-	
-		return (result >= 0 || group_result >= 0 || root_field_result >= 0);
+		int root_group_result =
+			slre_match(root_group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+
+		return (result >= 0 || group_result >= 0
+			       || root_field_result >= 0 || root_group_result);
 	}
 
 	REST_call_type get_REST_call_type(const std::string& aURI)
@@ -34,7 +38,9 @@ namespace ouroboros
 		
 		int group_result = slre_match(
 			group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
-		if (group_result >= 0)
+		int root_group_result = slre_match(
+			root_group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+		if (group_result >= 0 || root_group_result >= 0)
 			return REST_call_type::GROUP;
 		
 		return REST_call_type::NONE;
@@ -91,13 +97,13 @@ namespace ouroboros
 	std::string extract_group(const std::string& aURI)
 	{
 		struct slre_cap match[1];
-		slre_match(group_regex, aURI.c_str(), aURI.length(), match, 1, 0);
-
 		std::string result;
-		result.assign(match[0].ptr, match[0].len);
-		
-		if(result != "server"){
+		if(slre_match(group_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0){
+			result.assign(match[0].ptr, match[0].len);	
 			result.insert(0, "server-");
+		}
+		else{
+			result.assign("server");
 		}
 
 		return result;
