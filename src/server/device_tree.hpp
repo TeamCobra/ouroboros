@@ -3,7 +3,6 @@
 
 #include <data/base.hpp>
 #include <data/data_store.hpp>
-#include <memory>
 
 namespace ouroboros
 {
@@ -27,14 +26,16 @@ namespace ouroboros
 		 */
 		data_store<field>& get_data_store();
 		
+		~device_tree();
+		
 	private:
 		/**	This class can only be instantiated by itself.
 		 * 
 		 */
 		device_tree();
-		static std::unique_ptr<device_tree> mpTree;
+		static device_tree *mpTree;
 		
-		std::unique_ptr<data_store<field>> mpDataStore;
+		data_store<field> *mpDataStore;
 	};
 	
 }

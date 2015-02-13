@@ -67,7 +67,7 @@ namespace ouroboros
 		{
 			return mItems.at(aName);
 		}
-		return nullptr;
+		return NULL;
 	}
 	
 	template<class T>
@@ -77,7 +77,7 @@ namespace ouroboros
 		{
 			return mGroups.at(aName);
 		}
-		return nullptr;
+		return NULL;
 	}
 	
 	template<class T>
@@ -91,18 +91,18 @@ namespace ouroboros
 	{
 		std::string result = "{ ";
 		
-		for (auto &subgroup : mGroups)
+		for (typename std::map<std::string, group<T>*>::const_iterator itr = mGroups.begin(); itr != mGroups.end(); itr++)
 		{
-			result += "\"" + subgroup.first + "\" : " + subgroup.second->getJSON() + ",";
+			result += "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
 		}
 		if (!mGroups.empty() && mItems.empty())
 		{
 			result.erase(result.end()-1);
 		}
 		
-		for (auto &item : mItems)
+		for (typename std::map<std::string, T*>::const_iterator itr = mItems.begin(); itr != mItems.end(); itr++)
 		{
-			result += "\"" + item.first + "\" : " + item.second->getJSON() + ",";
+			result += "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
 		}
 		if (!mItems.empty())
 		{

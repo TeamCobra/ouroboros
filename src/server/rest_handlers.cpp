@@ -34,7 +34,7 @@ namespace ouroboros
 		std::pair<std::string, std::string> group_name =
 			extract_group_name(aURI.c_str());
 		//Determine type of REST Request Types
-		auto type = get_HTTP_request_type(conn->request_method);
+		HTTP_request_type type = get_HTTP_request_type(conn->request_method);
 		
 		//get reference to named thing
 		var_field *named = store.get(group_name.first, group_name.second);
@@ -44,8 +44,8 @@ namespace ouroboros
 		{
 			switch (type)
 			{
-				case HTTP_request_type::PUT:	
-				{	
+				case PUT:
+				{
 					std::string data(conn->content, conn->content_len);
 					JSON json(data);
 					if (named->setJSON(json))
@@ -59,7 +59,7 @@ namespace ouroboros
 				}
 					break;
 				
-				case HTTP_request_type::GET:
+				case GET:
 					//Send JSON describing named item
 					sjson = named->getJSON();
 					break;
@@ -80,7 +80,7 @@ namespace ouroboros
 	{
 		std::string sgroup = extract_group(aURI.c_str());
 		
-		auto type = get_HTTP_request_type(conn->request_method);
+		HTTP_request_type type = get_HTTP_request_type(conn->request_method);
 		
 		//get reference to named thing
 		group<var_field> *pgroup = store.get(sgroup);
@@ -90,7 +90,7 @@ namespace ouroboros
 		{
 			switch (type)
 			{
-				case HTTP_request_type::GET:
+				case GET:
 					//Send JSON describing named item
 					sjson = pgroup->getJSON();
 					break;

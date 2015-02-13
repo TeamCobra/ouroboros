@@ -96,7 +96,7 @@ namespace ouroboros
 		/**	Virtual destructor.
 		 * 
 		 */
-		virtual ~var_field() = default;
+		virtual ~var_field() {};
 		
 		/**	Tries to set the object to the JSON received.
 		 *
@@ -126,7 +126,7 @@ namespace ouroboros
 		/**	Destructor.
 		 * 
 		 */
-		virtual ~group() = default;
+		virtual ~group() {};
 
 		//TODO Specify move, copy constructors and assignment operator
 		

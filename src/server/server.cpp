@@ -14,21 +14,21 @@ using namespace ouroboros;
 
 enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
 {
-	if (get_REST_call_type(uri) != REST_call_type::NONE)
+	if (get_REST_call_type(uri) != NONE)
 	{
 		std::string output;
 
 		switch (get_REST_call_type(uri))
 		{
-			case REST_call_type::NAME:
+			case NAME:
 				handle_name_REST(conn, uri);
 				break;
 				
-			case REST_call_type::GROUP:
+			case GROUP:
 				handle_group_REST(conn, uri);
 				break;
 			
-			case REST_call_type::CUSTOM:
+			case CUSTOM:
 				handle_custom_REST(conn, uri);
 				break;
 			

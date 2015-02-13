@@ -1,13 +1,14 @@
 #include "base_string.h"
 #include <limits>
+#include <sstream>
 
 namespace ouroboros
 {
 	base_string::base_string()
-	:var_field("", ""), mPattern(""), mLength(0), 
+	:var_field("", ""), mPattern(""), mLength(0),
 		mLengthRange(
-			{std::numeric_limits<std::size_t>::min(),
-			std::numeric_limits<std::size_t>::max()}),
+			std::numeric_limits<std::size_t>::min(),
+			std::numeric_limits<std::size_t>::max()),
 		mValue("")
 	{}
 
@@ -55,14 +56,27 @@ namespace ouroboros
 	
 	std::string base_string::getJSON() const
 	{
+		std::stringstream ss;
+		std::string len, range_l, range_h;
+		ss << mLength;
+		len = ss.str();
+		ss.clear();
+		ss.str("");
+		ss << mLengthRange.first;
+		range_l = ss.str();
+		ss.clear();
+		ss.str("");
+		ss << mLengthRange.second;
+		range_h = ss.str();
+
 		return std::string(
-			"{ \"type\" : \"base_string\", " 
+			"{ \"type\" : \"base_string\", "
 			"\"base\" : " + var_field::getJSON() + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
-			"\"length\" : " + std::to_string(mLength) + " ," +
-			"\"range\" : [" + std::to_string(mLengthRange.first) + ", "
-				+ std::to_string(mLengthRange.second) + "] }");
+			"\"length\" : " + len + " ," +
+			"\"range\" : [" + range_l + ", "
+				+ range_h + "] }");
 	}
 	
 	bool base_string::setJSON(const JSON& aJSON)
@@ -100,41 +114,40 @@ namespace ouroboros
 		{
 			found = true;
 			std::size_t num;
-			try
-			{
-				num = std::stol(aJSON.get("length"));
-			}
-			catch (std::invalid_argument& e)
-			{
-				//do not change anything.
-				result = false;
-			}
-			if (!result || !this->setLength(num))
+			std::stringstream ss;
+
+			ss << aJSON.get("length");
+			ss >> num;
+
+			if (!ss || !result || !this->setLength(num))
 			{
 				result = false;
 			}
 		}
+
 		if (result && aJSON.exists("range[0]") && aJSON.exists("range[1]"))
 		{
 			found = true;
 			std::size_t min, max;
-			try
+			std::stringstream ss;
+
+			ss << aJSON.get("range[0]");
+			ss >> min;
+
+			if (!!ss)
 			{
-				min = std::stol(aJSON.get("range[0]"));
-				max = std::stol(aJSON.get("range[1]"));
+				ss.clear();
+				ss.str("");
+				ss << aJSON.get("range[1]");
+				ss >> max;
 			}
-			catch (std::invalid_argument& e)
-			{
-				//do not change anything.
-				result = false;
-			}
-			
-			if (!result || !this->setMinLength(min) || !this->setMaxLength(max))
+
+			if (!ss || !result || !this->setMinLength(min) || !this->setMaxLength(max))
 			{
 				result = false;
 			}
 		}
-		
+
 		if(!result)
 		{
 			*this = backup;

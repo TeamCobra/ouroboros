@@ -26,8 +26,8 @@ namespace ouroboros
 		 *	@post The data_store has control over the group and the contents of
 		 * 		the group can be searched for.
 		 */
-		data_store(group<T>&& aRoot);
-		
+		data_store(group<T> *apRoot);
+
 		///@{
 		/**	Gets a pointer to the item specified by its group and name in the
 		 *		structure.
@@ -61,7 +61,7 @@ namespace ouroboros
 		///@}
 
 	private:
-		group<T> mRoot;
+		group<T> *mpRoot;
 	};
 }
 

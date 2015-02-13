@@ -72,13 +72,13 @@ namespace ouroboros
 		 * 
 		 * @see ouroboros::var_field::get_value()
 		 */
-		virtual std::string getJSON() const override;
+		virtual std::string getJSON() const ;
 		
 		/**	Tries to set the field to the JSON representation given.
 		 * 
 		 * @see ouroboros::var_field::setJSON()
 		 */
-		bool setJSON(const JSON& aJSON) override;
+		bool setJSON(const JSON& aJSON) ;
 
 	private:
 		std::pair<int, int> mRange;

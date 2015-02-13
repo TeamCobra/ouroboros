@@ -4,8 +4,8 @@
 namespace ouroboros
 {
 	template<class T>
-	data_store<T>::data_store(group<T>&& aRoot)
-	:mRoot(std::move(aRoot))
+	data_store<T>::data_store(group<T> *apRoot)
+	:mpRoot(apRoot)
 	{}
 
 	template <class T>
@@ -21,9 +21,9 @@ namespace ouroboros
 	{
 		const group<T> *pGroup = this->get(aGroup);
 
-		if (pGroup == nullptr)
+		if (pGroup == NULL)
 		{
-			return nullptr;
+			return NULL;
 		}
 
 		const var_field *field = pGroup->findItem(aName);
@@ -41,7 +41,7 @@ namespace ouroboros
 	template <class T>
 	const group<T>* data_store<T>::get(const std::string& aGroup) const
 	{
-		const group<T>* result = nullptr;
+		const group<T>* result = NULL;
 		//Check that the group string is valid syn
 		//Break aGroup into tokens
 		std::vector<std::string> groups = detail::split(aGroup, "-");
@@ -50,14 +50,14 @@ namespace ouroboros
 		if (!groups.empty())
 		{
 			//In case we're trying to access the root group
-			if (mRoot.getTitle() == groups.front())
+			if (mpRoot->getTitle() == groups.front())
 			{
 				if (groups.size() == 1)
 				{
-					return &mRoot;
+					return &(*mpRoot);
 				}
 				
-				result = mRoot.findGroup(groups[1]);
+				result = mpRoot->findGroup(groups[1]);
 				
 				for (std::size_t index = 2;
 					(result && (index < groups.size()));

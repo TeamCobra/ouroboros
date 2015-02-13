@@ -5,7 +5,7 @@
 namespace ouroboros
 {
 	JSON::JSON()
-	:mpArr(nullptr)
+	:mpArr(NULL)
 	{}
 	
 	JSON::JSON(const std::string& aJSON)
