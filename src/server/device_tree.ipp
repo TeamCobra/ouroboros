@@ -20,7 +20,7 @@ namespace ouroboros
 	{
 		mpDataStore =
 			new data_store<field>(
-				new group<field>(detail::build_tree<field>()));
+				detail::build_tree<field>());
 	}
 
 	template <class field>

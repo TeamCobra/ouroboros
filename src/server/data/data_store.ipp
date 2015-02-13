@@ -4,8 +4,8 @@
 namespace ouroboros
 {
 	template<class T>
-	data_store<T>::data_store(group<T> *apRoot)
-	:mpRoot(apRoot)
+	data_store<T>::data_store(const group<T>& aRoot)
+	:mRoot(aRoot)
 	{}
 
 	template <class T>
@@ -50,15 +50,15 @@ namespace ouroboros
 		if (!groups.empty())
 		{
 			//In case we're trying to access the root group
-			if (mpRoot->getTitle() == groups.front())
+			if (mRoot.getTitle() == groups.front())
 			{
 				if (groups.size() == 1)
 				{
-					return &(*mpRoot);
+					return &(mRoot);
 				}
-				
-				result = mpRoot->findGroup(groups[1]);
-				
+
+				result = mRoot.findGroup(groups[1]);
+
 				for (std::size_t index = 2;
 					(result && (index < groups.size()));
 					++index)
