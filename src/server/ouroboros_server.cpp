@@ -3,76 +3,72 @@
 #include <server/device_tree.hpp>
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
-#include <server/rest_handlers.h>
 
 namespace ouroboros
 {
+	
 	namespace detail
 	{
-		enum mg_result handle_uri(struct mg_connection *conn, const char* uri)
+		std::string bad_JSON()
 		{
-			if (get_REST_call_type(uri) != REST_call_type::NONE)
-			{
-				std::string output;
-
-				switch (get_REST_call_type(uri))
-				{
-					case REST_call_type::NAME:
-						handle_name_REST(conn, uri);
-						break;
-						
-					case REST_call_type::GROUP:
-						handle_group_REST(conn, uri);
-						break;
-					
-					case REST_call_type::CUSTOM:
-						handle_custom_REST(conn, uri);
-						break;
-					
-					default:
-						return MG_FALSE; //Something really bad just took place... We got a REST call type that wasn't NONE but we didn't recognize!
-				}
-				return MG_TRUE;
-			}
-			return MG_FALSE;
+			return std::string("{ \"status\" : \"Bad JSON request.\"}");
 		}
-
-		int event_handler(struct mg_connection *conn, enum mg_event ev)
+		
+		std::string good_JSON()
 		{
-			if (ev == MG_AUTH)
-			{
-				return MG_TRUE;
-			}
-			else if (ev == MG_REQUEST)
-			{
-				return handle_uri(conn, conn->uri);
-			}
-			else
-			{
-				return MG_FALSE;
-			}
+			return std::string("{ \"status\" : \"OK.\"}");
 		}
 	}
+	
+	mg_result ouroboros_server::handle_uri(mg_connection *conn, const char* uri)
+	{
+		rest_request request(conn, uri);
+		if (request.getRestRequestType() != rest_request_type::NONE)
+		{
+			std::string output;
+			
+			return handle_rest(request);
+		}
+		return MG_FALSE;
+	}
+
+	int ouroboros_server::event_handler(mg_connection *conn, mg_event ev)
+	{
+		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(conn->server_param);
+		if (ev == MG_AUTH)
+		{
+			return MG_TRUE;
+		}
+		else if (ev == MG_REQUEST)
+		{
+			return this_server->handle_uri(conn, conn->uri);
+		}
+		else
+		{
+			return MG_FALSE;
+		}
+	}
+
 
 	void *ouroboros_server::run_server(void *aThis)
 	{
 		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(aThis);
-		struct mg_server *server = mg_create_server(NULL, detail::event_handler);
-		mg_set_option(server, "document_root", ".");      // Serve current directory
-		mg_set_option(server, "listening_port", "8080");  // Open port 8080
+		this_server->mpServer = mg_create_server(aThis, ouroboros_server::event_handler);
+		mg_set_option(this_server->mpServer, "document_root", ".");      // Serve current directory
+		mg_set_option(this_server->mpServer, "listening_port", "8080");  // Open port 8080
 
 		while (this_server->mStarted)
 		{
-			mg_poll_server(server, 1000);   // Infinite loop, Ctrl-C to stop
+			mg_poll_server(this_server->mpServer, 1000);   // Infinite loop, Ctrl-C to stop
 		}
-		mg_destroy_server(&server);
+		mg_destroy_server(&this_server->mpServer);
 	
 		return NULL;
 	}
 	
 	ouroboros_server::ouroboros_server()
-	:mStarted(false), mTree(device_tree<var_field>::get_device_tree()),
-		mStore(mTree.get_data_store())
+	:mStarted(false), mpServer(NULL),
+		mStore(device_tree<var_field>::get_device_tree().get_data_store())
 	{
 		
 		
@@ -127,6 +123,107 @@ namespace ouroboros
 	bool ouroboros_server::started()
 	{
 		return false;
+	}
+	
+	mg_result ouroboros_server::handle_rest(const rest_request& aRequest)
+	{
+		switch (aRequest.getRestRequestType())
+		{
+			case rest_request_type::FIELDS:
+				handle_name_rest(aRequest);
+				break;
+				
+			case rest_request_type::GROUPS:
+				handle_group_rest(aRequest);
+				break;
+				
+			case rest_request_type::CUSTOM:
+				handle_custom_rest(aRequest);
+				break;
+				
+			case rest_request_type::NONE:
+				break;
+			default:
+				return MG_FALSE;
+		}
+		return MG_TRUE;
+	}
+	
+	void ouroboros_server::handle_name_rest(const rest_request& aRequest)
+	{
+		//get reference to named thing
+		var_field *named = mStore.get(aRequest.getGroups(), aRequest.getFields());
+		
+		std::string sjson;
+		mg_connection *conn = aRequest.getConnection();
+		if (named)
+		{
+			switch (aRequest.getHttpRequestType())
+			{
+				case http_request_type::PUT:	
+				{	
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+					
+					if (named->setJSON(json))
+					{
+						sjson = detail::good_JSON();
+					}
+					else
+					{
+						sjson = detail::bad_JSON();
+					}
+				}
+					break;
+				
+				case http_request_type::GET:
+					//Send JSON describing named item
+					sjson = named->getJSON();
+					break;
+				
+				default:
+					sjson = detail::bad_JSON();
+			}
+		}
+		else
+		{
+			sjson = detail::bad_JSON();
+		}
+		
+		mg_send_data(conn, sjson.c_str(), sjson.length());
+	}
+
+	void ouroboros_server::handle_group_rest(const rest_request& aRequest)
+	{
+		//get reference to named thing
+		group<var_field> *pgroup = mStore.get(aRequest.getGroups());
+		
+		std::string sjson;
+		if (pgroup)
+		{
+			switch (aRequest.getHttpRequestType())
+			{
+				case http_request_type::GET:
+					//Send JSON describing named item
+					sjson = pgroup->getJSON();
+					break;
+				
+				default:
+					sjson = detail::bad_JSON();
+			}
+		}
+		else
+		{
+			sjson = detail::bad_JSON();
+		}
+		
+		mg_connection *conn = aRequest.getConnection();
+		mg_send_data(conn, sjson.c_str(), sjson.length());
+	}
+
+	void ouroboros_server::handle_custom_rest(const rest_request& aRequest)
+	{
+		//TODO Implement this somehow
 	}
 	
 }

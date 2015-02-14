@@ -10,7 +10,7 @@ int main()
 	ouroboros_server s;
 	cout << s.get("server")->getJSON() << endl;
 	s.start();
-	sleep(10);
+	sleep(1000);
 	s.stop();
 	return 0;
 }
