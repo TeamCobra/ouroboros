@@ -35,7 +35,7 @@
 	<% if type === "intField" %>
 		<%= parentGroupVar %><%= operator %>add(new base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>));
 	<% elsif type === "stringField" %>
-		<%= parentGroupVar %><%= operator %>add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, {0, 10}));
+		<%= parentGroupVar %><%= operator %>add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, std::pair<int,int>(0, 10)));
 	<% end %>
 <% end %>
 
@@ -67,5 +67,5 @@
 	<% else %>
 		<% max = "std::numeric_limits<int>::max()" %>
 	<% end %>
-	{<%=min.to_s%>, <%=max.to_s%>}<%nonl%>
+	std::pair<int,int>(<%=min.to_s%>, <%=max.to_s%>)<%nonl%>
 <% end %>
