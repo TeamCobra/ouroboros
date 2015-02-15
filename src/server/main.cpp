@@ -1,6 +1,9 @@
 #include "ouroboros_server.h"
 #include <iostream>
 #include <unistd.h>
+#include <dlfcn.h>
+#include "plugin.h"
+#include <server/plugin_manager.h>
 
 using namespace std;
 using namespace ouroboros;
@@ -8,9 +11,11 @@ using namespace ouroboros;
 int main()
 {
 	ouroboros_server s;
-	cout << s.get("server")->getJSON() << endl;
 	s.start();
-	sleep(1000);
+
+	plugin_manager plugin_manager(s);
+	cout << "Loaded plugin? : " << plugin_manager.load("./plugin/libtest.so") << endl;
+//	sleep(1000);
 	s.stop();
 	return 0;
 }

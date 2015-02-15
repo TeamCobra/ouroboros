@@ -3,7 +3,6 @@
 
 #include <server/data/base.hpp>
 #include <server/data/data_store.hpp>
-#include <server/device_tree.hpp>
 #include <pthread.h>
 #include <mongoose/mongoose.h>
 #include <server/rest.h>

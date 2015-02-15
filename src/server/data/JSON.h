@@ -2,7 +2,7 @@
 #define _OUROBOROS_JSON_HPP_
 
 #include <string>
-#include <frozen.h>
+#include <frozen/frozen.h>
 
 namespace ouroboros
 {

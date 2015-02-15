@@ -4,7 +4,7 @@
 #include "base.hpp"
 
 #include <string>
-#include <frozen.h>
+#include <frozen/frozen.h>
 
 namespace ouroboros
 {
