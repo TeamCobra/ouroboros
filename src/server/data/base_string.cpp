@@ -86,12 +86,12 @@ namespace ouroboros
 		if (aJSON.exists("base.title"))
 		{
 			found = true;
-			this->setTitle(aJSON.get("base.title"));
+			base_field::setTitle(aJSON.get("base.title"));
 		}
 		if (aJSON.exists("base.description"))
 		{
 			found = true;
-			this->setDescription(aJSON.get("base.description"));
+			base_field::setDescription(aJSON.get("base.description"));
 		}
 		
 		if (aJSON.exists("value"))

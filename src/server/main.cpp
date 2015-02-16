@@ -15,7 +15,7 @@ int main()
 
 	plugin_manager plugin_manager(s);
 	cout << "Loaded plugin? : " << plugin_manager.load("libtest.so") << endl;
-//	sleep(1000);
+	sleep(1000);
 	s.stop();
 	return 0;
 }

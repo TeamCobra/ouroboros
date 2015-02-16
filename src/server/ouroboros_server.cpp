@@ -20,7 +20,7 @@ namespace ouroboros
 		}
 	}
 	
-	mg_result ouroboros_server::handle_uri(mg_connection *conn, const char* uri)
+	mg_result ouroboros_server::handle_uri(mg_connection *conn, const std::string& uri)
 	{
 		rest_request request(conn, uri);
 		if (request.getRestRequestType() != rest_request_type::NONE)
@@ -80,17 +80,17 @@ namespace ouroboros
 		
 	}
 	
-	var_field *ouroboros_server::get(const char* aGroup, const char* aField)
+	var_field *ouroboros_server::get(const std::string& aGroup, const std::string& aField)
 	{
 		return mStore.get(aGroup, aField);;
 	}
 	
-	group<var_field> *ouroboros_server::get(const char* aGroup)
+	group<var_field> *ouroboros_server::get(const std::string& aGroup)
 	{
 		return mStore.get(aGroup);
 	}
 		
-	void ouroboros_server::set(const char* aGroup, const char* aField, const var_field& aFieldData)
+	void ouroboros_server::set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData)
 	{
 		var_field *result = mStore.get(aGroup, aField);
 		if (!result)
@@ -100,7 +100,7 @@ namespace ouroboros
 		*result = aFieldData;
 	}
 	
-	void ouroboros_server::set(const char* aGroup, const group<var_field>& aField)
+	void ouroboros_server::set(const std::string& aGroup, const group<var_field>& aField)
 	{
 		
 	}
@@ -225,5 +225,28 @@ namespace ouroboros
 	{
 		//TODO Implement this somehow
 	}
+	
+	std::string ouroboros_server::normalize_group(const std::string& aGroup)
+	{
+		std::string result = "server";
+		if(!aGroup.empty())
+		{
+			result += "-" + aGroup;
+		}
+		
+		return result;
+	}
+	
+	/*template <typename Func>
+	void ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, Func aCallback)
+	{
+		var_field *named = mStore.get(aGroup, aField);
+		if (named)
+		{
+			callback<Func> cb(aGroup, aField, aCallback);
+			mFieldCallbacks.push_back(cb);
+			named->registerObserver(mFieldCallbacks.back());
+		}
+	}*/
 	
 }

@@ -8,6 +8,8 @@
 #include <map>
 #include <stdexcept>
 #include "JSON.h"
+#include "observer.h"
+#include "../callback.h"
 
 namespace ouroboros
 {
@@ -52,14 +54,14 @@ namespace ouroboros
 		 * @param [in] aTitle New title for the field.
 		 * @post Title of the field has been set to the given parameter.
 		 */
-		void setTitle(const std::string& aTitle);
+		virtual void setTitle(const std::string& aTitle);
 		
 		/**	Sets the description of the field.
 		 *
 		 * @param [in] aTitle New description for the field.
 		 * @post Description of the field has been set to the given parameter.
 		 */
-		void setDescription(const std::string& aDescription);
+		virtual void setDescription(const std::string& aDescription);
 
 		/**	Returns the JSON representation of the field. Even though it is
 		 *	declared abstract, it has a default implementation available (TODO
@@ -80,7 +82,8 @@ namespace ouroboros
 	 * 	the JSON representation of its data. (TODO Specify JSON format).
 	 * 
 	 */
-	class var_field : public base_field
+	typedef void(*var_field_callback)(const std::string&, const std::string&) ;
+	class var_field : public base_field, public subject<callback<var_field_callback> >
 	{
 	public:
 		
@@ -97,6 +100,20 @@ namespace ouroboros
 		 * 
 		 */
 		virtual ~var_field() {};
+		
+		/**	Sets the title of the field.
+		 *
+		 * @param [in] aTitle New title for the field.
+		 * @post Title of the field has been set to the given parameter.
+		 */
+		virtual void setTitle(const std::string& aTitle);
+		
+		/**	Sets the description of the field.
+		 *
+		 * @param [in] aTitle New description for the field.
+		 * @post Description of the field has been set to the given parameter.
+		 */
+		virtual void setDescription(const std::string& aDescription);
 		
 		/**	Tries to set the object to the JSON received.
 		 *

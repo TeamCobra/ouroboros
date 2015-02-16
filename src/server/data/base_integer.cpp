@@ -5,8 +5,9 @@
 namespace ouroboros
 {
 	base_integer::base_integer()
-	:var_field("", ""), mValue(0), mRange(
-		std::numeric_limits<int>::min(), std::numeric_limits<int>::max())
+	:var_field("", ""), mRange(
+		std::numeric_limits<int>::min(), std::numeric_limits<int>::max()),
+		mValue(0)
 	{}
 	
 	base_integer::base_integer(
@@ -29,7 +30,8 @@ namespace ouroboros
 
 	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange)
 	{
-		return setInclusiveRange(aRange, mValue);
+		bool result = setInclusiveRange(aRange, mValue);
+		return result;
 	}
 	
 	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange, int aValue)
@@ -43,6 +45,8 @@ namespace ouroboros
 		if (checkValidity(aValue))
 		{
 			mValue = aValue;
+	
+			this->notify();
 			return true;
 		}
 		
@@ -55,6 +59,7 @@ namespace ouroboros
 		if (checkValidity(aNum))
 		{
 			mValue = aNum;
+			this->notify();
 			return true;
 		}
 		return false;
