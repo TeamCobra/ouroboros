@@ -95,8 +95,7 @@ namespace ouroboros
 		struct slre_cap match[1];
 		if(slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
 		{
-			//Root group is "server"
-			result.first.assign("server");
+			result.first = std::string();
 			result.second.assign(match[0].ptr, match[0].len);
 		}
 		else
@@ -107,8 +106,7 @@ namespace ouroboros
 			//Copy group title from match to remove remaining characters
 			std::string groupTitle(match[0].ptr);
 			groupTitle.erase(groupTitle.begin()+match[0].len, groupTitle.end());
-			groupTitle.insert(0, "server-");
-
+			
 			result.first.assign(groupTitle);
 			result.second.assign(match[1].ptr, match[1].len);
 		}
@@ -122,12 +120,7 @@ namespace ouroboros
 		std::string result;
 		if(slre_match(group_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
 		{
-			result.assign(match[0].ptr, match[0].len);
-			result.insert(0, "server-");
-		}
-		else
-		{
-			result.assign("server");
+			result.assign(match[0].ptr, match[0].len);	
 		}
 
 		return result;

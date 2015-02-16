@@ -69,30 +69,24 @@ namespace ouroboros
 	ouroboros_server::ouroboros_server()
 	:mStarted(false), mpServer(NULL),
 		mStore(device_tree<var_field>::get_device_tree().get_data_store())
-	{
-		
-		
-		
-	}
+	{}
 	
 	ouroboros_server::~ouroboros_server()
-	{
-		
-	}
+	{}
 	
 	var_field *ouroboros_server::get(const std::string& aGroup, const std::string& aField)
 	{
-		return mStore.get(aGroup, aField);;
+		return mStore.get(normalize_group(aGroup), aField);
 	}
 	
 	group<var_field> *ouroboros_server::get(const std::string& aGroup)
 	{
-		return mStore.get(aGroup);
+		return mStore.get(normalize_group(aGroup));
 	}
 		
 	void ouroboros_server::set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData)
 	{
-		var_field *result = mStore.get(aGroup, aField);
+		var_field *result = mStore.get(normalize_group(aGroup), aField);
 		if (!result)
 		{
 			return; //FIXME maybe return an error?
@@ -152,7 +146,7 @@ namespace ouroboros
 	void ouroboros_server::handle_name_rest(const rest_request& aRequest)
 	{
 		//get reference to named thing
-		var_field *named = mStore.get(aRequest.getGroups(), aRequest.getFields());
+		var_field *named = mStore.get(normalize_group(aRequest.getGroups()), aRequest.getFields());
 		
 		std::string sjson;
 		mg_connection *conn = aRequest.getConnection();
@@ -196,7 +190,7 @@ namespace ouroboros
 	void ouroboros_server::handle_group_rest(const rest_request& aRequest)
 	{
 		//get reference to named thing
-		group<var_field> *pgroup = mStore.get(aRequest.getGroups());
+		group<var_field> *pgroup = mStore.get(normalize_group(aRequest.getGroups()));
 		
 		std::string sjson;
 		if (pgroup)
@@ -236,17 +230,5 @@ namespace ouroboros
 		
 		return result;
 	}
-	
-	/*template <typename Func>
-	void ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, Func aCallback)
-	{
-		var_field *named = mStore.get(aGroup, aField);
-		if (named)
-		{
-			callback<Func> cb(aGroup, aField, aCallback);
-			mFieldCallbacks.push_back(cb);
-			named->registerObserver(mFieldCallbacks.back());
-		}
-	}*/
 	
 }

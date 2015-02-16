@@ -13,8 +13,6 @@ namespace ouroboros
 	class ouroboros_server
 	{
 	public:
-		
-		
 		ouroboros_server();
 		~ouroboros_server();
 		
@@ -29,18 +27,7 @@ namespace ouroboros
 		void set(const std::string& aGroup, const group<var_field>& aField);
 		
 		template <typename Func>
-		void register_callback(const std::string& aGroup, const std::string& aField, Func aCallback)
-		{
-			var_field *named = mStore.get(normalize_group(aGroup), aField);
-			if (named)
-			{
-				callback<Func> cb(aGroup, aField, aCallback);
-				mFieldCallbacks.push_back(cb);
-				named->registerObserver(mFieldCallbacks.back());
-			}
-		}
-		
-		//Do something about callbacks?
+		void register_callback(const std::string& aGroup, const std::string& aField, Func aCallback);
 		
 	private:
 		static void* run_server(void*);
@@ -68,5 +55,7 @@ namespace ouroboros
 		
 	};
 }
+
+#include <server/ouroboros_server.ipp>
 
 #endif//_OUROBOROS_OUROBOROS_SERVER_
