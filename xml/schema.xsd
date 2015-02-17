@@ -45,14 +45,56 @@
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="intField" >
+  <xsd:complexType name="unsignedIntField" >
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
-			<xsd:element name="maxInclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="maxExclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="minInclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-			<xsd:element name="minExclusive" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="signedIntField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+          <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="shortField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+          <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="floatField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+          <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="doubleField" >
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+          <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
