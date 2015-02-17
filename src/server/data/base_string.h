@@ -159,13 +159,13 @@ namespace ouroboros
 		 * 
 		 * @see ouroboros::var_field::getJSON()
 		 */
-		virtual std::string getJSON() const override;
+		virtual std::string getJSON() const;
 		
 		/**	Tries to set the object to the JSON received.
 		 *
 		 * @see ouroboros::var_field::setJSON()
 		 */
-		virtual bool setJSON(const JSON& aJSON) override;
+		virtual bool setJSON(const JSON& aJSON);
 
 	private:
 		std::string mPattern;

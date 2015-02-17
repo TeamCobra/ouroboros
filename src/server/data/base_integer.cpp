@@ -1,11 +1,12 @@
 #include "base_integer.h"
+#include <sstream>
 #include <limits>
 
 namespace ouroboros
 {
-		base_integer::base_integer()
+	base_integer::base_integer()
 	:var_field("", ""), mValue(0), mRange(
-		{std::numeric_limits<int>::min(), std::numeric_limits<int>::max()})
+		std::numeric_limits<int>::min(), std::numeric_limits<int>::max())
 	{}
 	
 	base_integer::base_integer(
@@ -33,7 +34,7 @@ namespace ouroboros
 	
 	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange, int aValue)
 	{
-		auto orig_range = mRange;
+		std::pair<int,int> orig_range = mRange;
 		
 		mValue = aValue;
 		mRange.first = std::min(aRange.first, aRange.second);
@@ -61,8 +62,10 @@ namespace ouroboros
 	
 	std::string base_integer::getJSON() const
 	{
+		std::stringstream ss;
+		ss << mValue;
 		return std::string(
-			"{ \"base\" : " + var_field::getJSON() + ", \"value\" : " + std::to_string(mValue) + " }");
+			"{ \"base\" : " + var_field::getJSON() + ", \"value\" : " + ss.str() + " }");
 	}
 	
 	bool base_integer::setJSON(const JSON& aJSON)
@@ -79,54 +82,63 @@ namespace ouroboros
 			found = true;
 			this->setDescription(aJSON.get("base.description"));
 		}
-		
+
+		std::stringstream ss;
 		if (aJSON.exists("value"))
 		{
-			found = true;
 			int num;
-			try
-			{
-				num = std::stoi(aJSON.get("value"));
-			}
-			catch (std::invalid_argument& e)
-			{
-				//do not change anything.
-				result = false;
-			}
-			if (!result || !this->setNumber(num))
+			found = true;
+
+			ss << aJSON.get("value");
+			ss >> num;
+
+			if (!ss || !result || !this->setNumber(num))
 			{
 				result = false;
 			}
+
+			ss.clear();
+			ss.str("");
 		}
+
 		if (result && aJSON.exists("range[0]") && aJSON.exists("range[1]"))
 		{
 			found = true;
 			int min, max;
-			try
+			
+			ss << aJSON.get("range[0]");
+			ss >> min;
+			if (!ss)
 			{
-				min = std::stoi(aJSON.get("range[0]"));
-				max = std::stoi(aJSON.get("range[1]"));
-			}
-			catch (std::invalid_argument& e)
-			{
-				//do not change anything.
 				result = false;
 			}
-			
-			if (!result || !this->setInclusiveRange({min, max}))
+			else
+			{
+				ss.clear();
+				ss.str("");
+
+				ss << aJSON.get("range[1]");
+				ss >> max;
+				if (!ss)
+				{
+					result = false;
+				}
+			}
+
+			if (!ss || !result || !this->setInclusiveRange(std::pair<int,int>(min, max)))
 			{
 				result = false;
 			}
 		}
-		
+
 		if(!result)
 		{
 			*this = backup;
 		}
 		return result && found;
-		
+
 	}
-	
+
 	bool base_integer::checkValidity (int aInt)
 	{
 		if (mRange.first <= aInt && aInt <= mRange.second)

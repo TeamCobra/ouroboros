@@ -21,7 +21,7 @@ namespace ouroboros
 	/**	Represents the type of REST call received.
 	 * 
 	 */
-	enum class REST_call_type
+	enum REST_call_type
 	{
 		GROUP, NAME, CUSTOM, NONE
 	};
@@ -29,7 +29,7 @@ namespace ouroboros
 	/**	Represents the HTTP request type received.
 	 * 
 	 */
-	enum class HTTP_request_type
+	enum HTTP_request_type
 	{
 		POST, GET, DELETE, PUT, UNKNOWN
 	};
