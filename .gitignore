@@ -22,14 +22,14 @@ target/*.o
 *.o
 
 aclocal.m4
-ar-lib
-compile
-depcomp
-install-sh
-missing
-autom4te.cache/
+autom4te.cache
+        
+Makefile
+config.h
 config.log
 config.status
-.deps/
-stamp-h1
+Makefile
+.deps
+device_tree.cpp
 ouroboros-server
+stamp-h1
