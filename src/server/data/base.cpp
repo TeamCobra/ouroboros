@@ -40,13 +40,11 @@ namespace ouroboros
 	void var_field::setTitle(const std::string& aTitle)
 	{
 		base_field::setTitle(aTitle);
-		this->notify();
 	}
 
 	void var_field::setDescription(const std::string& aDescription)
 	{
 		base_field::setDescription(aDescription);
-		this->notify();
 	}
 
 	std::string base_field::getJSON() const
@@ -71,10 +69,6 @@ namespace ouroboros
 			base_field::setDescription(aJSON.get("description"));
 		}
 
-		if(found)
-		{
-			this->notify();
-		}
 		return found;
 	}
 

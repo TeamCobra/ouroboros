@@ -45,8 +45,6 @@ namespace ouroboros
 		if (checkValidity(aValue))
 		{
 			mValue = aValue;
-	
-			this->notify();
 			return true;
 		}
 		
@@ -59,7 +57,6 @@ namespace ouroboros
 		if (checkValidity(aNum))
 		{
 			mValue = aNum;
-			this->notify();
 			return true;
 		}
 		return false;

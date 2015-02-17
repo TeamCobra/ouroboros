@@ -5,8 +5,7 @@
 #include <server/rest.h>
 
 namespace ouroboros
-{
-	
+{	
 	namespace detail
 	{
 		std::string bad_JSON()
@@ -20,55 +19,12 @@ namespace ouroboros
 		}
 	}
 	
-	mg_result ouroboros_server::handle_uri(mg_connection *conn, const std::string& uri)
-	{
-		rest_request request(conn, uri);
-		if (request.getRestRequestType() != rest_request_type::NONE)
-		{
-			std::string output;
-			
-			return handle_rest(request);
-		}
-		return MG_FALSE;
-	}
-
-	int ouroboros_server::event_handler(mg_connection *conn, mg_event ev)
-	{
-		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(conn->server_param);
-		if (ev == MG_AUTH)
-		{
-			return MG_TRUE;
-		}
-		else if (ev == MG_REQUEST)
-		{
-			return this_server->handle_uri(conn, conn->uri);
-		}
-		else
-		{
-			return MG_FALSE;
-		}
-	}
-
-
-	void *ouroboros_server::run_server(void *aThis)
-	{
-		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(aThis);
-		this_server->mpServer = mg_create_server(aThis, ouroboros_server::event_handler);
-		mg_set_option(this_server->mpServer, "document_root", ".");      // Serve current directory
-		mg_set_option(this_server->mpServer, "listening_port", "8080");  // Open port 8080
-
-		while (this_server->mStarted)
-		{
-			mg_poll_server(this_server->mpServer, 1000);   // Infinite loop, Ctrl-C to stop
-		}
-		mg_destroy_server(&this_server->mpServer);
-	
-		return NULL;
-	}
-	
 	ouroboros_server::ouroboros_server()
-	:mStarted(false), mpServer(NULL),
-		mStore(device_tree<var_field>::get_device_tree().get_data_store())
+	:mpServer(NULL),
+		mStore(device_tree<var_field>::get_device_tree().get_data_store()),
+		mStarted(false)
+		
+		
 	{}
 	
 	ouroboros_server::~ouroboros_server()
@@ -84,19 +40,22 @@ namespace ouroboros
 		return mStore.get(normalize_group(aGroup));
 	}
 		
-	void ouroboros_server::set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData)
+	bool ouroboros_server::set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData)
 	{
 		var_field *result = mStore.get(normalize_group(aGroup), aField);
 		if (!result)
 		{
-			return; //FIXME maybe return an error?
+			return false;
 		}
 		*result = aFieldData;
+
+		handle_notification(aGroup, aField);
+		return true;
 	}
 	
-	void ouroboros_server::set(const std::string& aGroup, const group<var_field>& aField)
+	bool ouroboros_server::set(const std::string& aGroup, const group<var_field>& aField)
 	{
-		
+		return false;
 	}
 	
 	void ouroboros_server::start()
@@ -161,6 +120,7 @@ namespace ouroboros
 					
 					if (named->setJSON(json))
 					{
+						handle_notification(aRequest.getGroups(), aRequest.getFields());
 						sjson = detail::good_JSON();
 					}
 					else
@@ -231,4 +191,57 @@ namespace ouroboros
 		return result;
 	}
 	
+	void ouroboros_server::handle_notification(const std::string& aGroup, const std::string& aField)
+	{
+		std::string key(aGroup+'/'+aField);
+		if (mCallbackSubjects.count(key))
+		{
+			mCallbackSubjects[key].notify();
+		}
+	}
+	
+	mg_result ouroboros_server::handle_uri(mg_connection *conn, const std::string& uri)
+	{
+		rest_request request(conn, uri);
+		if (request.getRestRequestType() != rest_request_type::NONE)
+		{
+			std::string output;
+			
+			return handle_rest(request);
+		}
+		return MG_FALSE;
+	}
+
+	int ouroboros_server::event_handler(mg_connection *conn, mg_event ev)
+	{
+		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(conn->server_param);
+		if (ev == MG_AUTH)
+		{
+			return MG_TRUE;
+		}
+		else if (ev == MG_REQUEST)
+		{
+			return this_server->handle_uri(conn, conn->uri);
+		}
+		else
+		{
+			return MG_FALSE;
+		}
+	}
+
+	void *ouroboros_server::run_server(void *aThis)
+	{
+		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(aThis);
+		this_server->mpServer = mg_create_server(aThis, ouroboros_server::event_handler);
+		mg_set_option(this_server->mpServer, "document_root", ".");      // Serve current directory
+		mg_set_option(this_server->mpServer, "listening_port", "8080");  // Open port 8080
+
+		while (this_server->mStarted)
+		{
+			mg_poll_server(this_server->mpServer, 1000);   // Infinite loop, Ctrl-C to stop
+		}
+		mg_destroy_server(&this_server->mpServer);
+	
+		return NULL;
+	}
 }

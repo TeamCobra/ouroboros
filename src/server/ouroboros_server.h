@@ -7,6 +7,7 @@
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
 #include <server/callback.h>
+#include <server/data/observer.h>
 
 namespace ouroboros
 {
@@ -23,8 +24,8 @@ namespace ouroboros
 		var_field *get(const std::string& aGroup, const std::string& aField);
 		group<var_field> *get(const std::string&);
 		
-		void set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData);
-		void set(const std::string& aGroup, const group<var_field>& aField);
+		bool set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData);
+		bool set(const std::string& aGroup, const group<var_field>& aField);
 		
 		template <typename Func>
 		void register_callback(const std::string& aGroup, const std::string& aField, Func aCallback);
@@ -33,25 +34,26 @@ namespace ouroboros
 		static void* run_server(void*);
 		
 		mg_result handle_uri(mg_connection *conn, const std::string& uri);
-		static int event_handler(mg_connection *conn, mg_event ev);
 		mg_result handle_rest(const rest_request& request);
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_custom_rest(const rest_request& aRequest);
+		
+		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);
 		
 		ouroboros_server(const ouroboros_server&);
 		ouroboros_server& operator=(const ouroboros_server&);
 		
-		bool mStarted;
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 		
+		bool mStarted;
 		pthread_t mThread;
 		
 		typedef void (*callback_function)(const std::string& aGroup, const std::string& aField);
-		
-		std::vector<callback<callback_function>> mFieldCallbacks;
+		std::map<std::string, subject<callback<callback_function> > > mCallbackSubjects;
+		void handle_notification(const std::string& aGroup, const std::string& aField);
 		
 	};
 }

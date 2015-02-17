@@ -83,7 +83,7 @@ namespace ouroboros
 	 * 
 	 */
 	typedef void(*var_field_callback)(const std::string&, const std::string&) ;
-	class var_field : public base_field, public subject<callback<var_field_callback> >
+	class var_field : public base_field
 	{
 	public:
 		

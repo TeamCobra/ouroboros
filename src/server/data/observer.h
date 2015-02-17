@@ -10,12 +10,11 @@ namespace ouroboros
 	{
 	public:
 		
-		void registerObserver(observer& mObserver)
+		void registerObserver(const observer& mObserver)
 		{
 			mObservers.push_back(mObserver);
 		}
 		
-	protected:
 		void notify() const
 		{
 			for (std::size_t i = 0; i < mObservers.size(); ++i)
