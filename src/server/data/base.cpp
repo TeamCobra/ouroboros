@@ -36,16 +36,6 @@ namespace ouroboros
 	{
 		mDescription = aDescription;
 	}
-	
-	void var_field::setTitle(const std::string& aTitle)
-	{
-		base_field::setTitle(aTitle);
-	}
-
-	void var_field::setDescription(const std::string& aDescription)
-	{
-		base_field::setDescription(aDescription);
-	}
 
 	std::string base_field::getJSON() const
 	{

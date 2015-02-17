@@ -54,14 +54,14 @@ namespace ouroboros
 		 * @param [in] aTitle New title for the field.
 		 * @post Title of the field has been set to the given parameter.
 		 */
-		virtual void setTitle(const std::string& aTitle);
+		void setTitle(const std::string& aTitle);
 		
 		/**	Sets the description of the field.
 		 *
 		 * @param [in] aTitle New description for the field.
 		 * @post Description of the field has been set to the given parameter.
 		 */
-		virtual void setDescription(const std::string& aDescription);
+		void setDescription(const std::string& aDescription);
 
 		/**	Returns the JSON representation of the field. Even though it is
 		 *	declared abstract, it has a default implementation available (TODO
@@ -100,20 +100,6 @@ namespace ouroboros
 		 * 
 		 */
 		virtual ~var_field() {};
-		
-		/**	Sets the title of the field.
-		 *
-		 * @param [in] aTitle New title for the field.
-		 * @post Title of the field has been set to the given parameter.
-		 */
-		virtual void setTitle(const std::string& aTitle);
-		
-		/**	Sets the description of the field.
-		 *
-		 * @param [in] aTitle New description for the field.
-		 * @post Description of the field has been set to the given parameter.
-		 */
-		virtual void setDescription(const std::string& aDescription);
 		
 		/**	Tries to set the object to the JSON received.
 		 *
