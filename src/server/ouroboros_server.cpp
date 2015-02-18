@@ -82,19 +82,19 @@ namespace ouroboros
 	{
 		switch (aRequest.getRestRequestType())
 		{
-			case rest_request_type::FIELDS:
+			case FIELDS:
 				handle_name_rest(aRequest);
 				break;
 				
-			case rest_request_type::GROUPS:
+			case GROUPS:
 				handle_group_rest(aRequest);
 				break;
 				
-			case rest_request_type::CUSTOM:
+			case CUSTOM:
 				handle_custom_rest(aRequest);
 				break;
 				
-			case rest_request_type::NONE:
+			case NONE:
 				break;
 			default:
 				return MG_FALSE;
@@ -113,7 +113,7 @@ namespace ouroboros
 		{
 			switch (aRequest.getHttpRequestType())
 			{
-				case http_request_type::PUT:	
+				case PUT:	
 				{	
 					std::string data(conn->content, conn->content_len);
 					JSON json(data);
@@ -130,7 +130,7 @@ namespace ouroboros
 				}
 					break;
 				
-				case http_request_type::GET:
+				case GET:
 					//Send JSON describing named item
 					sjson = named->getJSON();
 					break;
@@ -157,7 +157,7 @@ namespace ouroboros
 		{
 			switch (aRequest.getHttpRequestType())
 			{
-				case http_request_type::GET:
+				case GET:
 					//Send JSON describing named item
 					sjson = pgroup->getJSON();
 					break;
@@ -203,7 +203,7 @@ namespace ouroboros
 	mg_result ouroboros_server::handle_uri(mg_connection *conn, const std::string& uri)
 	{
 		rest_request request(conn, uri);
-		if (request.getRestRequestType() != rest_request_type::NONE)
+		if (request.getRestRequestType() != NONE)
 		{
 			std::string output;
 			

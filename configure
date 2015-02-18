@@ -4462,8 +4462,8 @@ esac
 
 
 
-macro_version='2.4.5'
-macro_revision='2.4.5'
+macro_version='2.4.6'
+macro_revision='2.4.6'
 
 
 
@@ -7927,7 +7927,7 @@ func_munge_path_list ()
     x)
         ;;
     *:)
-        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \S|@1\"
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \$$1\"
         ;;
     x:*)
         eval $1=\"\$$1 `$ECHO $2 | $SED 's/:/ /g'`\"
@@ -11750,12 +11750,19 @@ if test set = "${lt_cv_sys_lib_dlsearch_path_spec+set}"; then
   sys_lib_dlsearch_path_spec=$lt_cv_sys_lib_dlsearch_path_spec
 fi
 
-# lt_cv_sys_lib... is unaugmented for libtool script decls...
-lt_cv_sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
+# remember unaugmented sys_lib_dlsearch_path content for libtool script decls...
+configure_time_dlsearch_path=$sys_lib_dlsearch_path_spec
 
-# ..but sys_lib_... needs LT_SYS_LIBRARY_PATH munging for
-# LT_SYS_DLSEARCH_PATH macro in ltdl.m4 to work with the correct paths:
+# ... but it needs LT_SYS_LIBRARY_PATH munging for other configure-time code
 func_munge_path_list sys_lib_dlsearch_path_spec "$LT_SYS_LIBRARY_PATH"
+
+# to be used as default LT_SYS_LIBRARY_PATH value in generated libtool
+configure_time_lt_sys_library_path=$LT_SYS_LIBRARY_PATH
+
+
+
+
+
 
 
 
@@ -15718,12 +15725,16 @@ if test set = "${lt_cv_sys_lib_dlsearch_path_spec+set}"; then
   sys_lib_dlsearch_path_spec=$lt_cv_sys_lib_dlsearch_path_spec
 fi
 
-# lt_cv_sys_lib... is unaugmented for libtool script decls...
-lt_cv_sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
+# remember unaugmented sys_lib_dlsearch_path content for libtool script decls...
+configure_time_dlsearch_path=$sys_lib_dlsearch_path_spec
 
-# ..but sys_lib_... needs LT_SYS_LIBRARY_PATH munging for
-# LT_SYS_DLSEARCH_PATH macro in ltdl.m4 to work with the correct paths:
+# ... but it needs LT_SYS_LIBRARY_PATH munging for other configure-time code
 func_munge_path_list sys_lib_dlsearch_path_spec "$LT_SYS_LIBRARY_PATH"
+
+# to be used as default LT_SYS_LIBRARY_PATH value in generated libtool
+configure_time_lt_sys_library_path=$LT_SYS_LIBRARY_PATH
+
+
 
 
 
@@ -16708,7 +16719,8 @@ finish_cmds='`$ECHO "$finish_cmds" | $SED "$delay_single_quote_subst"`'
 finish_eval='`$ECHO "$finish_eval" | $SED "$delay_single_quote_subst"`'
 hardcode_into_libs='`$ECHO "$hardcode_into_libs" | $SED "$delay_single_quote_subst"`'
 sys_lib_search_path_spec='`$ECHO "$sys_lib_search_path_spec" | $SED "$delay_single_quote_subst"`'
-lt_cv_sys_lib_dlsearch_path_spec='`$ECHO "$lt_cv_sys_lib_dlsearch_path_spec" | $SED "$delay_single_quote_subst"`'
+configure_time_dlsearch_path='`$ECHO "$configure_time_dlsearch_path" | $SED "$delay_single_quote_subst"`'
+configure_time_lt_sys_library_path='`$ECHO "$configure_time_lt_sys_library_path" | $SED "$delay_single_quote_subst"`'
 hardcode_action='`$ECHO "$hardcode_action" | $SED "$delay_single_quote_subst"`'
 enable_dlopen='`$ECHO "$enable_dlopen" | $SED "$delay_single_quote_subst"`'
 enable_dlopen_self='`$ECHO "$enable_dlopen_self" | $SED "$delay_single_quote_subst"`'
@@ -16911,7 +16923,8 @@ postinstall_cmds \
 postuninstall_cmds \
 finish_cmds \
 sys_lib_search_path_spec \
-lt_cv_sys_lib_dlsearch_path_spec \
+configure_time_dlsearch_path \
+configure_time_lt_sys_library_path \
 reload_cmds_CXX \
 old_archive_cmds_CXX \
 old_archive_from_new_cmds_CXX \
@@ -17704,7 +17717,7 @@ $as_echo X"$file" |
 available_tags='CXX '
 
 # Configured defaults for sys_lib_dlsearch_path munging.
-: \${LT_SYS_LIBRARY_PATH="$LT_SYS_LIBRARY_PATH"}
+: \${LT_SYS_LIBRARY_PATH="$configure_time_lt_sys_library_path"}
 
 # ### BEGIN LIBTOOL CONFIG
 
@@ -17955,8 +17968,11 @@ hardcode_into_libs=$hardcode_into_libs
 # Compile-time system search path for libraries.
 sys_lib_search_path_spec=$lt_sys_lib_search_path_spec
 
-# Run-time system search path for libraries.
-sys_lib_dlsearch_path_spec=$lt_lt_cv_sys_lib_dlsearch_path_spec
+# Detected run-time system search path for libraries.
+sys_lib_dlsearch_path_spec=$lt_configure_time_dlsearch_path
+
+# Explicit LT_SYS_LIBRARY_PATH set during ./configure time.
+configure_time_lt_sys_library_path=$lt_configure_time_lt_sys_library_path
 
 # Whether dlopen is supported.
 dlopen_support=$enable_dlopen
@@ -18123,6 +18139,8 @@ _LT_EOF
 
     cat <<'_LT_EOF' >> "$cfgfile"
 
+# ### BEGIN FUNCTIONS SHARED WITH CONFIGURE
+
 # func_munge_path_list VARIABLE PATH
 # -----------------------------------
 # VARIABLE is name of variable containing _space_ separated list of
@@ -18143,7 +18161,7 @@ func_munge_path_list ()
     x)
         ;;
     *:)
-        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \S|@1\"
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \$$1\"
         ;;
     x:*)
         eval $1=\"\$$1 `$ECHO $2 | $SED 's/:/ /g'`\"
@@ -18173,6 +18191,8 @@ func_cc_basename ()
     func_cc_basename_result=`$ECHO "$cc_temp" | $SED "s%.*/%%; s%^$host_alias-%%"`
 }
 
+
+# ### END FUNCTIONS SHARED WITH CONFIGURE
 
 _LT_EOF
 
