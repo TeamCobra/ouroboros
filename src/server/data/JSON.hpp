@@ -1,7 +1,7 @@
 #ifndef _OUROBOROS_JSON_HPP_
 #define _OUROBOROS_JSON_HPP_
 
-#include <data/base.hpp>
+#include "base.hpp"
 
 #include <string>
 #include <frozen.h>
