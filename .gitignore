@@ -17,7 +17,6 @@ target/*.js
 target/*.json
 target/*.o
 
-*.in
 *.a
 *.o
 *.la
@@ -34,6 +33,5 @@ config.status
 .deps/
 stamp-h1
 libtool
-Makefile
 
 ouroboros_server
