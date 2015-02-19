@@ -42,7 +42,7 @@
         <description>
           A number for use in the program.
         </description>
-        <value>22.33f</value>
+        <value>22</value>
       </field>
 
       <field type="doubleField">
@@ -50,7 +50,15 @@
         <description>
           A number for use in the program.
         </description>
-        <value>3.14</value>
+        <value>3</value>
+      </field>
+
+      <field type="booleanField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>true</value>
       </field>
 
       <field type="stringField">

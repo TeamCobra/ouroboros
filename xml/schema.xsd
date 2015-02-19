@@ -14,7 +14,7 @@
       <xsd:extension base="baseField">
         <xsd:sequence>
 
-          <xsd:element name="value" type="xsd:string" />
+
 		  <xsd:element name="constant" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
       </xsd:extension>
@@ -36,6 +36,7 @@
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" />
     		  <xsd:element name="pattern" type="xsd:string" minOccurs="0" maxOccurs="1"/>
     		  <xsd:element name="length" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
     		  <xsd:element name="minLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
@@ -45,10 +46,21 @@
     </xsd:complexContent>
   </xsd:complexType>
 
+  <xsd:complexType name="booleanField">
+    <xsd:complexContent>
+      <xsd:extension base="varField">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
   <xsd:complexType name="unsignedIntField" >
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
 			<xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
@@ -60,6 +72,7 @@
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
           <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
           <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
@@ -71,6 +84,7 @@
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
           <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
           <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
@@ -82,6 +96,7 @@
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
           <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
           <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
@@ -93,6 +108,7 @@
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
           <xsd:element name="max" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
           <xsd:element name="min" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
