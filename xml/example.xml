@@ -4,19 +4,67 @@
     <libraries>
       <file>myfile.h</file>
     </libraries>
- 
-      <field type="intField">
+
+      <field type="unsignedIntField">
         <title>A number</title>
         <description>
-          A number for use in the program. 
+          A number for use in the program.
         </description>
-        <value>0</value>
+        <value>32</value>
       </field>
-  
+
+      <field type="signedIntField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>-12</value>
+      </field>
+
+      <field type="signedIntField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>64</value>
+      </field>
+
+      <field type="shortField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>100</value>
+      </field>
+
+      <field type="floatField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>22</value>
+      </field>
+
+      <field type="doubleField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>3</value>
+      </field>
+
+      <field type="booleanField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>true</value>
+      </field>
+
       <field type="stringField">
         <title>A string</title>
         <description>
-          A string for use in the program. 
+          A string for use in the program.
         </description>
         <value>hello</value>
       </field>
