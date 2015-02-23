@@ -44,7 +44,7 @@ namespace ouroboros
 		const group<T>* result = NULL;
 		//Check that the group string is valid syn
 		//Break aGroup into tokens
-		std::vector<std::string> groups = detail::split(aGroup, "-");
+		std::vector<std::string> groups = detail::split(aGroup, group_delimiter);
 		
 		
 		if (!groups.empty())
@@ -69,4 +69,7 @@ namespace ouroboros
 		}
 		return result;
 	}
+	
+	template <class T>
+	const std::string data_store<T>::group_delimiter("::");
 }

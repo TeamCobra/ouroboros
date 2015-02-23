@@ -185,7 +185,7 @@ namespace ouroboros
 		std::string result = "server";
 		if(!aGroup.empty())
 		{
-			result += "-" + aGroup;
+			result += group_delimiter + aGroup;
 		}
 		
 		return result;
@@ -244,4 +244,6 @@ namespace ouroboros
 	
 		return NULL;
 	}
+	
+	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 }

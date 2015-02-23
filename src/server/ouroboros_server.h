@@ -31,6 +31,8 @@ namespace ouroboros
 		void register_callback(const std::string& aGroup, const std::string& aField, Func aCallback);
 		
 	private:
+		
+		static const std::string group_delimiter;
 		static void* run_server(void*);
 		
 		mg_result handle_uri(mg_connection *conn, const std::string& uri);
