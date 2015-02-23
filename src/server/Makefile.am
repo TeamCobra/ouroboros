@@ -1,7 +1,11 @@
 SUBDIRS = data
-LDADD = $(top_builddir)/src/server/data/libJSON.a $(top_builddir)/src/server/data/libdata.a $(top_builddir)/lib/libmongoose.a $(top_builddir)/lib/libslre.a $(top_builddir)/lib/libfrozen.a
 AM_CPPFLAGS = -I$(top_srcdir)/lib/mongoose -I$(top_srcdir)/lib/slre -I$(top_srcdir)/lib/frozen -I$(top_srcdir)/lib/googletest -I$(top_srcdir)/src/ -I$(top_srcdir)/lib/
-AM_CXXFLAGS = -Wall -Wextra -Wpedantic -std=c++03 -pthread
+AM_CXXFLAGS = -Wall -Wextra -Wpedantic -std=c++03 -pthread -ldl
 
-bin_PROGRAMS = ouroboros-server
-ouroboros_server_SOURCES = device_tree.cpp  device_tree.hpp  device_tree.ipp  device_tree.tpp rest.cpp  rest.h  rest_handlers.cpp  rest_handlers.h  server.cpp
+noinst_LIBRARIES = libouroboros.a
+libouroboros_a_SOURCES = ouroboros_server.h device_tree.cpp  device_tree.hpp  device_tree.ipp  device_tree.tpp rest.cpp  rest.h  ouroboros_server.cpp plugin_manager.h plugin_manager.cpp callback.h
+
+bin_PROGRAMS = ouroboros_server
+ouroboros_server_LDADD = libouroboros.a data/libJSON.a data/libdata.a $(top_builddir)/lib/libmongoose.a $(top_builddir)/lib/libslre.a $(top_builddir)/lib/libfrozen.a
+ouroboros_server_SOURCES = main.cpp
+ouroboros_server_CXXFLAGS = $(AM_CXXFLAGS) -Wl,--export-dynamic

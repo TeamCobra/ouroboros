@@ -17,9 +17,11 @@ target/*.js
 target/*.json
 target/*.o
 
-*.in
 *.a
 *.o
+*.la
+*.lo
+*.so*
 
 aclocal.m4
 autom4te.cache
@@ -28,8 +30,8 @@ Makefile
 config.h
 config.log
 config.status
-Makefile
-.deps
-device_tree.cpp
-ouroboros-server
+.deps/
 stamp-h1
+libtool
+
+ouroboros_server

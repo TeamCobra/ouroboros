@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <string>
+#include <mongoose/mongoose.h>
 
 namespace ouroboros
 {
@@ -21,57 +22,42 @@ namespace ouroboros
 	/**	Represents the type of REST call received.
 	 * 
 	 */
-	enum REST_call_type
+	enum rest_request_type
 	{
-		GROUP, NAME, CUSTOM, NONE
+		GROUPS, FIELDS, CUSTOM, NONE
 	};
 
 	/**	Represents the HTTP request type received.
 	 * 
 	 */
-	enum HTTP_request_type
+	enum http_request_type
 	{
 		POST, GET, DELETE, PUT, UNKNOWN
 	};
 
-	/**	Checks the given URI and determines the type of REST call that it needs.
-	 * 
-	 *	@param [in] aURI String to check for the type of REST call needed to handle
-	 *		the pattern matched.
-	 *
-	 *	@returns An enum describing the type of REST call needed to handle the
-	 *		URI.
-	 */
-	REST_call_type get_REST_call_type(const std::string& aURI);
-	
-	/**	Converts a string representation of the HTTP request type to an enum.
-	 * 
-	 *	@param [in] aHTTP_Type String representation of the HTTP request type.
-	 *
-	 *	@returns An enum describing the type of HTTP request type received.
-	 *
-	 */
-	HTTP_request_type get_HTTP_request_type(const std::string& aHTTP_Type);
-
-	/**	Extracts the group from the given REST URI.
-	 * 
-	 *	@param [in] aURI URI containing a REST group.
-	 *
-	 *	@returns String representation of the groups found in the URI,
-	 *		'-' delimited.
-	 */
-	std::string extract_group(const std::string& aURI);
-
-	/**	Extracts the group and item name from the given REST URI.
-	 * 
-	 *	@param [in] aURI URI containing a REST group and name.
-	 *
-	 *	@returns Pair containing a string representation of the groups found in
-	 *		the URI (first), '-' delimited, and the string representation of the
-	 *		name of the item (second).
-	 */
-	std::pair<std::string, std::string> extract_group_name(
-		const std::string& aURI);
+	class rest_request
+	{
+	public:
+		rest_request(mg_connection *apConn, const std::string& aUri);
+		~rest_request();
+		http_request_type getHttpRequestType() const;
+		rest_request_type getRestRequestType() const;
+		
+		std::string getFields() const;
+		std::string getGroups() const;
+		//std::string getCustom();
+		
+		mg_connection *getConnection() const;
+		
+	private:
+		http_request_type mHttpType;
+		rest_request_type mRestType;
+		std::string mGroups;
+		std::string mFields;
+		
+		mg_connection *mpConnection;
+		//TODO custom
+	};
 }
 
 #endif//_OUROBOROS_REST_H_

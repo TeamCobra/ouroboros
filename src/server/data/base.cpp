@@ -46,26 +46,20 @@ namespace ouroboros
 	
 	bool var_field::setJSON(const JSON& aJSON)
 	{
-		std::string title_backup(getTitle());
-		std::string desc_backup(getDescription());
-		bool result = true, found = false;
+		bool found = false;
 		if (aJSON.exists("title"))
 		{
 			found = true;
-			this->setTitle(aJSON.get("title"));
+			base_field::setTitle(aJSON.get("title"));
+			
 		}
 		if (aJSON.exists("description"))
 		{
 			found = true;
-			this->setDescription(aJSON.get("description"));
+			base_field::setDescription(aJSON.get("description"));
 		}
 
-		if(!result)
-		{
-			setTitle(title_backup);
-			setDescription(desc_backup);
-		}
-		return result && found;
+		return found;
 	}
 
 	var_field::var_field(

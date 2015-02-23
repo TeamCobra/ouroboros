@@ -8,6 +8,8 @@
 #include <map>
 #include <stdexcept>
 #include "JSON.h"
+#include "observer.h"
+#include "../callback.h"
 
 namespace ouroboros
 {
@@ -80,6 +82,7 @@ namespace ouroboros
 	 * 	the JSON representation of its data. (TODO Specify JSON format).
 	 * 
 	 */
+	typedef void(*var_field_callback)(const std::string&, const std::string&) ;
 	class var_field : public base_field
 	{
 	public:
