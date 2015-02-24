@@ -9,7 +9,6 @@ namespace ouroboros
 	class callback
 	{
 	public:
-		//FIXME move implementation to callback.ipp
 		
 		/**	Constructor.
 		 *
@@ -19,9 +18,7 @@ namespace ouroboros
 		 *		where the first parameter is the group and the second parameter
 		 *		the field that is being observed.
 		 */
-		callback(const std::string& aGroup, Func aFunc)
-		:mFunc(aFunc), mGroup(aGroup)
-		{}
+		callback(const std::string& aGroup, Func aFunc);
 		
 		/**	Constructor
 		 *
@@ -32,17 +29,12 @@ namespace ouroboros
 		 *		where the first parameter is the group and the second parameter
 		 *		the field that is being observed.
 		 */
-		callback(const std::string& aGroup, const std::string& aField, Func aFunc)
-		:mFunc(aFunc), mGroup(aGroup), mField(aField)
-		{}
+		callback(const std::string& aGroup, const std::string& aField, Func aFunc);
 		
 		/**	Function called by others as a callback.
 		 *
 		 */
-		void operator()() const
-		{
-			mFunc(mGroup, mField);
-		}
+		void operator()() const;
 		
 	private:
 		Func mFunc;
@@ -50,5 +42,7 @@ namespace ouroboros
 		std::string mField;
 	};
 }
+
+#include "callback.ipp"
 
 #endif//_OUROBOROS_CALLBACK_H_

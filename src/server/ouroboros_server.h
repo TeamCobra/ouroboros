@@ -7,7 +7,7 @@
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
 #include <server/callback.hpp>
-#include <server/data/observer.hpp>
+#include <server/data/subject.hpp>
 
 namespace ouroboros
 {
