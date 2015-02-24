@@ -8,8 +8,6 @@
 #include <map>
 #include <stdexcept>
 #include "JSON.h"
-#include "observer.h"
-#include "../callback.h"
 
 namespace ouroboros
 {

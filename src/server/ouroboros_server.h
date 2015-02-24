@@ -6,8 +6,8 @@
 #include <pthread.h>
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
-#include <server/callback.h>
-#include <server/data/observer.h>
+#include <server/callback.hpp>
+#include <server/data/observer.hpp>
 
 namespace ouroboros
 {

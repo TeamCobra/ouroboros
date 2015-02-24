@@ -28,7 +28,7 @@ namespace ouroboros
 		 */
 		data_store(const group<T>& apRoot);
 
-		///@{
+		//@{
 		/**	Gets a pointer to the item specified by its group and name in the
 		 *		structure.
 		 * 
@@ -42,9 +42,9 @@ namespace ouroboros
 		 */
 		T *get(const std::string& aGroup, const std::string& aName);
 		const T *get(const std::string& aGroup, const std::string& aName) const;
-		///@}
+		//@}
 		
-		///@{
+		//@{
 		/**	Gets a pointer to the item specified by its group and name in the
 		 *		structure.
 		 * 
@@ -58,7 +58,7 @@ namespace ouroboros
 		 */
 		group<T> *get(const std::string& aGroup);
 		const group<T> *get(const std::string& aGroup) const;
-		///@}
+		//@}
 
 	private:
 		group<T> mRoot;
