@@ -71,5 +71,5 @@ namespace ouroboros
 	}
 	
 	template <class T>
-	const std::string data_store<T>::group_delimiter("::");
+	const std::string data_store<T>::group_delimiter("-");
 }
