@@ -4,11 +4,11 @@
 	ignore = dirty
 [submodule "lib/frozen"]
 	path = lib/frozen
-	url = git@github.com:cesanta/frozen.git
+	url = https://github.com/cesanta/frozen.git
 	ignore = dirty
 [submodule "lib/slre"]
 	path = lib/slre
-	url = git@github.com:cesanta/slre.git
+	url = https://github.com/cesanta/slre.git
 	ignore = dirty
 [submodule "lib/googletest"]
 	path = lib/googletest
