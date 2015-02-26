@@ -4,18 +4,30 @@
 #include <dlfcn.h>
 #include "plugin.h"
 #include <server/plugin_manager.h>
+#include <csignal>
 
 using namespace std;
 using namespace ouroboros;
 
+volatile std::sig_atomic_t run = 0;
+void handler(int)
+{
+	run = 0;
+}
+
 int main()
 {
 	ouroboros_server s;
-	s.start();
-
 	plugin_manager plugin_manager(s);
 	cout << "Loaded plugin? : " << plugin_manager.load("libtest.so") << endl;
-	sleep(1000);
-	s.stop();
+	signal(SIGINT, handler);
+	
+	run = 1;
+	while (run)
+	{
+		s.run();
+	}
+
+	cout << "Exiting program..." << endl;
 	return 0;
 }

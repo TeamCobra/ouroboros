@@ -11,40 +11,50 @@ namespace ouroboros
 	template<class T>
 	void group<T>::add(T *apField)
 	{
-		//FIXME What if it is null?
-		//Create a new string for lookup purposes with all lower case letters and no spaces
-		std::string lookupTitle = apField->getTitle();
-		std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
-		std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
-		mItems[lookupTitle] = apField;
+		if (apField)
+		{
+			//Create a new string for lookup purposes with all lower case letters and no spaces
+			std::string lookupTitle = apField->getTitle();
+			std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
+			std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
+			mItems[lookupTitle] = apField;
+		}
 	}
 	
 	template<class T>
-	void group<T>::add(group<T> *apField)
+	void group<T>::add(group<T> *apGroup)
 	{
-		//FIXME what if it is null?
-		//Create a new string for lookup purposes with all lower case letters and no spaces
-		std::string lookupTitle = apField->getTitle();
-		std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
-		std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
-		mGroups[lookupTitle] = apField;
+		if (apGroup)
+		{
+			//Create a new string for lookup purposes with all lower case letters and no spaces
+			std::string lookupTitle = apGroup->getTitle();
+			std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
+			std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
+			mGroups[lookupTitle] = apGroup;
+		}
 	}
 	
 	template<class T>
 	T *group<T>::removeItem(const std::string& aName)
 	{
-		//FIXME Should this throw an exception?
-		T *result = mItems.at(aName);
-		mItems.erase(aName);
+		T *result = NULL;
+		if (mItems.count(aName))
+		{
+			result = mItems.at(aName);
+			mItems.erase(aName);
+		}
 		return result;
 	}
 
 	template<class T>
 	group<T> *group<T>::removeGroup(const std::string& aName)
 	{
-		//FIXME Should this throw an exception?
-		group<T> *result = mGroups.at(aName);
-		mGroups.erase(aName);
+		group<T> *result = NULL;
+		if (mGroups.count(aName))
+		{
+			result = mGroups.at(aName);
+			mGroups.erase(aName);
+		}
 		return result;
 	}
 	

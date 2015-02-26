@@ -1,7 +1,7 @@
 namespace ouroboros
 {
 	template <typename Func>
-	void ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, Func aCallback)
+	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, Func aCallback)
 	{
 		
 		var_field *named = mStore.get(normalize_group(aGroup), aField);
@@ -17,5 +17,6 @@ namespace ouroboros
 			callback<Func> cb(aGroup, aField, aCallback);
 			mCallbackSubjects[key].registerObserver(cb);
 		}
+		return named;
 	}
 }

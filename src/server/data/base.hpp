@@ -8,8 +8,6 @@
 #include <map>
 #include <stdexcept>
 #include "JSON.h"
-#include "observer.h"
-#include "../callback.h"
 
 namespace ouroboros
 {
@@ -130,38 +128,43 @@ namespace ouroboros
 		 * 
 		 */
 		virtual ~group() {};
-
-		//TODO Specify move, copy constructors and assignment operator
 		
 		/**	Adds the given field to the group. FIXME Who's responsibility is to keep track of the lifecycle of the pointer?
 		 * 
-		 *	@param [in] apField Pointer to the field to add to the group.
+		 *	@param [in] apField Pointer to the field to add to the group. If the
+		 *		pointer is NULL, nothing happens.
 		 * 
-		 *	@post Group has associated the given field with itself.
+		 *	@post Group has associated the given field with itself. If the
+		 *		parameter is NULL, nothing happened.
 		 */
 		void add(T *apField);
 		
 		/**	Adds the given group to the group. FIXME Who's responsibility is to keep track of the lifecycle of the pointer?
 		 * 
-		 *	@param [in] apField Pointer to the group to add to the group.
+		 *	@param [in] apField Pointer to the group to add to the group. If
+		 *		the pointer is NULL, nothing happens.
 		 * 
-		 *	@post Group has associated the given group with itself.
+		 *	@post Group has associated the given group with itself if the
+		 *		parameter is not NULL, else nothing happened.
 		 */
 		void add(group<T> *apField);
 		
 		/**	Removes the given field from the group.
 		 * 
 		 *	@param [in] aName Name of the field to remove.
-		 * 
-		 *	@post Group has removed the field given from itself. If the field
-		 *		does not exist, nothing happens.
+		 *
+		 *	@returns A pointer to the removed item, or NULL if no item was
+		 *		removed.
+		 *	@post Group has removed the field given from itself if it was found.
 		 */
 		T* removeItem(const std::string& aName);
 		
 		/**	Removes the given group from the group.
 		 * 
 		 *	@param [in] aName Name of the group to remove.
-		 * 
+		 *
+		 *	@returns A pointer to the removed group, or NULL if no gruop was
+		 *		removed.
 		 *	@post Group has removed the group given from itself. If the group
 		 *		does not exist, nothing happens.
 		 */
@@ -173,7 +176,7 @@ namespace ouroboros
 		 *	@param [in] aName Name of the field to find.
 		 * 
 		 *	@returns Pointer to the field specified to be found by its name if
-		 *		it was found. std::nullptr is returned otherwise.
+		 *		it was found. NULL is returned otherwise.
 		 */
 		T *findItem(const std::string& aName);
 		const T *findItem(const std::string& aName) const;
@@ -185,7 +188,7 @@ namespace ouroboros
 		 *	@param [in] aName Name of the group to find.
 		 * 
 		 *	@returns Pointer to the group specified to be found by its name if
-		 *		it was found. std::nullptr is returned otherwise.
+		 *		it was found. NULL is returned otherwise.
 		 */
 		group<T> *findGroup(const std::string& aName);
 		const group<T> *findGroup(const std::string& aName) const;

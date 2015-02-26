@@ -21,23 +21,36 @@ namespace ouroboros
 	
 	ouroboros_server::ouroboros_server()
 	:mpServer(NULL),
-		mStore(device_tree<var_field>::get_device_tree().get_data_store()),
-		mStarted(false)
-		
-		
-	{}
+		mStore(device_tree<var_field>::get_device_tree().get_data_store())
+	{
+		mpServer = mg_create_server(this, ouroboros_server::event_handler);
+		mg_set_option(mpServer, "document_root", ".");      // Serve current directory
+		mg_set_option(mpServer, "listening_port", "8080");  // Open port 8080
+	}
 	
 	ouroboros_server::~ouroboros_server()
-	{}
+	{
+		mg_destroy_server(&mpServer);
+	}
 	
-	var_field *ouroboros_server::get(const std::string& aGroup, const std::string& aField)
+	const var_field *ouroboros_server::get(const std::string& aGroup, const std::string& aField) const
 	{
 		return mStore.get(normalize_group(aGroup), aField);
 	}
 	
-	group<var_field> *ouroboros_server::get(const std::string& aGroup)
+	var_field *ouroboros_server::get(const std::string& aGroup, const std::string& aField)
+	{
+		return const_cast<var_field *>(static_cast<const ouroboros_server&>(*this).get(aGroup, aField));
+	}
+	
+	const group<var_field> *ouroboros_server::get(const std::string& aGroup) const
 	{
 		return mStore.get(normalize_group(aGroup));
+	}
+	
+	group<var_field> *ouroboros_server::get(const std::string& aGroup)
+	{
+		return const_cast<group<var_field> *>(static_cast<const ouroboros_server&>(*this).get(aGroup));
 	}
 		
 	bool ouroboros_server::set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData)
@@ -53,31 +66,16 @@ namespace ouroboros
 		return true;
 	}
 	
-	bool ouroboros_server::set(const std::string& aGroup, const group<var_field>& aField)
+	bool ouroboros_server::set(const std::string& , const group<var_field>& )
 	{
 		return false;
 	}
 	
-	void ouroboros_server::start()
+	void ouroboros_server::run()
 	{
-		if (!mStarted)
-		{
-			mStarted = true;
-			pthread_create(&mThread, NULL, run_server, this); //FIXME check return code
-		}
+		mg_poll_server(mpServer, 1000);
 	}
-	
-	void ouroboros_server::stop()
-	{
-		mStarted = false;
-		pthread_join(mThread, NULL);
-	}
-	
-	bool ouroboros_server::started()
-	{
-		return false;
-	}
-	
+		
 	mg_result ouroboros_server::handle_rest(const rest_request& aRequest)
 	{
 		switch (aRequest.getRestRequestType())
@@ -175,7 +173,7 @@ namespace ouroboros
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
-	void ouroboros_server::handle_custom_rest(const rest_request& aRequest)
+	void ouroboros_server::handle_custom_rest(const rest_request& )
 	{
 		//TODO Implement this somehow
 	}
@@ -229,21 +227,5 @@ namespace ouroboros
 		}
 	}
 
-	void *ouroboros_server::run_server(void *aThis)
-	{
-		ouroboros_server *this_server = reinterpret_cast<ouroboros_server*>(aThis);
-		this_server->mpServer = mg_create_server(aThis, ouroboros_server::event_handler);
-		mg_set_option(this_server->mpServer, "document_root", ".");      // Serve current directory
-		mg_set_option(this_server->mpServer, "listening_port", "8080");  // Open port 8080
-
-		while (this_server->mStarted)
-		{
-			mg_poll_server(this_server->mpServer, 1000);   // Infinite loop, Ctrl-C to stop
-		}
-		mg_destroy_server(&this_server->mpServer);
-	
-		return NULL;
-	}
-	
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 }
