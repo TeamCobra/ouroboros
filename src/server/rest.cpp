@@ -7,10 +7,11 @@
 
 namespace ouroboros
 {
-	static const char * full_regex = "^/groups/([a-z0-9-_]+)/fields/([a-z0-9-_]+)/?$";
-	static const char * group_regex = "^/groups/([a-z0-9-_]+)/?$";
-	static const char * root_field_regex = "^/fields/([a-z0-9-_]+)/?$";
-	static const char * root_group_regex = "^/groups/?$";
+	static const std::string character_set("[a-z0-9-_]");
+	static const std::string full_regex("^/groups/(" + character_set + "+)/fields/(" + character_set + "+)/?$");
+	static const std::string group_regex("^/groups/(" + character_set + "+)/?$");
+	static const std::string root_field_regex("^/fields/(" + character_set + "+)/?$");
+	static const std::string root_group_regex("^/groups/?$");
 	
 	/**	Extracts the group from the given REST URI.
 	 * 
@@ -35,13 +36,13 @@ namespace ouroboros
 	bool is_REST_URI(const std::string& aURI)
 	{
 		int result =
-			slre_match(full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int group_result =
-			slre_match(group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			slre_match(group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_field_result =
-			slre_match(root_field_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_group_result =
-			slre_match(root_group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			slre_match(root_group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 
 		return (result >= 0 || group_result >= 0
 			       || root_field_result >= 0 || root_group_result);
@@ -50,16 +51,16 @@ namespace ouroboros
 	static rest_request_type get_rest_request_type(const std::string& aURI)
 	{	
 		int item_result = slre_match(
-			full_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			full_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_item_result = slre_match(
-			root_field_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			root_field_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (item_result >= 0 || root_item_result >= 0)
 			return FIELDS;
 		
 		int group_result = slre_match(
-			group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_group_result = slre_match(
-			root_group_regex, aURI.c_str(), aURI.length(), NULL, 0, 0);
+			root_group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (group_result >= 0 || root_group_result >= 0)
 			return GROUPS;
 		
@@ -93,7 +94,7 @@ namespace ouroboros
 
 		//Check if user is accessing field in root first
 		struct slre_cap match[1];
-		if(slre_match(root_field_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
+		if(slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
 		{
 			result.first = std::string();
 			result.second.assign(match[0].ptr, match[0].len);
@@ -101,7 +102,7 @@ namespace ouroboros
 		else
 		{
 			struct slre_cap match[2];
-			slre_match(full_regex, aURI.c_str(), aURI.length(), match, 2, 0);
+			slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), match, 2, 0);
 
 			//Copy group title from match to remove remaining characters
 			std::string groupTitle(match[0].ptr);
@@ -118,7 +119,7 @@ namespace ouroboros
 	{
 		struct slre_cap match[1];
 		std::string result;
-		if(slre_match(group_regex, aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
+		if(slre_match(group_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
 		{
 			result.assign(match[0].ptr, match[0].len);	
 		}

@@ -92,6 +92,8 @@ namespace ouroboros
 		
 	private:
 		
+		static const std::string group_delimiter;
+
 		mg_result handle_uri(mg_connection *conn, const std::string& uri);
 		mg_result handle_rest(const rest_request& request);
 		void handle_name_rest(const rest_request& aRequest);

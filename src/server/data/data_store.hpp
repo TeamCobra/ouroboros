@@ -18,6 +18,9 @@ namespace ouroboros
 	class data_store
 	{
 	public:
+		
+		static const std::string group_delimiter;
+		
 		/**	Initializes the data_store by moving a group into its control.
 		 * 
 		 *	@param [in] aRoot Group to be moved (i.e. std::move) into the control of
