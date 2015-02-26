@@ -7,24 +7,30 @@ class XML
   attr_accessor :deviceConfig
 end
 
+if ARGV.empty? or ARGV.length > 1
+	puts "Usage: ruby generator.rb <config.xml>"
+	exit 1
+end
+
+if !File.exists?(ARGV[0])
+	puts "Error: XML configuration file does not exist."
+	exit 1
+end	
+
 env = RGen::Environment.new
 inst = RGen::Instantiator::DefaultXMLInstantiator.new(env, ServerModel, true)
-inst.instantiate_file("serverconfig.xml")
+inst.instantiate_file(ARGV[0])
 
 MODEL = XML.new
 MODEL.deviceConfig = env.find(:class => ServerModel::DeviceConfig).first
+
+TEMPLATES_DIR = "templates/"
+OUTPUT_DIR = "./"
 
 def generateCode
   tc = RGen::TemplateLanguage::DirectoryTemplateContainer.new([ServerModel], OUTPUT_DIR)
   tc.load(TEMPLATES_DIR)
   tc.expand('root::Root', :for => MODEL, :indent => 0)
 end
-
-TEMPLATES_DIR = "templates/"
-OUTPUT_DIR = "../target/"
-
-#TODO:
-#Create separate function for webpage generation so that we
-#can have separate output directories. 
 
 generateCode
