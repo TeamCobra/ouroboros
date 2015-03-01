@@ -1,10 +1,7 @@
 .DS_Store
-build
 prototype/output/server
 prototype/output/server.c
 prototype/output/*.dSYM
-prototype/output/*.html
-prototype/output/*.js
 
 src/test/test-data_store
 src/test/test-rest
@@ -12,9 +9,6 @@ src/test/test-rest
 target/server
 target/server.c
 target/*.dSYM
-target/*.html
-target/*.js
-target/*.json
 target/*.o
 
 *.a
