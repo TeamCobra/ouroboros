@@ -8,7 +8,7 @@ src/test/test-rest
 *.so*
 
 Makefile
-/Makefile.in
+Makefile.in
 /aclocal.m4
 /autom4te.cache/
 /config.*
