@@ -7,7 +7,7 @@
 
 namespace ouroboros
 {
-	static const std::string character_set("[a-z0-9-_]");
+	static const std::string character_set("[a-z0-9-_\\.]");
 	static const std::string full_regex("^/groups/(" + character_set + "+)/fields/(" + character_set + "+)/?$");
 	static const std::string group_regex("^/groups/(" + character_set + "+)/?$");
 	static const std::string root_field_regex("^/fields/(" + character_set + "+)/?$");
