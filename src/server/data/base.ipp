@@ -111,7 +111,7 @@ namespace ouroboros
 			{
 				result += " \"" + itr->first + "\" : " + itr->second->getJSON() + ",";
 			}
-			if (!mGroups.empty())
+			if (!mGroups.empty() && mItems.empty())
 			{
 				result.erase(result.end()-1);
 			}
