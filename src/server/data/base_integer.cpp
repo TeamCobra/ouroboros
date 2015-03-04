@@ -66,8 +66,12 @@ namespace ouroboros
 	{
 		std::stringstream ss;
 		ss << mValue;
+		std::string base = var_field::getJSON();
+		base.erase(base.find_first_of('{'), 1);
+		base.erase(base.find_last_of('}'), 1);
+		
 		return std::string(
-			"{ \"base\" : " + var_field::getJSON() + ", \"value\" : " + ss.str() + " }");
+			"{ " + base + ", \"value\" : " + ss.str() + " }");
 	}
 	
 	bool base_integer::setJSON(const JSON& aJSON)
