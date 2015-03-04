@@ -8,4 +8,5 @@ libouroboros_a_SOURCES = ouroboros_server.h device_tree.cpp  device_tree.hpp  de
 bin_PROGRAMS = ouroboros_server
 ouroboros_server_LDADD = libouroboros.a data/libJSON.a data/libdata.a $(top_builddir)/lib/libmongoose.a $(top_builddir)/lib/libslre.a $(top_builddir)/lib/libfrozen.a -ldl
 ouroboros_server_SOURCES = main.cpp
-ouroboros_server_CXXFLAGS = $(AM_CXXFLAGS) -Wl,--export-dynamic
+ouroboros_server_LDFLAGS = -export-dynamic
+ouroboros_server_CXXFLAGS = $(AM_CXXFLAGS)

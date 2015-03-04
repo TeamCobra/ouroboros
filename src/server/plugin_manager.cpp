@@ -46,10 +46,15 @@ bool plugin_manager::load(const std::string& aPath)
 		return false;
 	}
 
-	plugin_entry_function plugin =
-		reinterpret_cast<plugin_entry_function>(dlsym(lib, "plugin_entry"));
-	
-	
+	//This is a hackish way to ward off undefined behavior caused by dlsym.
+	//In short, POSIX requires conversions between object pointers and
+	//function pointers to be possible, while the C and C++ ISO standards
+	//do not. As a result, a simple cast is insuficcient. On the plus side,
+	//newer POSIX standard require that this conversion be supported in order
+	//for a system to be POSIX compliant, so any systems that can use dlsym
+	//support this conversion.
+	plugin_entry_function plugin;
+	*(void **) (&plugin) = dlsym(lib, "plugin_entry");	
 	if ((err = dlerror()))
 	{
 		std::cout << err << std::endl;
@@ -59,3 +64,4 @@ bool plugin_manager::load(const std::string& aPath)
 	mPlugins[fullPath] = lib;
 	return plugin(mServer);
 }
+
