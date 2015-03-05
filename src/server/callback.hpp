@@ -46,3 +46,4 @@ namespace ouroboros
 #include "callback.ipp"
 
 #endif//_OUROBOROS_CALLBACK_H_
+
