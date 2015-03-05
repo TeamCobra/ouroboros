@@ -68,10 +68,14 @@ namespace ouroboros
 		ss.str("");
 		ss << mLengthRange.second;
 		range_h = ss.str();
+		
+		std::string base = var_field::getJSON();
+		base.erase(base.find_first_of('{'), 1);
+		base.erase(base.find_last_of('}'), 1);
 
 		return std::string(
 			"{ \"type\" : \"base_string\", "
-			"\"base\" : " + var_field::getJSON() + ", " +
+			+ base + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
 			"\"length\" : " + len + " ," +
