@@ -102,7 +102,13 @@ namespace ouroboros
 		std::string result = "{ ";
 		
 		result += "\"type\" : \"group\"";
-		result += ", \"base\" : " + base_field::getJSON();
+		
+		std::string base = base_field::getJSON();
+		base.erase(base.find_first_of('{'), 1);
+		base.erase(base.find_last_of('}'), 1);
+		
+		result += ", " + base;
+		
 		
 		result += ", \"contents\" : {";
 		if (!(mGroups.empty() && mItems.empty()))

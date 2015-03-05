@@ -71,7 +71,7 @@ namespace ouroboros
 		base.erase(base.find_last_of('}'), 1);
 		
 		return std::string(
-			"{ " + base + ", \"value\" : " + ss.str() + " }");
+			"{ \"type\" : \"base_integer\", " + base + ", \"value\" : " + ss.str() + " }");
 	}
 	
 	bool base_integer::setJSON(const JSON& aJSON)
