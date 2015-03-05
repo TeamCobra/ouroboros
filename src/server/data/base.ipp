@@ -101,25 +101,32 @@ namespace ouroboros
 	{
 		std::string result = "{ ";
 		
-		for (typename std::map<std::string, group<T>*>::const_iterator itr = mGroups.begin(); itr != mGroups.end(); itr++)
+		result += "\"type\" : \"group\"";
+		result += ", \"base\" : " + base_field::getJSON();
+		
+		result += ", \"contents\" : {";
+		if (!(mGroups.empty() && mItems.empty()))
 		{
-			result += "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
-		}
-		if (!mGroups.empty() && mItems.empty())
-		{
-			result.erase(result.end()-1);
+			for (typename std::map<std::string, group<T>*>::const_iterator itr = mGroups.begin(); itr != mGroups.end(); itr++)
+			{
+				result += " \"" + itr->first + "\" : " + itr->second->getJSON() + ",";
+			}
+			if (!mGroups.empty() && mItems.empty())
+			{
+				result.erase(result.end()-1);
+			}
+		
+			for (typename std::map<std::string, T*>::const_iterator itr = mItems.begin(); itr != mItems.end(); itr++)
+			{
+				result +=  "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
+			}
+			if (!mItems.empty())
+			{
+				result.erase(result.end()-1);
+			}
 		}
 		
-		for (typename std::map<std::string, T*>::const_iterator itr = mItems.begin(); itr != mItems.end(); itr++)
-		{
-			result += "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
-		}
-		if (!mItems.empty())
-		{
-			result.erase(result.end()-1);		
-		}
-		
-		result += " }";
+		result += " } }";
 		return result;
 	}
 	
