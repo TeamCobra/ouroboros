@@ -33,10 +33,14 @@
 		<% operator = '->' %> 
 	<% end %>
 	<% if type === "intField" %>
-		<%= parentGroupVar %><%= operator %>add(new base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>));
+		<%= parentGroupVar %><%= operator %>add(new <% expand 'intField', :for => this %>);
 	<% elsif type === "stringField" %>
 		<%= parentGroupVar %><%= operator %>add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, std::pair<int,int>(0, 10)));
 	<% end %>
+<% end %>
+
+<% define 'intField', :for => this do %>
+	base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>)<%nonl%>
 <% end %>
 
 <% define 'Group', :for => this do %>
@@ -57,13 +61,13 @@
 <% end %>
 
 <% define 'Range', :for => this do %>
-	<% if defined? this.minInclusive %>
-		<% min = this.minInclusive %>;
+	<% if defined? this.min %>
+		<% min = this.min.chardata[0].strip %>
 	<% else %>
 		<% min = "std::numeric_limits<int>::min()" %>
 	<% end %>
-	<% if defined? this.maxInclusive %>
-		<% max = this.maxInclusive %>;
+	<% if defined? this.max %>
+		<% max = this.max.chardata[0].strip %>
 	<% else %>
 		<% max = "std::numeric_limits<int>::max()" %>
 	<% end %>

@@ -11,6 +11,8 @@
 			A number for use in the program.
 		</description>
 		<value>20</value>
+		<max>50</max>
+		<min>1</min>
 	</field>
 
 	<field type="stringField">
@@ -19,6 +21,8 @@
 			A string for use in the program.
 		</description>
 		<value>hello</value>
+		<minLength>2</minLength>
+		<maxLength>12</maxLength>
 	</field>
 
 	<group>
