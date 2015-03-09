@@ -35,12 +35,26 @@
 	<% if type === "intField" %>
 		<%= parentGroupVar %><%= operator %>add(new <% expand 'intField', :for => this %>);
 	<% elsif type === "stringField" %>
-		<%= parentGroupVar %><%= operator %>add(new base_string("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", "<%= value.chardata[0].strip %>", "", 10, std::pair<int,int>(0, 10)));
+		<%= parentGroupVar %><%= operator %>add(new <% expand 'stringField', :for => this %>);
 	<% end %>
 <% end %>
 
 <% define 'intField', :for => this do %>
-	base_integer("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>", <%= value.chardata[0].strip %>, <% expand 'Range', :for => this %>)<%nonl%>
+	base_integer(<%iinc%>
+		"<%= title.chardata[0].strip %>",
+		"<%= description.chardata[0].strip %>",
+		<%= value.chardata[0].strip %>,
+		<% expand 'Range', :for => this %>)<%idec%><%nonl%>
+<% end %>
+
+<% define 'stringField', :for => this do %>
+	base_string(<%iinc%>
+		"<%= title.chardata[0].strip %>",
+		"<%= description.chardata[0].strip %>",
+		"<%= value.chardata[0].strip %>",
+		"",
+		10,
+		<% expand 'stringRange', :for => this %>)<%idec%><%nonl%>
 <% end %>
 
 <% define 'Group', :for => this do %>
@@ -61,13 +75,27 @@
 <% end %>
 
 <% define 'Range', :for => this do %>
-	<% if defined? this.min %>
+	<% if not this.min.empty? %>
 		<% min = this.min.chardata[0].strip %>
 	<% else %>
 		<% min = "std::numeric_limits<int>::min()" %>
 	<% end %>
-	<% if defined? this.max %>
+	<% if not this.max.empty? %>
 		<% max = this.max.chardata[0].strip %>
+	<% else %>
+		<% max = "std::numeric_limits<int>::max()" %>
+	<% end %>
+	std::pair<int,int>(<%=min.to_s%>, <%=max.to_s%>)<%nonl%>
+<% end %>
+
+<% define 'stringRange', :for => this do %>
+	<% if not this.minLength.empty? %>
+		<% min = this.minLength.chardata[0].to_s.strip %>
+	<% else %>
+		<% min = "std::numeric_limits<int>::min()" %>
+	<% end %>
+	<% if not this.maxLength.empty? %>
+		<% max = this.maxLength.chardata[0].to_s.strip %>
 	<% else %>
 		<% max = "std::numeric_limits<int>::max()" %>
 	<% end %>

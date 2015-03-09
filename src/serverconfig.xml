@@ -15,6 +15,15 @@
 		<min>1</min>
 	</field>
 
+	<field type="intField">
+		<title>A number2</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
+	
+	
 	<field type="stringField">
 		<title>A string</title>
 		<description>
