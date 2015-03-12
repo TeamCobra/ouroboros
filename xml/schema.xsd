@@ -126,7 +126,7 @@
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="signedShirtField" >
+  <xsd:complexType name="signedShortField" >
     <xsd:complexContent>
       <xsd:extension base="varField">
         <xsd:all>
