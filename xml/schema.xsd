@@ -13,9 +13,7 @@
     <xsd:complexContent>
       <xsd:extension base="baseField">
         <xsd:all>
-
-
-		  <xsd:element name="constant" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="constant" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
         </xsd:all>
       </xsd:extension>
     </xsd:complexContent>
@@ -37,10 +35,10 @@
       <xsd:extension base="varField">
         <xsd:all>
           <xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-    		  <xsd:element name="pattern" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-    		  <xsd:element name="length" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-    		  <xsd:element name="minLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-    		  <xsd:element name="maxLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="pattern" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="length" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="minLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="maxLength" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
         </xsd:all>
       </xsd:extension>
     </xsd:complexContent>
