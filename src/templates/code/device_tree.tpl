@@ -32,12 +32,17 @@
 		<% parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ') %>
 		<% operator = '->' %> 
 	<% end %>
-	<%= parentGroupVar %><%= operator %><%nonl%><%nows%><%nows%><%nows%>
+	<%= parentGroupVar %><%= operator %>add(new <%nonl%><%nows%><%nows%><%nows%>
 	<% if type === "intField" %>
-		add(new <% expand 'signedIntField::Field', :for => this %>);
+		<% templateString = 'signed' + type.slice(0,1).capitalize + type.slice(1..-1) %>
+		<% expand templateString + '::Field', :for => this %><%nonl%><%nows%>
+	<% elsif type =~ /(un)?signed(Int|Short|Byte)Field/ %>
+		<% templateString = type %>
+		<% expand templateString + '::Field', :for => this %><%nonl%><%nows%>
 	<% elsif type === "stringField" %>
-		add(new <% expand 'stringField::Field', :for => this %>);
+		<% expand 'stringField::Field', :for => this %><%nonl%><%nows%>
 	<% end %>
+	);
 <% end %>
 
 

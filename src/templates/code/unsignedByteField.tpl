@@ -17,7 +17,7 @@
 <% end %>
 
 <% define 'Field', :for => this do %>
-	base_number<int, <%=nMin%>, <%nMax%> >(<%iinc%>
+	base_number<int, <%=nMin%>, <%=nMax%> >(<%iinc%>
 		"<%= title.chardata[0].strip %>",
 		"<%= description.chardata[0].strip %>",
 		<%= value.chardata[0].strip %>,
