@@ -8,14 +8,15 @@ namespace ouroboros
 	/**	Class representing an integer field.
 	 *
 	 */ 
-	class base_integer : public var_field
+	template<class Number, Number Min, Number Max>
+	class base_number : public var_field
 	{
 	public:
 		
 		/**	Default constructor.
 		 *
 		 */
-		base_integer();
+		base_number();
 		
 		/**	Constructor.
 		 *
@@ -27,17 +28,17 @@ namespace ouroboros
 		 *
 		 *	@throws std::out_of_range When aValue does not meet range requirements.
 		 */
-		base_integer(
+		base_number(
 			const std::string& aTitle,
 			const std::string& aDescription,
-			int aValue,
-			const std::pair<int,int>& aRange);
+			Number aValue,
+			const std::pair<Number, Number>& aRange);
 
 		/**	Gets the inclusive range of values accepted by the field.
 		 *
 		 *	@returns The inclusive range of values accepted by the field.
 		 */
-		std::pair<int,int> getInclusiveRange() const;
+		std::pair<Number, Number> getInclusiveRange() const;
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
@@ -46,7 +47,7 @@ namespace ouroboros
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
-		bool setInclusiveRange(const std::pair<int,int>& aPair);
+		bool setInclusiveRange(const std::pair<Number, Number>& aPair);
 		
 		/**	Sets the number held by the field.
 		 *
@@ -54,7 +55,7 @@ namespace ouroboros
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
-		bool setNumber(int aNum);
+		bool setNumber(Number aNum);
 		
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
@@ -66,7 +67,7 @@ namespace ouroboros
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
 		bool setInclusiveRange(
-			const std::pair<int,int>& aRange, int aValue);
+			const std::pair<Number, Number>& aRange, Number aValue);
 		
 		/**	Returns the JSON representation of the integer field.
 		 * 
@@ -81,11 +82,13 @@ namespace ouroboros
 		bool setJSON(const JSON& aJSON) ;
 
 	private:
-		std::pair<int, int> mRange;
-		int mValue;
+		std::pair<Number, Number> mRange;
+		Number mValue;
 		
-		bool checkValidity (int aInt);
+		bool checkValidity (Number aInt);
 	};
 }
+
+#include "base_number.ipp"
 
 #endif//_OUROBOROS_BASE_INTEGER_H_

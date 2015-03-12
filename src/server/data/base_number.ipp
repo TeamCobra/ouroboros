@@ -1,20 +1,21 @@
-#include "base_integer.h"
 #include <sstream>
 #include <limits>
 
 namespace ouroboros
 {
-	base_integer::base_integer()
+	template<class Number, Number Min, Number Max>
+	base_number<Number, Min, Max>::base_number()
 	:var_field("", ""), mRange(
-		std::numeric_limits<int>::min(), std::numeric_limits<int>::max()),
+		Min, Max),
 		mValue(0)
 	{}
 	
-	base_integer::base_integer(
+	template<class Number, Number Min, Number Max>
+	base_number<Number, Min, Max>::base_number(
 		const std::string& aTitle,
 		const std::string& aDescription,
-		int aValue,
-		const std::pair<int,int>& aRange)
+		Number aValue,
+		const std::pair<Number,Number>& aRange)
 	:var_field(aTitle, aDescription), mValue(aValue)
 	{
 		if (!setInclusiveRange(aRange))
@@ -23,26 +24,29 @@ namespace ouroboros
 		}
 	}
 	
-	std::pair<int,int> base_integer::getInclusiveRange() const
+	template<class Number, Number Min, Number Max>
+	std::pair<Number,Number> base_number<Number, Min, Max>::getInclusiveRange() const
 	{
 		return mRange;
 	}
 
-	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange)
+	template<class Number, Number Min, Number Max>
+	bool base_number<Number, Min, Max>::setInclusiveRange(const std::pair<Number,Number>& aRange)
 	{
 		bool result = setInclusiveRange(aRange, mValue);
 		return result;
 	}
 	
-	bool base_integer::setInclusiveRange(const std::pair<int,int>& aRange, int aValue)
+	template<class Number, Number Min, Number Max>
+	bool base_number<Number, Min, Max>::setInclusiveRange(const std::pair<Number,Number>& aRange, Number aValue)
 	{
-		std::pair<int,int> orig_range = mRange;
+		std::pair<Number,Number> orig_range = mRange;
 		
 		mValue = aValue;
 		mRange.first = std::min(aRange.first, aRange.second);
 		mRange.second = std::max(aRange.first, aRange.second);
 		
-		if (checkValidity(aValue))
+		if (mRange.first >= Min && mRange.second <= Max && checkValidity(aValue))
 		{
 			mValue = aValue;
 			return true;
@@ -52,7 +56,8 @@ namespace ouroboros
 		return false;
 	}
 	
-	bool base_integer::setNumber(int aNum)
+	template<class Number, Number Min, Number Max>
+	bool base_number<Number, Min, Max>::setNumber(Number aNum)
 	{
 		if (checkValidity(aNum))
 		{
@@ -62,21 +67,27 @@ namespace ouroboros
 		return false;
 	}
 	
-	std::string base_integer::getJSON() const
+	template<class Number, Number Min, Number Max>
+	std::string base_number<Number, Min, Max>::getJSON() const
 	{
 		std::stringstream ss;
-		ss << mValue;
+		ss << "{ \"type\" : \"base_number\", ";
+		
 		std::string base = var_field::getJSON();
 		base.erase(base.find_first_of('{'), 1);
 		base.erase(base.find_last_of('}'), 1);
 		
-		return std::string(
-			"{ \"type\" : \"base_integer\", " + base + ", \"value\" : " + ss.str() + " }");
+		ss << base << ", \"value\" : " << mValue << ", ";
+		ss << "range : [ " << mRange.first << ", " << mRange.second << " ]";
+		ss << " }";
+		
+		return ss.str();;
 	}
 	
-	bool base_integer::setJSON(const JSON& aJSON)
+	template<class Number, Number Min, Number Max>
+	bool base_number<Number, Min, Max>::setJSON(const JSON& aJSON)
 	{
-		base_integer backup(*this);
+		base_number backup(*this);
 		bool result = true, found = false;
 		if (aJSON.exists("base.title"))
 		{
@@ -92,7 +103,7 @@ namespace ouroboros
 		std::stringstream ss;
 		if (aJSON.exists("value"))
 		{
-			int num;
+			Number num;
 			found = true;
 
 			ss << aJSON.get("value");
@@ -110,7 +121,7 @@ namespace ouroboros
 		if (result && aJSON.exists("range[0]") && aJSON.exists("range[1]"))
 		{
 			found = true;
-			int min, max;
+			Number min, max;
 			
 			ss << aJSON.get("range[0]");
 			ss >> min;
@@ -131,7 +142,7 @@ namespace ouroboros
 				}
 			}
 
-			if (!ss || !result || !this->setInclusiveRange(std::pair<int,int>(min, max)))
+			if (!ss || !result || !this->setInclusiveRange(std::pair<Number,Number>(min, max)))
 			{
 				result = false;
 			}
@@ -145,7 +156,8 @@ namespace ouroboros
 
 	}
 
-	bool base_integer::checkValidity (int aInt)
+	template<class Number, Number Min, Number Max>
+	bool base_number<Number, Min, Max>::checkValidity (Number aInt)
 	{
 		if (mRange.first <= aInt && aInt <= mRange.second)
 		{
