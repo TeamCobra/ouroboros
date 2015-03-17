@@ -5,13 +5,11 @@
       <file>myfile.h</file>
     </libraries>
 
-      <field type="stringField">
-        <title>A string</title>
-        <description>
-          A string for use in the program.
-        </description>
-        <value>hello</value>
-      </field>
+    <field type="stringField">
+      <title>A string</title>
+      <description>A string for use in the program.</description>
+      <value>hello</value>
+    </field>
 
       <field type="enumField">
         <title>A list of enums</title>
