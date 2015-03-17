@@ -23,6 +23,13 @@
 		<value>20</value>
 	</field>
 	
+	<field type="doubleField">
+		<title>A number 3</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
 	
 	<field type="stringField">
 		<title>A string</title>
