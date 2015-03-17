@@ -10,31 +10,37 @@
 
 
 <% define 'Range', :for => this do %>
-	<% if defined? this.minLength and not this.minLength.empty? %>
-		<% min = this.minLength.chardata[0].to_s.strip %>
-	<% else %>
-		<% min = "std::numeric_limits<std::size_t>::min()" %>
-	<% end %>
-	<% if defined? this.maxLength and not this.maxLength.empty? %>
-		<% max = this.maxLength.chardata[0].to_s.strip %>
-	<% else %>
-		<% max = "std::numeric_limits<std::size_t>::max()" %>
-	<% end %>
+	<%
+		if defined? this.minLength and not this.minLength.empty?
+			min = this.minLength.chardata[0].to_s.strip
+		else
+			min = "std::numeric_limits<std::size_t>::min()"
+		end
+		if defined? this.maxLength and not this.maxLength.empty?
+			max = this.maxLength.chardata[0].to_s.strip
+		else
+			max = "std::numeric_limits<std::size_t>::max()"
+		end
+	%>
 	std::pair<std::size_t, std::size_t>(<%=min.to_s%>, <%=max.to_s%>)<%nonl%>
 <% end %>
 
 <% define 'Pattern', :for => this do %>
-	<% pattern = "" %>
-	<% if defined? this.pattern and not this.pattern.empty? %>
-		<% pattern = this.pattern.chardata[0].to_s.strip %>
-	<% end %>
+	<% 
+		pattern = ""
+		if defined? this.pattern and not this.pattern.empty?
+			pattern = this.pattern.chardata[0].to_s.strip
+		end
+	%>
 	"<%= pattern %>"<%nonl%>
 <% end %>
 
 <% define 'Length', :for => this do %>
-	<% length = value.chardata[0].length %>
-	<% if defined? this.length and not this.length.empty? %>
-		<% length = this.length.chardata[0].to_s.strip %>
-	<% end %>
+	<%
+		length = value.chardata[0].length
+		if defined? this.length and not this.length.empty?
+			length = this.length.chardata[0].to_s.strip
+		end 
+	%>
 	<%= length %><%nonl%>
 <% end %>
