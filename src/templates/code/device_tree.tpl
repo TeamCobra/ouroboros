@@ -3,10 +3,12 @@
 	#include <data/base.hpp>
 	#include <data/base_string.h>
 	#include <data/base_number.hpp>
+	#include <data/base_boolean.h>
+	#include <data/base_floating.hpp>
 	#include <stdint.h>
 	#include <string>
 	#include <cmath>
-	#include <data/base_floating.hpp>
+	
 	<%nl%>
 	namespace ouroboros
 	{<%iinc%>
@@ -41,7 +43,7 @@
 	%>
 	<%= parentGroupVar %><%= operator %>add(new <%nonl%><%nows%>
 	<%
-		if type =~ /((un)?signed(Int|Short|Byte))|(boolean)Field/ or type === "intField"
+		if type =~ /(un)?signed(Int|Short|Byte)Field/ or type === "intField"
 			class << this
 				attr_accessor :Type;
 				attr_accessor :Min;
@@ -71,10 +73,6 @@
 				this.Type = "uint8_t"
 				this.Min = 0
 				this.Max = 255
-			elsif type === "booleanField"
-				this.Type = "char"
-				this.Min = 0;
-				this.Max = 1;
 			end
 			expand 'numberField::Field', :for => this 
 			
@@ -102,11 +100,12 @@
 			expand 'floatField::Field', :for => this
 		elsif type == "enumField"
 			expand 'enumField::Field', :for => this
+		elsif type === "booleanField"
+			expand 'booleanField::Field', :for => this
 		end
 	%>
 	);
 <% end %>
-
 
 <% define 'Group', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
@@ -124,5 +123,3 @@
 		result.add(<%= groupVar %>);
 	<% end %>
 <% end %>
-
-

@@ -15,6 +15,14 @@
 		<min>1</min>
 	</field>
 
+	<field type="booleanField">
+		<title>A boolean</title>
+		<description>
+		Desc?
+		</description>
+		<value>ASKDHLAKS</value>
+	</field>
+		
 	<field type="signedIntField">
 		<title>A number2</title>
 		<description>
