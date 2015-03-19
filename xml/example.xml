@@ -5,6 +5,32 @@
       <file>myfile.h</file>
     </libraries>
 
+    <field type="stringField">
+      <title>A string</title>
+      <description>A string for use in the program.</description>
+      <value>hello</value>
+    </field>
+
+      <field type="enumField">
+        <title>A list of enums</title>
+        <description>
+          Enums for use in the program.
+        </description>
+        <value>apple</value>
+        <value>orange</value>
+        <value>banana</value>
+        <value>pineaple</value>
+        <value>grapefruit</value>
+      </field>
+
+      <field type="boolField">
+        <title>A bool</title>
+        <description>
+          Bool for use in the program.
+        </description>
+        <value>True</value>
+      </field>
+
       <field type="unsignedIntField">
         <title>A number</title>
         <description>
@@ -21,20 +47,45 @@
         <value>-12</value>
       </field>
 
-      <field type="signedIntField">
+      <field type="unsignedIntField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>32</value>
+      </field>
+
+      <field type="signedByteField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>1</value>
+      </field>
+
+      <field type="unsignedByteField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>3</value>
+      </field>
+
+      <field type="signedShortField">
+        <title>A number</title>
+        <description>
+          A number for use in the program.
+        </description>
+        <value>-12</value>
+      </field>
+
+
+      <field type="unSignedShortField">
         <title>A number</title>
         <description>
           A number for use in the program.
         </description>
         <value>64</value>
-      </field>
-
-      <field type="shortField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>100</value>
       </field>
 
       <field type="floatField">
