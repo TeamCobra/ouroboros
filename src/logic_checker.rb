@@ -64,7 +64,7 @@ class LogicChecker
 
 		if defined? field.maxLength and not field.maxLength.empty?
 			maxLength = field.max.chardata[0].strip.to_i
-			if value.length < maxLength
+			if value.length > maxLength
 				puts "\nERROR: check maxLength #{field.title.chardata[0].strip} value in XML"
 				exit 1
 			end
