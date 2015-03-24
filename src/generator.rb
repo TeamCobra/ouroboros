@@ -38,4 +38,3 @@ lc = LogicChecker.new
 lc.checkLogic(MODEL.deviceConfig)
 
 generateCode
-
