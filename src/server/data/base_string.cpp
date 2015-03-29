@@ -87,15 +87,15 @@ namespace ouroboros
 	{
 		base_string backup(*this);
 		bool result = true, found = false;
-		if (aJSON.exists("base.title"))
+		if (aJSON.exists("title"))
 		{
 			found = true;
-			base_field::setTitle(aJSON.get("base.title"));
+			base_field::setTitle(aJSON.get("title"));
 		}
-		if (aJSON.exists("base.description"))
+		if (aJSON.exists("description"))
 		{
 			found = true;
-			base_field::setDescription(aJSON.get("base.description"));
+			base_field::setDescription(aJSON.get("description"));
 		}
 		
 		if (aJSON.exists("value"))

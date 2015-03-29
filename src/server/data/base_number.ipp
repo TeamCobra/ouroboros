@@ -89,15 +89,15 @@ namespace ouroboros
 	{
 		base_number backup(*this);
 		bool result = true, found = false;
-		if (aJSON.exists("base.title"))
+		if (aJSON.exists("title"))
 		{
 			found = true;
-			this->setTitle(aJSON.get("base.title"));
+			this->setTitle(aJSON.get("title"));
 		}
-		if (aJSON.exists("base.description"))
+		if (aJSON.exists("description"))
 		{
 			found = true;
-			this->setDescription(aJSON.get("base.description"));
+			this->setDescription(aJSON.get("description"));
 		}
 
 		std::stringstream ss;

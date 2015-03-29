@@ -15,7 +15,7 @@
 <% end %>
 
 <% define 'Field', :for => this do %>
-	base_floating<<%= this.Type %> >(<%iinc%>
+	base_floating<<%= this.Type %>>(<%iinc%>
 		"<%= title.chardata[0].strip %>",
 		"<%= description.chardata[0].strip %>",
 		<%= value.chardata[0].strip %>,

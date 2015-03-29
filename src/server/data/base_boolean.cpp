@@ -31,7 +31,7 @@ namespace ouroboros
 		base.erase(base.find_first_of('{'), 1);
 		base.erase(base.find_last_of('}'), 1);
 		
-		ss << base << ", \"value\" : " << mValue;
+		ss << base << ", \"value\" : " << std::boolalpha << mValue;
 		ss << " }";
 		
 		return ss.str();;
@@ -42,15 +42,15 @@ namespace ouroboros
 	{
 		base_boolean backup(*this);
 		bool result = true, found = false;
-		if (aJSON.exists("base.title"))
+		if (aJSON.exists("title"))
 		{
 			found = true;
-			this->setTitle(aJSON.get("base.title"));
+			this->setTitle(aJSON.get("title"));
 		}
-		if (aJSON.exists("base.description"))
+		if (aJSON.exists("description"))
 		{
 			found = true;
-			this->setDescription(aJSON.get("base.description"));
+			this->setDescription(aJSON.get("description"));
 		}
 
 		std::stringstream ss;
