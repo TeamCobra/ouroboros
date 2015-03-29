@@ -216,13 +216,11 @@ namespace ouroboros
 		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
+			return true;
 		}
-		else if(mValue.length() < aMinLength)
-		{
-			mLengthRange.first = oldMin;
-			return false;
-		}
-		return true;
+
+		mLengthRange.first = oldMin;
+		return false;
 	}
 
 	bool base_string::setMaxLength(const std::size_t& aMaxLength, const std::string& aNewValue)
@@ -236,13 +234,11 @@ namespace ouroboros
 		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
+			return true;
 		}
-		else if(mValue.length() > aMaxLength)
-		{
-			mLengthRange.second = oldMax;
-			return false;
-		}
-		return true;
+
+		mLengthRange.second = oldMax;
+		return false;
 	}
 	
 	bool base_string::setString(const std::string& aString)
@@ -253,6 +249,11 @@ namespace ouroboros
 			return true;
 		}
 		return false;
+	}
+
+	std::string base_string::getString() const
+	{
+		return mValue;
 	}
 	
 	bool base_string::checkValidity (const std::string& aString)
