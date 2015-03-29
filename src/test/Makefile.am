@@ -8,5 +8,5 @@ test_base_string_SOURCES = test_base_string.cpp
 #ouroboros_server_LDFLAGS = -export-dynamic
 ouroboros_server_CXXFLAGS = $(AM_CXXFLAGS)
 
+TESTS = $(check_PROGRAMS)
 
-TESTS = $(check_PRORGRAMS)
