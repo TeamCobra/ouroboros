@@ -12,7 +12,7 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param [in] aGroup Group to listen to for changes.
+		 *	@param [in] aItem Item to execute the callback on.
 		 *	@param [in] aFunc Functor to register for the callback. The functor
 		 *		must behave as a void(std::string, std::string) functions,
 		 *		where the first parameter is the group and the second parameter
@@ -37,7 +37,7 @@ namespace ouroboros
 		
 		/**	Constructor.
 		 *
-		 *	@param [in] aGroup Group to listen to for changes.
+		 *	@param [in] aItem Item to execute the callback on.
 		 *	@param [in] aFunc Functor to register for the callback. The functor
 		 *		must behave as a void(std::string, std::string) functions,
 		 *		where the first parameter is the group and the second parameter
