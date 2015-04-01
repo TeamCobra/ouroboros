@@ -113,8 +113,8 @@ namespace ouroboros
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 		
-		typedef void (*callback_function)(const std::string& aGroup, const std::string& aField);
-		std::map<std::string, subject<callback<callback_function> > > mCallbackSubjects;
+		typedef void (*callback_function)(var_field* aField);
+		std::map<std::string, subject<callback<var_field*, callback_function> > > mCallbackSubjects;
 		void handle_notification(const std::string& aGroup, const std::string& aField);
 		
 	};
