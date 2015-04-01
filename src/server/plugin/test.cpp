@@ -3,6 +3,7 @@
 #include "test.h"
 #include <server/plugin.h>
 #include <iostream>
+#include "../data/base_integer.h"
 
 using namespace ouroboros;
 using namespace std;
@@ -12,8 +13,6 @@ void callback(var_field* aField)
 	cout << "we got a callback!!!" << endl;
 	cout << "\tHappened at: " << aField->getTitle() << endl;
 }
-
-
 
 extern "C" bool plugin_entry(ouroboros_server& aServer)
 {
