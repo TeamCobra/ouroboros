@@ -18,14 +18,6 @@ namespace ouroboros
 		 */
 		plugin_manager(ouroboros_server& aServer);
 		
-		/**	Constructor. Uses the specified directory for searching for plugins.
-		 *
-		 *	@param [in] aDirectory Directory to search for plugins.
-		 *	@param [in] aServer Server reference to pass to plugins.
-		 *
-		 */
-		plugin_manager(const std::string& aDirectory, ouroboros_server& aServer);
-		
 		/**	Destructor.
 		 * 
 		 */
@@ -41,6 +33,11 @@ namespace ouroboros
 		 */
 		bool load(const std::string& aPath);
 		
+		/**	Loads the given directory
+		 * 
+		 */
+		std::size_t load_directory(const std::string& aDirectory);
+		
 		/**	Unloads the given plugin.
 		 * 
 		 *	@param [in] Path to the plugin to unload, relative from the plugin
@@ -54,7 +51,6 @@ namespace ouroboros
 	private:
 		ouroboros_server& mServer;
 		std::map<std::string, void*> mPlugins;
-		std::string mDirectory;
 	};
 }
 
