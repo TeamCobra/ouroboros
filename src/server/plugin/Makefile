@@ -2,14 +2,15 @@ CXXFLAGS=-Wall -Wextra -pedantic -I. -I../ -I../data -I../../ -std=c++11 -I../..
 
 .PHONY: clean all
 
-OUTPUT=libtest.so python.plugin
+OUTPUT=sample_cpp.plugin python.plugin
+PYTHON_VERSION ?= 2.7
 
-all: libtest.so python.plugin
+all: $(OUTPUT)
 
 python.plugin: python.cpp
-	g++ $(CXXFLAGS) $(shell pkg-config --cflags --libs python-3.3) -fPIC -shared $< -o $@
+	g++ $(CXXFLAGS) $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION)) -fPIC -shared $< -o $@
 
-libtest.so: test.cpp test.h
+sample_cpp.plugin: sample_cpp.cpp
 	g++ $(CXXFLAGS) -fPIC -shared $< -o $@
 
 clean:

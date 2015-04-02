@@ -1,7 +1,7 @@
-#include <server/plugin.h>
 #include <Python.h>
+#include <server/plugin.h>
 
-extern "C" bool plugin_entry(ouroboros::ouroboros_server& server)
+extern "C" bool plugin_entry(ouroboros::ouroboros_server&)
 {
 	//Py_SetProgramName(name.c_str());  /* optional but recommended */
 	Py_Initialize();
