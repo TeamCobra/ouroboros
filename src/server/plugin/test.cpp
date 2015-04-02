@@ -13,8 +13,6 @@ void callback(const std::string& aGroup, const std::string& aField)
 	cout << "\tHappened at: " << aGroup << '\\' << aField << endl;
 }
 
-
-
 extern "C" bool plugin_entry(ouroboros_server& aServer)
 {
 	cout << "Initializing plugin..." << endl;
