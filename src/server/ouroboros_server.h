@@ -14,6 +14,9 @@ namespace ouroboros
 	class ouroboros_server
 	{
 	public:
+		
+		typedef void (*callback_function)(var_field* aField);
+		
 		/**	Constructor.
 		 * 
 		 *	Prepares server to run.
@@ -87,8 +90,7 @@ namespace ouroboros
 		 *		function.
 		 *	@returns True upon success, false otherwise.
 		 */
-		template <typename Func>
-		bool register_callback(const std::string& aGroup, const std::string& aField, Func aCallback);
+		bool register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
 		
 	private:
 		
@@ -113,13 +115,10 @@ namespace ouroboros
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 		
-		typedef void (*callback_function)(const std::string& aGroup, const std::string& aField);
-		std::map<std::string, subject<callback<callback_function> > > mCallbackSubjects;
+		std::map<std::string, subject<callback<var_field*, callback_function> > > mCallbackSubjects;
 		void handle_notification(const std::string& aGroup, const std::string& aField);
 		
 	};
 }
-
-#include <server/ouroboros_server.ipp>
 
 #endif//_OUROBOROS_OUROBOROS_SERVER_
