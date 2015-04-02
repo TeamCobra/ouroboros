@@ -228,6 +228,24 @@ namespace ouroboros
 			return MG_FALSE;
 		}
 	}
+	
+	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback)
+	{
+		var_field *named = mStore.get(normalize_group(aGroup), aField);
+		if (named)
+		{
+			std::string key(aGroup+"/"+aField);
+			if (!mCallbackSubjects.count(key))
+			{
+				
+				mCallbackSubjects[key] = subject<callback<var_field*, callback_function> >();
+			}
+			
+			callback<var_field*, callback_function> cb(named, aCallback);
+			mCallbackSubjects[key].registerObserver(cb);
+		}
+		return named;
+	}
 
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 }

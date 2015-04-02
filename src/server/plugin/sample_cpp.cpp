@@ -2,14 +2,15 @@
 #include "../callback.hpp"
 #include <server/plugin.h>
 #include <iostream>
+#include "../data/base_integer.h"
 
 using namespace ouroboros;
 using namespace std;
 
-void callback(const std::string& aGroup, const std::string& aField)
+void callback(var_field* aField)
 {
 	cout << "we got a callback!!!" << endl;
-	cout << "\tHappened at: " << aGroup << '\\' << aField << endl;
+	cout << "\tHappened at: " << aField->getTitle() << endl;
 }
 
 extern "C" bool plugin_entry(ouroboros_server& aServer)
