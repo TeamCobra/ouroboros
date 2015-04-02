@@ -27,23 +27,42 @@
 	</group>
 
 	<group>
-   		<title>General</title>
+   	<title>General</title>
 		<description>
-			This is General
+			This is General, a top level nav item.
 		</description>
+
 		<group>
 			<title>Advanced</title>
 			<description>
-				This is Advanced
+				Advanced is nested inside General.
 			</description>
+
 			<field type="stringField">
-				<title>A string inside group 2</title>
+				<title>A string inside Advanced</title>
 				<description>
 					A string for use in the program.
 				</description>
 				<value>hello</value>
 			</field>
+
+			<group>
+				<title>Very Advanced</title>
+				<description>
+					This is doubly-nested inside General.
+				</description>
+
+				<field type="stringField">
+					<title>Double Nested</title>
+					<description>
+						Bottom of the tree.
+					</description>
+					<value>hello</value>
+				</field>
+			</group>
+
 		</group>
+
 		<field type="stringField">
 			<title>A string inside group 1</title>
 			<description>
