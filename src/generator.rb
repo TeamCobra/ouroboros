@@ -2,6 +2,7 @@ require 'rgen/instantiator/default_xml_instantiator'
 require 'rgen/environment'
 require 'rgen/template_language'
 require './server_model'
+require './logic_checker'
 
 class XML
   attr_accessor :deviceConfig
@@ -32,5 +33,8 @@ def generateCode
   tc.load(TEMPLATES_DIR)
   tc.expand('root::Root', :for => MODEL, :indent => 0)
 end
+
+lc = LogicChecker.new
+lc.checkLogic(MODEL.deviceConfig)
 
 generateCode
