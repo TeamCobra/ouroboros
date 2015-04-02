@@ -89,7 +89,7 @@ function loadPage(data, rootTitle) {
     // if its a group, add the section header
     if (sectionData.type == "group") {
       var rootTitle = $(".active").data("group-id")
-      var subGroup = new SubGroup(sectionData.title, id);
+      var subGroup = new SubGroup(sectionData.title, id, true);
 
       addSubGroup(id, sectionData, subGroup);
       subGroup.buildUrls(rootTitle);
@@ -113,9 +113,10 @@ function addSubGroup(name, data, parent) {
   $.each(data.contents, function(id, contents) {
     // if we have a nested group, recurse
     if (contents.type == "group") {
-      var subGroup = new SubGroup(data.title, name);
+      var subGroup = new SubGroup(contents.title, id);
       parent.subgroups.push(subGroup);
-      addSubGroup(contents.title, contents, subGroup);
+      addSubGroup(id, contents, subGroup);
+      parent.$el.find('.body-content').eq(0).append(subGroup.$el);
     } else {
       // if not a group, add input to the SubGroup object
       parent.addInput(id, contents);
@@ -127,14 +128,17 @@ function addSubGroup(name, data, parent) {
 // SubGroup holds some easy to access attributes as well as its DOM
 // element. This allows for us to go through after fully loading a 
 // page and adding the full urls easily
-function SubGroup(name, id) {
+function SubGroup(name, id, top) {
   this.subgroups = [];
   this.inputs = [];
 
   this.name = name;
   this.id = id;
-  
-  this.$el = $('<div class="panel panel-default"><div class="panel-heading">' + name + '</div><div class="panel-body"></div></div>');
+  if (top) {
+    this.$el = $('<div class="panel panel-default"><div class="panel-heading">' + name + '</div><div class="panel-body body-content"></div></div>');
+  } else {
+    this.$el = $('<li class="list-group-item deep-group"><h3>' + name + '</h3><div class="body-content"></div></li>');
+  }
 }
 
 
@@ -143,7 +147,7 @@ function SubGroup(name, id) {
 SubGroup.prototype.addInput = function(id, contents) {
   var input = new Input(id, contents);
   this.inputs.push(input);
-  this.$el.find('.panel-body').eq(0).append(input.$el);
+  this.$el.find('.body-content').eq(0).append(input.$el);
 }
 
 SubGroup.prototype.buildUrls = function(url) {
