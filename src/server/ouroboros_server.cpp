@@ -8,8 +8,9 @@ namespace ouroboros
 {	
 	namespace detail
 	{
-		std::string bad_JSON()
+		std::string bad_JSON(mg_connection* aConn)
 		{
+			mg_send_status(aConn, 400);
 			return std::string("{ \"status\" : \"Bad JSON request.\"}");
 		}
 		
@@ -123,7 +124,7 @@ namespace ouroboros
 					}
 					else
 					{
-						sjson = detail::bad_JSON();
+						sjson = detail::bad_JSON(conn);
 					}
 				}
 					break;
@@ -134,12 +135,12 @@ namespace ouroboros
 					break;
 				
 				default:
-					sjson = detail::bad_JSON();
+					sjson = detail::bad_JSON(conn);
 			}
 		}
 		else
 		{
-			sjson = detail::bad_JSON();
+			sjson = detail::bad_JSON(conn);
 		}
 		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
@@ -151,6 +152,7 @@ namespace ouroboros
 		group<var_field> *pgroup = mStore.get(normalize_group(aRequest.getGroups()));
 		
 		std::string sjson;
+		mg_connection *conn = aRequest.getConnection();
 		if (pgroup)
 		{
 			switch (aRequest.getHttpRequestType())
@@ -161,15 +163,15 @@ namespace ouroboros
 					break;
 				
 				default:
-					sjson = detail::bad_JSON();
+					sjson = detail::bad_JSON(conn);
 			}
 		}
 		else
 		{
-			sjson = detail::bad_JSON();
+			sjson = detail::bad_JSON(conn);
 		}
 		
-		mg_connection *conn = aRequest.getConnection();
+		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
