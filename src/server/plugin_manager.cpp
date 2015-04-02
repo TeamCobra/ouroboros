@@ -3,6 +3,7 @@
 #include <dlfcn.h>
 #include <dirent.h>
 #include <iostream>
+#include <set>
 
 using namespace ouroboros;
 
@@ -12,11 +13,11 @@ plugin_manager::plugin_manager(ouroboros_server& aServer)
 
 plugin_manager::~plugin_manager()
 {
-	for (std::map<std::string, void*>::iterator itr = mPlugins.begin(); itr != mPlugins.end(); itr++)
+	typedef std::map<std::string, void*>::const_iterator citerator;
+	for (citerator itr = mPlugins.begin(); itr != mPlugins.end(); itr++)
 	{
 		unload(itr->first);
 	}
-	
 }
 
 bool plugin_manager::unload(const std::string& aPath)
@@ -36,11 +37,9 @@ bool plugin_manager::load(const std::string& aPath)
 	
 	library_t lib = dlopen(fullPath.c_str(), RTLD_NOW);
 	
-	//FIXME determine what to do with diagnostics
 	const char *err = dlerror();
 	if (err)
 	{
-		std::cerr << err << std::endl;
 		return false;
 	}
 
@@ -55,7 +54,6 @@ bool plugin_manager::load(const std::string& aPath)
 	*(void **) (&plugin) = dlsym(lib, "plugin_entry");	
 	if ((err = dlerror()))
 	{
-		std::cout << err << std::endl;
 		return false;
 	}
 	
@@ -63,15 +61,12 @@ bool plugin_manager::load(const std::string& aPath)
 	return plugin(mServer);
 }
 
-#include <errno.h>
-
-static std::vector<std::string> list_files(const std::string& aDir)
+static std::set<std::string> list_files(const std::string& aDir)
 {
-	std::vector<std::string> results;
-
+	std::set<std::string> results;
 	char abs_path[PATH_MAX];
-	realpath(aDir.c_str(), abs_path);
 	
+	realpath(aDir.c_str(), abs_path);
 	std::string directory(abs_path);
 	directory += '/';
 	
@@ -82,29 +77,32 @@ static std::vector<std::string> list_files(const std::string& aDir)
 		dirent *dir;
 		while ((dir = readdir(d)) != NULL)
 		{
-			results.push_back(realpath((directory + dir->d_name).c_str(), abs_path));
+			if (realpath((directory + dir->d_name).c_str(), abs_path))
+			{
+				results.insert(abs_path);
+			}
 		}
-
 		closedir(d);
 	}
-	
 	return results;
 }
+
+//TODO document the fact that loading will only load one plugin per absolute
+//Path, so symlinks to the same place will not be counted twice
 
 std::size_t plugin_manager::load_directory(const std::string& aDirectory)
 {
 	std::size_t number_loaded = 0;
-	
-	std::vector<std::string> files(list_files(aDirectory));
+	std::set<std::string> files(list_files(aDirectory));
 	
 	if (!files.empty())
 	{
-		for (std::size_t i = 0; i < files.size(); ++i)
+		typedef std::set<std::string>::const_iterator citerator;
+		for (citerator itr = files.begin(); itr != files.end(); ++itr)
 		{
-			number_loaded += load(files[i]);
+			number_loaded += load(*itr);
 		}
 	}
-	
 	return number_loaded;
 }
 
