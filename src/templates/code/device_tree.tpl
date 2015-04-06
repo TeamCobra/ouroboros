@@ -50,7 +50,7 @@
 				attr_accessor :Min;
 				attr_accessor :Max;
 			end
-			if type === "intField" or type === "signedIntField"
+			if type === "signedIntField"
 				this.Type = "int32_t"
 				this.Min = SIGNEDINTFIELD_MIN
 				this.Max = SIGNEDINTFIELD_MAX
