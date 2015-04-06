@@ -8,8 +8,9 @@ namespace ouroboros
 {	
 	namespace detail
 	{
-		std::string bad_JSON()
+		std::string bad_JSON(mg_connection* aConn)
 		{
+			mg_send_status(aConn, 400);
 			return std::string("{ \"status\" : \"Bad JSON request.\"}");
 		}
 		
@@ -123,7 +124,7 @@ namespace ouroboros
 					}
 					else
 					{
-						sjson = detail::bad_JSON();
+						sjson = detail::bad_JSON(conn);
 					}
 				}
 					break;
@@ -134,12 +135,12 @@ namespace ouroboros
 					break;
 				
 				default:
-					sjson = detail::bad_JSON();
+					sjson = detail::bad_JSON(conn);
 			}
 		}
 		else
 		{
-			sjson = detail::bad_JSON();
+			sjson = detail::bad_JSON(conn);
 		}
 		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
@@ -151,6 +152,7 @@ namespace ouroboros
 		group<var_field> *pgroup = mStore.get(normalize_group(aRequest.getGroups()));
 		
 		std::string sjson;
+		mg_connection *conn = aRequest.getConnection();
 		if (pgroup)
 		{
 			switch (aRequest.getHttpRequestType())
@@ -161,15 +163,15 @@ namespace ouroboros
 					break;
 				
 				default:
-					sjson = detail::bad_JSON();
+					sjson = detail::bad_JSON(conn);
 			}
 		}
 		else
 		{
-			sjson = detail::bad_JSON();
+			sjson = detail::bad_JSON(conn);
 		}
 		
-		mg_connection *conn = aRequest.getConnection();
+		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
@@ -225,6 +227,24 @@ namespace ouroboros
 		{
 			return MG_FALSE;
 		}
+	}
+	
+	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback)
+	{
+		var_field *named = mStore.get(normalize_group(aGroup), aField);
+		if (named)
+		{
+			std::string key(aGroup+"/"+aField);
+			if (!mCallbackSubjects.count(key))
+			{
+				
+				mCallbackSubjects[key] = subject<callback<var_field*, callback_function> >();
+			}
+			
+			callback<var_field*, callback_function> cb(named, aCallback);
+			mCallbackSubjects[key].registerObserver(cb);
+		}
+		return named;
 	}
 
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
