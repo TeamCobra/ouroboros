@@ -1,3 +1,4 @@
+<% require './ranges' %>
 <% define 'Tree', :for => this do %>
 	#include <server/device_tree.tpp>
 	#include <data/base.hpp>
@@ -51,28 +52,28 @@
 			end
 			if type === "intField" or type === "signedIntField"
 				this.Type = "int32_t"
-				this.Min = -2147483648
-				this.Max = 2147483647
+				this.Min = SIGNEDINTFIELD_MIN
+				this.Max = SIGNEDINTFIELD_MAX
 			elsif type === "unsignedIntField"
 				this.Type = "uint32_t"
-				this.Min = 0
-				this.Max = 4294967295
+				this.Min = UNSIGNEDINTFIELD_MIN
+				this.Max = UNSIGNEDINTFIELD_MAX
 			elsif type === "signedShortField"
 				this.Type = "int16_t"
-				this.Min = -32768
-				this.Max = 32767
+				this.Min = SIGNEDSHORTFIELD_MIN
+				this.Max = SIGNEDSHORTFIELD_MAX
 			elsif type === "unsignedShortField"
 				this.Type = "uint16_t"
-				this.Min = 0
-				this.Max = 65535
+				this.Min = UNSIGNEDSHORTFIELD_MIN
+				this.Max = UNSIGNEDSHORTFIELD_MAX
 			elsif type === "signedByteField"
 				this.Type = "int8_t"
-				this.Min = -128
-				this.Max = 127
+				this.Min = SIGNEDBYTEFIELD_MIN
+				this.Max = SIGNEDBYTEFIELD_MAX
 			elsif type === "unsignedByteField"
 				this.Type = "uint8_t"
-				this.Min = 0
-				this.Max = 255
+				this.Min = UNSIGNEDBYTEFIELD_MIN
+				this.Max = UNSIGNEDBYTEFIELD_MAX
 			end
 			expand 'numberField::Field', :for => this 
 			
@@ -87,17 +88,15 @@
 			
 			if type === "doubleField"	
 				this.Type = "double"
-				this.Min = -(2.0**(2.0**(11.0-1.0)-1.0)) * (1.0 + (2.0**52.0-1.0)/2.0**52.0)
-				this.Max = -this.Min
+				this.Min = DOUBLEFIELD_MIN
+				this.Max = DOUBLEFIELD_MAX
 			elsif type === "floatField"
 				this.Type = "float"
-				this.Min = -(2.0**(2.0**(8.0-1.0)-1.0)) * (1.0 + (2.0**23.0-1.0)/2.0**23.0)
-				this.Max = -this.Min
+				this.Min = FLOATFIELD_MIN
+				this.Max = FLOATFIELD_MAX
 			end
 			expand 'floatingField::Field', :for => this
 			
-		elsif type == "floatField"
-			expand 'floatField::Field', :for => this
 		elsif type == "enumField"
 			expand 'enumField::Field', :for => this
 		elsif type === "booleanField"
