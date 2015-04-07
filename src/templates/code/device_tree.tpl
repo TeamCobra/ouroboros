@@ -50,31 +50,21 @@
 				attr_accessor :Min;
 				attr_accessor :Max;
 			end
-			if type === "signedIntField"
-				this.Type = "int32_t"
-				this.Min = SIGNEDINTFIELD_MIN
-				this.Max = SIGNEDINTFIELD_MAX
-			elsif type === "unsignedIntField"
-				this.Type = "uint32_t"
-				this.Min = UNSIGNEDINTFIELD_MIN
-				this.Max = UNSIGNEDINTFIELD_MAX
-			elsif type === "signedShortField"
-				this.Type = "int16_t"
-				this.Min = SIGNEDSHORTFIELD_MIN
-				this.Max = SIGNEDSHORTFIELD_MAX
-			elsif type === "unsignedShortField"
-				this.Type = "uint16_t"
-				this.Min = UNSIGNEDSHORTFIELD_MIN
-				this.Max = UNSIGNEDSHORTFIELD_MAX
-			elsif type === "signedByteField"
-				this.Type = "int8_t"
-				this.Min = SIGNEDBYTEFIELD_MIN
-				this.Max = SIGNEDBYTEFIELD_MAX
-			elsif type === "unsignedByteField"
-				this.Type = "uint8_t"
-				this.Min = UNSIGNEDBYTEFIELD_MIN
-				this.Max = UNSIGNEDBYTEFIELD_MAX
+			
+			# set the bit size of the integer based on type
+			case type 
+			when /Int/ then this.Type = "int32_t"
+			when /Short/ then this.Type = "int16_t"
+			when /Byte/ then this.Type = "int8_t"
 			end
+
+			# if it is unsigned make it a uint
+			this.Type.prepend "u" if this.Type =~ /unsigned/
+			
+			# set min and max based on predefined constants
+			this.Min = Object.const_get("#{this.Type}_MIN".upcase)
+			this.Max = Object.const_get("#{this.Type}_MAX".upcase)
+
 			expand 'numberField::Field', :for => this 
 			
 		elsif type === "stringField"
