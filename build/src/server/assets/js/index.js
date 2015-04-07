@@ -6,7 +6,8 @@ $(document).ready(function () {
 
   $(".navbar").click("a", getGroup);  
   $(".navbar").click("a", nav.setActive);  
-  $("body").submit(".field-form", updateField);  
+  $("body").submit(".field-form", updateField); 
+
 });
 
 function updateField(e) {
@@ -179,6 +180,14 @@ function Input(name, data, baseUrl) {
   // keep a copy of name for when building urls
   this.name = name;
   
+  // add tooltip functionality if there is a description
+  if (data.description) {
+    this.$el.attr("data-toggle","tooltip");
+    this.$el.attr("data-placement","left");
+    this.$el.attr("title",data.description);
+    this.$el.tooltip();
+  }
+
   // make the base URL and add it in
   var url = baseUrl + name;
   this.$el.attr("action", url);
