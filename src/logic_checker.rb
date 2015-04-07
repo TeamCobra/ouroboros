@@ -55,7 +55,7 @@ class LogicChecker
 	def checkStringField(field)
 		value = field.value.chardata[0].strip
 		if defined? field.minLength and not field.minLength.empty?
-			minLength = field.min.chardata[0].strip.to_i
+			minLength = field.minLength.chardata[0].strip.to_i
 			if value.length < minLength
 				puts "\nERROR: check minLength #{field.title.chardata[0].strip} value in XML"
 				exit 1
@@ -63,7 +63,7 @@ class LogicChecker
 		end
 
 		if defined? field.maxLength and not field.maxLength.empty?
-			maxLength = field.max.chardata[0].strip.to_i
+			maxLength = field.maxLength.chardata[0].strip.to_i
 			if value.length > maxLength
 				puts "\nERROR: check maxLength #{field.title.chardata[0].strip} value in XML"
 				exit 1

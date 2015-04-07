@@ -5,7 +5,7 @@
 		<files>myfile.h</files>
 	</libraries>
 
-	<field type="intField">
+	<field type="signedIntField">
 		<title>A number</title>
 		<description>
 			A number for use in the program.
