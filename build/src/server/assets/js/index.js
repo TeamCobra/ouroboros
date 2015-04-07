@@ -84,6 +84,13 @@ function loadPage(data, rootTitle) {
   // clear whatever is in the main content area now
   $(".page").html("");
 
+  // put in the title and description
+  var $title = $("<h2>" + data.title + "</h2>");
+  var $desc = $("<p>" + data.description + "</p>");
+
+  $(".page").append($title);
+  $(".page").append($desc);
+
   // iterate through the elements in the page
   $.each(data.contents, function(id, sectionData) {
     // if its a group, add the section header
