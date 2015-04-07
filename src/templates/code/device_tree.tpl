@@ -62,8 +62,8 @@
 			this.Type.prepend "u" if this.Type =~ /unsigned/
 			
 			# set min and max based on predefined constants
-			this.Min = Object.const_get("#{this.Type}_MIN".upcase)
-			this.Max = Object.const_get("#{this.Type}_MAX".upcase)
+			this.Min = Object.const_get("#{type}_MIN".upcase)
+			this.Max = Object.const_get("#{type}_MAX".upcase)
 
 			expand 'numberField::Field', :for => this 
 			
