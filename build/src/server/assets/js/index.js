@@ -142,9 +142,11 @@ function SubGroup(name, id, top) {
 
   this.name = name;
   this.id = id;
+
   if (top) {
     this.$el = $('<div class="panel panel-default"><div class="panel-heading">' + name + '</div><div class="panel-body body-content"></div></div>');
   } else {
+
     this.$el = $('<li class="list-group-item deep-group"><h3>' + name + '</h3><div class="body-content"></div></li>');
   }
 }
@@ -179,7 +181,24 @@ function Input(name, data, baseUrl) {
 
   // keep a copy of name for when building urls
   this.name = name;
-  
+
+  // set the range if there is one
+  if (data.range) {
+    var range = data.range[0] + " to " + data.range[1];
+    this.$el.find('input').attr("placeholder", range);
+  }
+
+  // set the form type
+  switch (data.type) {
+  case "base_integer":
+    this.$el.find('input').attr("type","number")
+    break;
+  default:
+    // its a string or will be soon
+    this.$el.find('input').attr("type","text")
+    break;
+  }
+
   // add tooltip functionality if there is a description
   if (data.description) {
     this.$el.attr("data-toggle","tooltip");
