@@ -8,10 +8,10 @@ PYTHON_VERSION ?= 2.7
 all: $(OUTPUT)
 
 python_inline.plugin: sample_python_inline.cpp
-	g++ $(CXXFLAGS) $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION)) -fPIC -shared $< -o $@
+	g++ $(CXXFLAGS)  -fPIC -shared $< -o $@ $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION))
 
 python_file.plugin: sample_python_file.cpp
-	g++ $(CXXFLAGS) $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION)) -fPIC -shared $< -o $@
+	g++ $(CXXFLAGS)  -fPIC -shared $< -o $@ $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION))
 
 
 sample_cpp.plugin: sample_cpp.cpp
