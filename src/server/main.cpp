@@ -17,9 +17,11 @@ void handler(int)
 
 int main()
 {
+	std::string plugin_directory("plugin");
 	ouroboros_server s;
 	plugin_manager plugin_manager(s);
-	cout << "Loaded plugin? : " << plugin_manager.load("libtest.so") << endl;
+	
+	cout << "Plugins loaded : " << plugin_manager.load_directory(plugin_directory) << endl;
 	signal(SIGINT, handler);
 	
 	run = 1;
