@@ -10,6 +10,7 @@ using namespace std;
 
 void callback(var_field* aField)
 {
+	var_field *field = pServer->get(aGroup, aField);
 	cout << "we got a callback!!!" << endl;
 	cout << "\tHappened at: " << aField->getTitle() << endl;
 }
