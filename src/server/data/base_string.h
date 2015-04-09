@@ -154,6 +154,14 @@ namespace ouroboros
 		 * 
 		 */
 		bool setString(const std::string& aValue);
+	
+		/**	Gets the current string value of the string field.
+		 *
+		 *	@returns The current string value.
+		 * 
+		 */
+		std::string getString() const;
+
 		
 		/**	Returns the JSON representation of the string field.
 		 * 
