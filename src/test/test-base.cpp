@@ -1,5 +1,6 @@
 #include <data/base.hpp>
 
+#include <data/base_string.h>
 #include <gtest/gtest.h>
 
 

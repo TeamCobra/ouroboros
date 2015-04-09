@@ -23,7 +23,7 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 
 	LT_INIT
 	AC_CONFIG_FILES([Makefile src/Makefile lib/Makefile src/server/Makefile \
-		src/server/data/Makefile])
+		src/server/data/Makefile src/test/Makefile])
 
 #Requirements imposed by frozen
 	#AC_CHECK_HEADERS([stdlib.h string.h]) #Headers required earlier

@@ -61,7 +61,7 @@ namespace ouroboros
 		{
 			return false;
 		}
-		*result = aFieldData;
+		result->setJSON(aFieldData.getJSON());
 
 		handle_notification(aGroup, aField);
 		return true;

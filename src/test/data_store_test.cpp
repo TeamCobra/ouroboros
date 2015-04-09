@@ -1,22 +1,22 @@
 #include <gtest/gtest.h>
 #include <data/data_store.hpp>
-#include <base.hpp>
+#include <data/base_string.h>
 
 using namespace ouroboros;
 
 namespace {
 
 // The fixture for testing class Foo.
-class DataStoreTest : public ::testing::Test {
+class data_store_test : public ::testing::Test {
  protected:
 	// You can remove any or all of the following functions if its body
 	// is empty.
 
-	DataStoreTest() {
+	data_store_test() {
 		// You can do set-up work for each test here.
 	}
 
-	virtual ~DataStoreTest() {
+	virtual ~data_store_test() {
 		// You can do clean-up work that doesn't throw exceptions here.
 	}
 
@@ -36,35 +36,18 @@ class DataStoreTest : public ::testing::Test {
 	// Objects declared here can be used by all tests in the test case for Foo.
 };
 
-// Tests that Foo does Xyz.
-TEST_F(DataStoreTest, Test_Group) {
+TEST_F(data_store_test, test_constructor) {
 	// Exercises the Xyz feature of Foo.
 	
 	group<var_field> root("g1", "");
-	//data_store<int> store;
-	ASSERT_TRUE(root.findItem("") == nullptr);
-	ASSERT_TRUE(root.findGroup("") == nullptr);
-	ASSERT_TRUE(root.findGroup("g1") == nullptr);
-	base_integer integer("number", "", 1, std::pair<int,int>(0,10));
-	root.add(&integer);
-	ASSERT_TRUE(root.findItem("number") == &integer);
+	base_string str("number", "decs", "1", "1", 0, std::pair<size_t, size_t>(0,10));
+	root.add(&str);
 	root.add(&root);
-	ASSERT_EQ(&root, root.findGroup("g1"));
-	ASSERT_FALSE(root.findGroup("g1-g1") == &root);
-}
-
-TEST_F(DataStoreTest, Test_DataStore) {
-	// Exercises the Xyz feature of Foo.
+	data_store<var_field> store(root);
 	
-	group<var_field> root("g1", "");
-	base_integer integer("number", "", 1, std::pair<int,int>(0,10));
-	root.add(&integer);
-	root.add(&root);
-	data_store<var_field> store(std::move(root));
-	
-	ASSERT_TRUE(nullptr != store.get("g1", "number"));
-	ASSERT_TRUE(nullptr != store.get("g1"));
-	ASSERT_TRUE(nullptr != store.get("g1-g1"));
+	ASSERT_TRUE(NULL != store.get("g1", "number"));
+	ASSERT_TRUE(NULL != store.get("g1"));
+	ASSERT_FALSE(NULL != store.get("g1-g1"));
 }
 
 }	// namespace

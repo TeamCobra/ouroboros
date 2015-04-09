@@ -1,1 +1,3 @@
-test-*
+*.log
+*_test
+*.trs
