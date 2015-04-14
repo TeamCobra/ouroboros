@@ -1,6 +1,5 @@
 #include <memory>
 #include <algorithm>
-#include <iostream>
 
 namespace ouroboros
 {
@@ -21,13 +20,6 @@ namespace ouroboros
 			mItems[lookupTitle] = apField;
 			
 			mInsertOrder.push_back(lookupTitle);
-			typedef std::list<std::string>::const_iterator iter;
-			using namespace std;
-			for (iter i = mInsertOrder.begin(); i != mInsertOrder.end(); ++i)
-			{
-				cout << *i << " ";
-			}
-			cout << endl;
 		}
 	}
 	
@@ -43,13 +35,6 @@ namespace ouroboros
 			mGroups[lookupTitle] = apGroup;
 			
 			mInsertOrder.push_back(lookupTitle);
-			typedef std::list<std::string>::const_iterator iter;
-			using namespace std;
-			for (iter i = mInsertOrder.begin(); i != mInsertOrder.end(); ++i)
-			{
-				cout << *i << " ";
-			}
-			cout << endl;
 		}
 	}
 	
