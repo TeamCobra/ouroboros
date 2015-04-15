@@ -20,9 +20,9 @@
 			{<%iinc%>		
 				group<var_field> result("server", "Root node.");
 				<% 
-					expand 'Field', :foreach => field
 					expand 'Group', :foreach => group
 					expand 'AddGroup', :foreach => group
+					expand 'Field', :foreach => field
 				%>
 				<%nl%>
 				return result;
@@ -99,9 +99,10 @@
 <% define 'Group', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
 	group<var_field> *<%= groupVar %> = new group<var_field>("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>");	
-	<% expand 'Field', :foreach => field %>
 	<% expand 'Group', :foreach => group %>
 	<% expand 'AddGroup', :foreach => group %>
+	<% expand 'Field', :foreach => field %>
+	
 <% end %>
 
 <% define 'AddGroup', :for => this do %>
