@@ -19,10 +19,15 @@
 			group<var_field> build_tree()
 			{<%iinc%>		
 				group<var_field> result("server", "Root node.");
-				<% 
-					expand 'Field', :foreach => field
-					expand 'Group', :foreach => group
-					expand 'AddGroup', :foreach => group
+				<%
+					this.eContents.each do |item|
+						if item.class.to_s === ServerModel::Field.to_s
+							expand 'Field', :for => item
+						elsif item.class.to_s === ServerModel::Group.to_s
+							expand 'Group', :for => item
+							expand 'AddGroup', :for => item
+						end
+					end
 				%>
 				<%nl%>
 				return result;
@@ -99,9 +104,16 @@
 <% define 'Group', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
 	group<var_field> *<%= groupVar %> = new group<var_field>("<%= title.chardata[0].strip %>", "<%= description.chardata[0].strip %>");	
-	<% expand 'Field', :foreach => field %>
-	<% expand 'Group', :foreach => group %>
-	<% expand 'AddGroup', :foreach => group %>
+	<%
+		this.eContents.each do |item|
+			if item.class.to_s === ServerModel::Field.to_s
+				expand 'Field', :for => item
+			elsif item.class.to_s === ServerModel::Group.to_s
+				expand 'Group', :for => item
+				expand 'AddGroup', :for => item
+			end
+		end
+	%>
 <% end %>
 
 <% define 'AddGroup', :for => this do %>
