@@ -27,26 +27,46 @@ class LogicChecker
 		
 		if defined? field.min and not field.min.empty?
 			!decimal ? min = field.min.chardata[0].strip.to_i : min = field.min.chardata[0].strip.to_f
-			if min < absoluteMin or value < min
-				puts "\nERROR: check min #{field.title.chardata[0].strip} value in XML"
+			if min < absoluteMin
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"min: #{min} is outside of range for data type #{field.type}\n" +
+							"#{field.type} range: #{absoluteMin} - #{absoluteMax}\n\n"
+				exit 1
+			end
+			if value < min
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: #{value} is lower than the assigned min\n" +
+							"min: #{min}\n\n"				
 				exit 1
 			end
 		else
 			if value < absoluteMin
-				puts "\nERROR: check min #{field.title.chardata[0].strip} value in XML"
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" + 
+							"value: #{value} is outside of range for data type #{field.type}\n" +
+							"#{field.type} range: #{absoluteMin} - #{absoluteMax}\n\n"
 				exit 1
 			end
 		end
 		
 		if defined? field.max and not field.max.empty?
 			!decimal ? max = field.max.chardata[0].strip.to_i : max = field.max.chardata[0].strip.to_f 
-			if max > absoluteMax or value > max
-				puts "\nERROR: check max #{field.title.chardata[0].strip} value in XML"
+			if max > absoluteMax
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"max: #{max} is outside of range for data type #{field.type}\n" +
+							"#{field.type} range: #{absoluteMin} - #{absoluteMax}\n\n"
+				exit 1
+			end
+			if value > max
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: #{value} is greater than the assigned max\n" +
+							"max: #{max}\n\n"
 				exit 1
 			end
 		else
 			if value > absoluteMax
-				puts "\nERROR: check max #{field.title.chardata[0].strip} value in XML"
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: #{value} is outside of range for data type #{field.type}\n" +
+							"#{field.type} range: #{absoluteMin} - #{absoluteMax}\n\n"
 				exit 1
 			end
 		end
@@ -57,7 +77,9 @@ class LogicChecker
 		if defined? field.minLength and not field.minLength.empty?
 			minLength = field.minLength.chardata[0].strip.to_i
 			if value.length < minLength
-				puts "\nERROR: check minLength #{field.title.chardata[0].strip} value in XML"
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: \"#{value}\" length (#{value.length}) is lower than the assigned minlength\n" +
+							"minLength: #{minLength}\n\n"
 				exit 1
 			end
 		end
@@ -65,14 +87,19 @@ class LogicChecker
 		if defined? field.maxLength and not field.maxLength.empty?
 			maxLength = field.maxLength.chardata[0].strip.to_i
 			if value.length > maxLength
-				puts "\nERROR: check maxLength #{field.title.chardata[0].strip} value in XML"
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: \"#{value}\" length (#{value.length}) is greater than the assigned maxlength\n" +
+							"maxLength: #{maxLength}\n\n"
 				exit 1
 			end
 		end
 
 		if defined? field.pattern and not field.pattern.empty?
 			if not value =~ /#{field.pattern.chardata[0].strip}/
-				puts "\nERROR: check regex pattern for #{field.title.chardata[0].strip} string in XML"
+				puts "\nERROR in field: #{field.title.chardata[0].strip}\n" +
+							"value: \"#{value}\" does not match assigned regex pattern\n" +
+							"pattern: #{field.pattern.chardata[0].strip}\n\n"
+				exit 1
 			end
 		end
 	end
