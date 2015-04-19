@@ -38,3 +38,5 @@ lc = LogicChecker.new
 lc.checkLogic(MODEL.deviceConfig)
 
 generateCode
+
+puts "\nServer has been successfully generated.\n\n"
