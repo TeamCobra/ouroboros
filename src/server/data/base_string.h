@@ -23,7 +23,6 @@ namespace ouroboros
 		 *	@param [in] aDescription Description of the field.
 		 *	@param [in] aValue Contents of the string.
 		 *	@param [in] aPattern Pattern to match the content of the string to.
-		 *	@param [in] aLength FIXME What is this field for?
 		 *	@param [in] aLengthRange Range of the length of the string (inclusive).
 		 *
 		 *	@throws std::out_of_range When aValue does not meet range requirements.
@@ -34,7 +33,6 @@ namespace ouroboros
 			const std::string& aDescription,
 			const std::string& aValue,
 			const std::string& aPattern,
-			std::size_t aLength, 
 			std::pair<std::size_t, std::size_t> aLengthRange);
 
 		/**	Gets the pattern to match the contents of the string field to.
@@ -42,12 +40,6 @@ namespace ouroboros
 		 *	@returns The pattern to match the contents of the string field to.
 		 */
 		std::string getPattern() const;
-		
-		/**	Gets the FIXME see constructor for questions.
-		 *
-		 *	@returns The ?.
-		 */
-		std::size_t getLength() const;
 		
 		/**	Gets the minimum length of the string field (inclusive).
 		 *
@@ -72,12 +64,6 @@ namespace ouroboros
 		 *		change took place in the system.
 		 */
 		bool setPattern(const std::string& aPattern);
-		
-		/**	Sets the FIXME see constructor for questions.
-		 *
-		 *	@returns The ?.
-		 */
-		bool setLength(const std::size_t& aLength);
 		
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *

@@ -4,7 +4,6 @@
 		"<%= description.chardata[0].strip %>",
 		"<%= value.chardata[0].strip %>",
 		<% expand 'Pattern', :for => this %>,
-		<% expand 'Length', :for => this %>,
 		<% expand 'Range', :for => this %>)<%idec%><%nonl%>
 <% end %>
 
@@ -33,14 +32,4 @@
 		end
 	%>
 	"<%= pattern %>"<%nonl%>
-<% end %>
-
-<% define 'Length', :for => this do %>
-	<%
-		length = value.chardata[0].length
-		if defined? this.length and not this.length.empty?
-			length = this.length.chardata[0].to_s.strip
-		end 
-	%>
-	<%= length %><%nonl%>
 <% end %>
