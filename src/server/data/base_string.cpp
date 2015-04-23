@@ -6,7 +6,7 @@
 namespace ouroboros
 {
 	base_string::base_string()
-	:var_field("", ""), mPattern(""),
+	:var_field("", ""), mPattern("*"),
 		mLengthRange(
 			std::numeric_limits<std::size_t>::min(),
 			std::numeric_limits<std::size_t>::max()),
@@ -24,7 +24,12 @@ namespace ouroboros
 	{
 		mLengthRange.first = std::min(aLengthRange.first, aLengthRange.second);
 		mLengthRange.second = std::max(aLengthRange.first, aLengthRange.second);
-		//check string pattern TODO
+		
+		int match = slre_match(mPattern.c_str(), mValue.c_str(), mValue.length(), NULL, 0, 0);
+		if (match < 0)
+		{
+			throw std::domain_error("Value does not match pattern!");
+		}
 		
 		//check string size range
 		if (mLengthRange.first > mValue.length() || mLengthRange.second < mValue.length())

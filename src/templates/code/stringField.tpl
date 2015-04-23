@@ -26,7 +26,7 @@
 
 <% define 'Pattern', :for => this do %>
 	<% 
-		pattern = ""
+		pattern = ".*"
 		if defined? this.pattern and not this.pattern.empty?
 			pattern = this.pattern.chardata[0].to_s.strip
 		end
