@@ -18,6 +18,8 @@ namespace ouroboros
 			std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
 			std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
 			mItems[lookupTitle] = apField;
+			
+			mInsertOrder.push_back(lookupTitle);
 		}
 	}
 	
@@ -31,6 +33,8 @@ namespace ouroboros
 			std::transform(lookupTitle.begin(), lookupTitle.end(), lookupTitle.begin(), ::tolower);
 			std::replace(lookupTitle.begin(), lookupTitle.end(), ' ', '_');
 			mGroups[lookupTitle] = apGroup;
+			
+			mInsertOrder.push_back(lookupTitle);
 		}
 	}
 	
@@ -42,6 +46,7 @@ namespace ouroboros
 		{
 			result = mItems.at(aName);
 			mItems.erase(aName);
+			mInsertOrder.remove(aName);
 		}
 		return result;
 	}
@@ -54,6 +59,7 @@ namespace ouroboros
 		{
 			result = mGroups.at(aName);
 			mGroups.erase(aName);
+			mInsertOrder.remove(aName);
 		}
 		return result;
 	}
@@ -113,20 +119,21 @@ namespace ouroboros
 		result += ", \"contents\" : {";
 		if (!(mGroups.empty() && mItems.empty()))
 		{
-			for (typename std::map<std::string, group<T>*>::const_iterator itr = mGroups.begin(); itr != mGroups.end(); itr++)
+			typedef std::list<std::string>::const_iterator l_iter;
+			
+			for (l_iter itr = mInsertOrder.begin(); itr != mInsertOrder.end(); ++itr)
 			{
-				result += " \"" + itr->first + "\" : " + itr->second->getJSON() + ",";
+				if (mGroups.count(*itr))
+				{
+					result += " \"" + *itr + "\" : " + mGroups.find(*itr)->second->getJSON() + ",";
+				}
+				if (mItems.count(*itr))
+				{
+					result +=  "\"" + *itr + "\" : " + mItems.find(*itr)->second->getJSON() + ",";
+				}
 			}
-			if (!mGroups.empty() && mItems.empty())
-			{
-				result.erase(result.end()-1);
-			}
-		
-			for (typename std::map<std::string, T*>::const_iterator itr = mItems.begin(); itr != mItems.end(); itr++)
-			{
-				result +=  "\"" + itr->first + "\" : " + itr->second->getJSON() + ",";
-			}
-			if (!mItems.empty())
+			
+			if (!(mGroups.empty() && mItems.empty()))
 			{
 				result.erase(result.end()-1);
 			}
