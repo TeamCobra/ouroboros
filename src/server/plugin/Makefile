@@ -1,7 +1,21 @@
-CXXFLAGS=-Wall -Wextra -pedantic -I. -I../ -I../data -I../../ -std=c++11 -I../../../lib/
+CXXFLAGS=-Wall -Wextra -pedantic -I. -I../ -I../data -I../../ -std=c++11 -I../../../lib/ -g
 
-libtest.so: test.cpp test.h
-	g++ $(CXXFLAGS) -fPIC -g -c test.cpp
-	g++ -Wall -shared -g -Wl,-soname,libtest.so.1 -o libtest.so.1.0 test.o
-	rm -rf $@
-	ln -s libtest.so.1.0 $@
+.PHONY: clean all
+
+OUTPUT=sample_cpp.plugin python_inline.plugin python_file.plugin
+PYTHON_VERSION ?= 2.7
+
+all: $(OUTPUT)
+
+python_inline.plugin: sample_python_inline.cpp
+	g++ $(CXXFLAGS)  -fPIC -shared $< -o $@ $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION))
+
+python_file.plugin: sample_python_file.cpp
+	g++ $(CXXFLAGS)  -fPIC -shared $< -o $@ $(shell pkg-config --cflags --libs python-$(PYTHON_VERSION))
+
+
+sample_cpp.plugin: sample_cpp.cpp
+	g++ $(CXXFLAGS) -fPIC -shared $< -o $@
+
+clean:
+	rm -rf $(OUTPUT) *.o

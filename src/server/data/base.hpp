@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <list>
 #include "JSON.h"
 
 namespace ouroboros
@@ -209,6 +210,7 @@ namespace ouroboros
 		std::string getJSON() const;
 
 	private:
+		std::list<std::string> mInsertOrder;
 		std::map<std::string, T*> mItems;
 		std::map<std::string, group<T>*> mGroups;
 	};

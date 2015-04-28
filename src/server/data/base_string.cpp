@@ -87,15 +87,15 @@ namespace ouroboros
 	{
 		base_string backup(*this);
 		bool result = true, found = false;
-		if (aJSON.exists("base.title"))
+		if (aJSON.exists("title"))
 		{
 			found = true;
-			base_field::setTitle(aJSON.get("base.title"));
+			base_field::setTitle(aJSON.get("title"));
 		}
-		if (aJSON.exists("base.description"))
+		if (aJSON.exists("description"))
 		{
 			found = true;
-			base_field::setDescription(aJSON.get("base.description"));
+			base_field::setDescription(aJSON.get("description"));
 		}
 		
 		if (aJSON.exists("value"))
@@ -216,13 +216,11 @@ namespace ouroboros
 		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
+			return true;
 		}
-		else if(mValue.length() < aMinLength)
-		{
-			mLengthRange.first = oldMin;
-			return false;
-		}
-		return true;
+
+		mLengthRange.first = oldMin;
+		return false;
 	}
 
 	bool base_string::setMaxLength(const std::size_t& aMaxLength, const std::string& aNewValue)
@@ -236,13 +234,11 @@ namespace ouroboros
 		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
+			return true;
 		}
-		else if(mValue.length() > aMaxLength)
-		{
-			mLengthRange.second = oldMax;
-			return false;
-		}
-		return true;
+
+		mLengthRange.second = oldMax;
+		return false;
 	}
 	
 	bool base_string::setString(const std::string& aString)
@@ -253,6 +249,11 @@ namespace ouroboros
 			return true;
 		}
 		return false;
+	}
+
+	std::string base_string::getString() const
+	{
+		return mValue;
 	}
 	
 	bool base_string::checkValidity (const std::string& aString)

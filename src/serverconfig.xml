@@ -72,4 +72,39 @@
 		</field>
 	</group>
 
+	<field type="booleanField">
+		<title>A boolean</title>
+		<description>
+		Desc?
+		</description>
+		<value>ASKDHLAKS</value>
+	</field>
+		
+	<field type="signedIntField">
+		<title>A number2</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
+	
+	<field type="doubleField">
+		<title>A number 3</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
+	
+	<field type="stringField">
+		<title>A string</title>
+		<description>
+			A string for use in the program.
+		</description>
+		<value>hello</value>
+		<minLength>2</minLength>
+		<maxLength>12</maxLength>
+	</field>
+
 </deviceConfig>
+

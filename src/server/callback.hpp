@@ -5,31 +5,20 @@
 
 namespace ouroboros
 {
-	template <typename Func>
+	template <typename Item, typename Func>
 	class callback
 	{
 	public:
 		
 		/**	Constructor.
 		 *
-		 *	@param [in] aGroup Group to listen to for changes.
+		 *	@param [in] aItem Item to execute the callback on.
 		 *	@param [in] aFunc Functor to register for the callback. The functor
 		 *		must behave as a void(std::string, std::string) functions,
 		 *		where the first parameter is the group and the second parameter
 		 *		the field that is being observed.
 		 */
-		callback(const std::string& aGroup, Func aFunc);
-		
-		/**	Constructor
-		 *
-		 *	@param [in] aGroup Group to listen to for changes.
-		 *	@param [in] aField Field to listen to for changes.
-		 *	@param [in] aFunc Functor to register for the callback. The functor
-		 *		must behave as a void(std::string, std::string) functions,
-		 *		where the first parameter is the group and the second parameter
-		 *		the field that is being observed.
-		 */
-		callback(const std::string& aGroup, const std::string& aField, Func aFunc);
+		callback(Item aItem, Func aFunc);
 		
 		/**	Function called by others as a callback.
 		 *
@@ -37,9 +26,8 @@ namespace ouroboros
 		void operator()() const;
 		
 	private:
+		Item mItem;
 		Func mFunc;
-		std::string mGroup;
-		std::string mField;
 	};
 }
 
