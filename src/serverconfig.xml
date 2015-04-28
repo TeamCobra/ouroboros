@@ -4,41 +4,65 @@
 	<libraries>
 		<files>myfile.h</files>
 	</libraries>
-
-	<field type="intField">
-		<title>A number</title>
+	<group>
+   		<title>Home</title>
 		<description>
-			A number for use in the program.
+			This is Home
 		</description>
-		<value>20</value>
-	</field>
+		<field type="intField">
+			<title>A number</title>
+			<description>
+				A number for use in the program.
+			</description>
+			<value>20</value>
+		</field>
 
-	<field type="stringField">
-		<title>A string</title>
-		<description>
-			A string for use in the program.
-		</description>
-		<value>hello</value>
-	</field>
+		<field type="stringField">
+			<title>A string</title>
+			<description>
+				A string for use in the program.
+			</description>
+			<value>hello</value>
+		</field>
+	</group>
 
 	<group>
-   		<title>Group 1</title>
+   	<title>General</title>
 		<description>
-			This is Group 1.
+			This is General, a top level nav item.
 		</description>
+
 		<group>
-			<title>Group 2</title>
+			<title>Advanced</title>
 			<description>
-				This is Group 2.
+				Advanced is nested inside General.
 			</description>
+
 			<field type="stringField">
-				<title>A string inside group 2</title>
+				<title>A string inside Advanced</title>
 				<description>
 					A string for use in the program.
 				</description>
 				<value>hello</value>
 			</field>
+
+			<group>
+				<title>Very Advanced</title>
+				<description>
+					This is doubly-nested inside General.
+				</description>
+
+				<field type="stringField">
+					<title>Double Nested</title>
+					<description>
+						Bottom of the tree.
+					</description>
+					<value>hello</value>
+				</field>
+			</group>
+
 		</group>
+
 		<field type="stringField">
 			<title>A string inside group 1</title>
 			<description>

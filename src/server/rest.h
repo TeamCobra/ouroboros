@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <string>
+#include <mongoose/mongoose.h>
 
 namespace ouroboros
 {
@@ -21,57 +22,80 @@ namespace ouroboros
 	/**	Represents the type of REST call received.
 	 * 
 	 */
-	enum class REST_call_type
+	enum rest_request_type
 	{
-		GROUP, NAME, CUSTOM, NONE
+		GROUPS, FIELDS, CUSTOM, NONE
 	};
 
 	/**	Represents the HTTP request type received.
 	 * 
 	 */
-	enum class HTTP_request_type
+	enum http_request_type
 	{
 		POST, GET, DELETE, PUT, UNKNOWN
 	};
 
-	/**	Checks the given URI and determines the type of REST call that it needs.
-	 * 
-	 *	@param [in] aURI String to check for the type of REST call needed to handle
-	 *		the pattern matched.
-	 *
-	 *	@returns An enum describing the type of REST call needed to handle the
-	 *		URI.
-	 */
-	REST_call_type get_REST_call_type(const std::string& aURI);
-	
-	/**	Converts a string representation of the HTTP request type to an enum.
-	 * 
-	 *	@param [in] aHTTP_Type String representation of the HTTP request type.
-	 *
-	 *	@returns An enum describing the type of HTTP request type received.
-	 *
-	 */
-	HTTP_request_type get_HTTP_request_type(const std::string& aHTTP_Type);
-
-	/**	Extracts the group from the given REST URI.
-	 * 
-	 *	@param [in] aURI URI containing a REST group.
-	 *
-	 *	@returns String representation of the groups found in the URI,
-	 *		'-' delimited.
-	 */
-	std::string extract_group(const std::string& aURI);
-
-	/**	Extracts the group and item name from the given REST URI.
-	 * 
-	 *	@param [in] aURI URI containing a REST group and name.
-	 *
-	 *	@returns Pair containing a string representation of the groups found in
-	 *		the URI (first), '-' delimited, and the string representation of the
-	 *		name of the item (second).
-	 */
-	std::pair<std::string, std::string> extract_group_name(
-		const std::string& aURI);
+	class rest_request
+	{
+	public:
+		/**	Constructor
+		 *
+		 *	@param [in] apConn Pointer to a connection object supplied by the
+		 *		Mongoose server.
+		 *	@param [in] aUri URI received from the server.
+		 * 
+		 */
+		rest_request(mg_connection *apConn, const std::string& aUri);
+		
+		/**	Destructor.
+		 * 
+		 */
+		~rest_request();
+		
+		/**	Returns the type of HTTP request for the connection of this request.
+		 *
+		 * 	@returns The HTTP request type for the connection of this request.
+		 */
+		http_request_type getHttpRequestType() const;
+		
+		/**	Returns the type of REST request type for the given URI.
+		 *
+		 * 	@returns The HTTP request type for the given URI.
+		 */
+		rest_request_type getRestRequestType() const;
+		
+		/**	Returns the field the REST request targets, if any.
+		 *
+		 *	@returns The field the REST request targets, or empty if none.
+		 */
+		std::string getFields() const;
+		
+		/**	Returns the group the REST request targets, if any.
+		 * 
+		 *	@returns the group the REST request targets, or empty if none.
+		 */
+		std::string getGroups() const;
+		
+		//TODO Implement functionality for REST callbacks
+		//std::string getCustom();
+		
+		/**	Returns a pointer to the connection object associated with the
+		 *		request.
+		 *
+		 *	@returns A pointer to the connection object associated with the
+		 *		request.
+		 */
+		mg_connection *getConnection() const;
+		
+	private:
+		http_request_type mHttpType;
+		rest_request_type mRestType;
+		std::string mGroups;
+		std::string mFields;
+		
+		mg_connection *mpConnection;
+		//TODO callback functionality
+	};
 }
 
 #endif//_OUROBOROS_REST_H_
