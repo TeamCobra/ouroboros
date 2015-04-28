@@ -72,7 +72,7 @@ function makeNavBar(nav) {
       // if this iteration is for the first menu item,
       // make it active and load its contents
       if (index == 0 && data.type == "group") {
-        nav.initActiv(0);
+        nav.initActive(0);
         loadPage(data, id);
       }
       
@@ -143,11 +143,24 @@ function SubGroup(name, id, top) {
   this.name = name;
   this.id = id;
 
+  // top is passed in if it is the first-level group on the content section. The first-level groups have a bootstrap panel with
+  // colored headings while the subsequent levels have just a lined-border nested inside it's parents
   if (top) {
-    this.$el = $('<div class="panel panel-default"><div class="panel-heading">' + name + '</div><div class="panel-body body-content"></div></div>');
+    this.$el = $( '<div class="panel panel-default">' +
+                    '<div class="panel-heading">' + 
+                      name + 
+                    '</div>' +
+                    '<div class="panel-body body-content">' + 
+                    '</div>' +
+                  '</div>');
   } else {
-
-    this.$el = $('<li class="list-group-item deep-group"><h3>' + name + '</h3><div class="body-content"></div></li>');
+    this.$el = $( '<li class="list-group-item deep-group">' + 
+                    '<h3>' + 
+                      name + 
+                    '</h3>' +
+                    '<div class="body-content">' +
+                    '</div>' +
+                  '</li>');
   }
 }
 
@@ -162,11 +175,16 @@ SubGroup.prototype.addInput = function(id, contents) {
 
 SubGroup.prototype.buildUrls = function(url) {
   base = url + "." + this.id;
+
+  // creates a url for the fields inside this subgroup and places it in the 
+  // input's individual forms' action attribute
   $.each(this.inputs, function(i, input) {
     var url = "/groups/" + base + "/fields/" + input.name;
     input.$el.attr("action", url);
   });
 
+  // recursively call buildUrls with any subgroups, passing the new modified
+  // base url with the current subgroup's id appended to it
   $.each(this.subgroups, function(i, subgroup) {
     subgroup.buildUrls(base);
   });
@@ -228,19 +246,26 @@ function Nav() {
   this.groupLinks = []
 }
 
+// build and add nav links (GroupLinks) to the internal
+// list that Nav keeps
 Nav.prototype.add = function(groupName, id, groupId) {
   link = new GroupLink();
   link.$el.find("a").text(groupName);
   link.$el.attr("data-id", id);
   link.$el.attr("data-group-id", groupId);
+
   this.groupLinks.push(link);
   $('.navbar').append(link.$el);
 }
 
-Nav.prototype.initActiv = function(i) {
+// initActive is used primarily for setting the first link
+// on initial page load
+Nav.prototype.initActive = function(i) {
   this.groupLinks[i].$el.addClass("active");
 }
 
+// after initActive, setActive is used for all other clicks 
+// on a navigation link
 Nav.prototype.setActive = function(e) {
   $(".navbar li").removeClass("active");
   $(e.target.parentElement).addClass("active");
