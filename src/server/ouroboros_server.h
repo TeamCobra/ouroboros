@@ -8,15 +8,16 @@
 #include <server/rest.h>
 #include <server/callback.hpp>
 #include <server/data/subject.hpp>
+#include <server/function_manager.h>
 
 namespace ouroboros
 {
 	class ouroboros_server
 	{
 	public:
-		
+		typedef function_manager::function_f function_f;
 		typedef void (*callback_f)(var_field* aField);
-		typedef void (*function_f)(const std::vector<std::string>& aArguments);
+		
 		
 		/**	Constructor.
 		 * 
@@ -95,14 +96,19 @@ namespace ouroboros
 		
 		/**	Registers a response function for the specified function call.
 		 *
-		 *	@param [in] aGroup String describing the group of the desired
-		 *		element.
-		 *	@param [in] aFunctionName String describing the name of the desired field.
+		 *	@param [in] aFunctionName Name of the function to register.
 		 *	@param [in] aResponse Callback functor that is called as
 		 * 		void(std::vector<std::string>) function.
 		 *	@returns True upon success, false otherwise.
 		 */
 		bool register_function(const std::string& aFunctionName, function_f aResponse);
+		
+		/**	Executes a response function for the specified function call.
+		 *
+		 *	@param [in] aFunctionName Name of the function to call.
+		 *	@param [in] aParameters Parameters as strings in a vector.
+		 */
+		void execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters);
 		
 	private:
 		

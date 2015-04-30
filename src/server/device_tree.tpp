@@ -9,6 +9,6 @@ namespace ouroboros
 		 * 
 		 */
 		template<class field>
-		group<field> build_tree();
+		group<field> build_tree(function_manager& aFunctionManager);
 	}
 }

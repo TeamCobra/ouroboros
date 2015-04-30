@@ -2,20 +2,16 @@
 #define _OUROBOROS_BASE_BOOLEAN_H_
 
 #include "base.hpp"
+#include "../ouroboros_server.h"
 
 namespace ouroboros
 {
-	/**	Class representing an integer field.
+	/**	Class representing function field.
 	 *
 	 */ 
 	class base_function : public var_field
 	{
 	public:
-		
-		/**	Default constructor.
-		 *
-		 */
-		base_function();
 		
 		/**	Constructor.
 		 *
@@ -27,7 +23,8 @@ namespace ouroboros
 		base_function(
 			const std::string& aTitle,
 			const std::string& aDescription,
-			const std::vector<std::string>& aParameters);
+			const std::vector<std::string>& aParameters,
+			ouroboros_server &aServer);
 		
 		/**	Returns the JSON representation of the integer field.
 		 * 
@@ -43,6 +40,7 @@ namespace ouroboros
 
 	private:
 		std::vector<std::string> mParameters;
+		ouroboros_server *mpServer;
 	};
 }
 

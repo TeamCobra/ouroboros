@@ -252,5 +252,10 @@ namespace ouroboros
 		return false;
 	}
 	
+	void ouroboros_server::execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters)
+	{
+		
+	}
+	
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 }

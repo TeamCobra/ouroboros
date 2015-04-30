@@ -4,16 +4,12 @@
 
 namespace ouroboros
 {
-	base_function::base_function()
-	:var_field("", "")
-	{}
-
-
 	base_function::base_function(
 		const std::string& aTitle,
 		const std::string& aDescription,
-		const std::vector<std::string>& aParameters)
-	:var_field(aTitle, aDescription), mParameters(aParameters)
+		const std::vector<std::string>& aParameters,
+		ouroboros_server &aServer)
+	:var_field(aTitle, aDescription), mParameters(aParameters), mpServer(&aServer)
 	{}
 
 	std::string base_function::getJSON() const
@@ -56,10 +52,34 @@ namespace ouroboros
 			this->setDescription(aJSON.get("description"));
 		}
 		
+		//This executes the function
 		if (aJSON.exists("parameters"))
 		{
 			found = true;
-			std::string params = aJSON.get("parameters");
+			//Make sens of params. It should be a JSON hash, from
+			//string -> string, where key is the param name, and value is the
+			//string representation of the value
+			JSON jparams(aJSON.get("parameters"));
+			typedef std::vector<std::string>::const_iterator iter;
+			std::vector<std::string> parameters;
+			for (iter itr = mParameters.begin(); itr != mParameters.end(); ++itr)
+			{
+				if (jparams.exists(*itr))
+				{
+					parameters.push_back(jparams.get(*itr));
+				}
+				else
+				{
+					result = false;
+					break;
+				}
+			}
+			
+			if (result)
+			{
+				//Call function
+				mpServer->execute_function(this->getTitle(), parameters);
+			}
 		}
 
 		if(!result)
