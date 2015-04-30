@@ -15,7 +15,8 @@ namespace ouroboros
 	{
 	public:
 		
-		typedef void (*callback_function)(var_field* aField);
+		typedef void (*callback_f)(var_field* aField);
+		typedef void (*function_f)(const std::vector<std::string>& aArguments);
 		
 		/**	Constructor.
 		 * 
@@ -90,7 +91,18 @@ namespace ouroboros
 		 *		function.
 		 *	@returns True upon success, false otherwise.
 		 */
-		bool register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
+		bool register_callback(const std::string& aGroup, const std::string& aField, callback_f aCallback);
+		
+		/**	Registers a response function for the specified function call.
+		 *
+		 *	@param [in] aGroup String describing the group of the desired
+		 *		element.
+		 *	@param [in] aFunctionName String describing the name of the desired field.
+		 *	@param [in] aResponse Callback functor that is called as
+		 * 		void(std::vector<std::string>) function.
+		 *	@returns True upon success, false otherwise.
+		 */
+		bool register_function(const std::string& aFunctionName, function_f aResponse);
 		
 	private:
 		
@@ -115,7 +127,8 @@ namespace ouroboros
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 		
-		std::map<std::string, subject<callback<var_field*, callback_function> > > mCallbackSubjects;
+		std::map<std::string, callback<std::vector<std::string>, function_f> > mFunctionCallbacks;
+		std::map<std::string, subject<callback<var_field*, callback_f> > > mCallbackSubjects;
 		void handle_notification(const std::string& aGroup, const std::string& aField);
 		
 	};

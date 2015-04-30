@@ -70,8 +70,6 @@ namespace ouroboros
 		 */
 		virtual std::string getJSON() const = 0;
 		
-
-		
 	private:
 		std::string mTitle;
 		std::string mDescription;

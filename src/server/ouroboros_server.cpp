@@ -229,7 +229,7 @@ namespace ouroboros
 		}
 	}
 	
-	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback)
+	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_f aCallback)
 	{
 		var_field *named = mStore.get(normalize_group(aGroup), aField);
 		if (named)
@@ -238,14 +238,19 @@ namespace ouroboros
 			if (!mCallbackSubjects.count(key))
 			{
 				
-				mCallbackSubjects[key] = subject<callback<var_field*, callback_function> >();
+				mCallbackSubjects[key] = subject<callback<var_field*, callback_f> >();
 			}
 			
-			callback<var_field*, callback_function> cb(named, aCallback);
+			callback<var_field*, callback_f> cb(named, aCallback);
 			mCallbackSubjects[key].registerObserver(cb);
 		}
 		return named;
 	}
-
+	
+	bool ouroboros_server::register_function(const std::string& aFunctionName, function_f aResponse)
+	{
+		return false;
+	}
+	
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 }
