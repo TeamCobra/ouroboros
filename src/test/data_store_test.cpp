@@ -40,7 +40,7 @@ TEST_F(data_store_test, test_constructor) {
 	// Exercises the Xyz feature of Foo.
 	
 	group<var_field> root("g1", "");
-	base_string str("number", "decs", "1", "1", 0, std::pair<size_t, size_t>(0,10));
+	base_string str("number", "decs", "1", "1", std::pair<size_t, size_t>(0,10));
 	root.add(&str);
 	root.add(&root);
 	data_store<var_field> store(root);

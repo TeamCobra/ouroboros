@@ -15,7 +15,7 @@ class base_string_test : public ::testing::Test {
 	// is empty.
 
 	base_string_test()
-	:str("title", "desc", "value", "value", 0, std::pair<std::size_t, std::size_t>(0,10))
+	:str("title", "desc", "value", "value", std::pair<std::size_t, std::size_t>(0,10))
 	{
 		// You can do set-up work for each test here.
 	}
@@ -30,7 +30,7 @@ class base_string_test : public ::testing::Test {
 	virtual void SetUp() {
 		// Code here will be called immediately after the constructor (right
 		// before each test).
-		str = base_string("title", "desc", "value", "value", 0, std::pair<std::size_t, std::size_t>(0,10));
+		str = base_string("title", "desc", "value", "value", std::pair<std::size_t, std::size_t>(0,10));
 	}
 
 	virtual void TearDown() {
