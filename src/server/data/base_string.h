@@ -163,7 +163,6 @@ namespace ouroboros
 
 	private:
 		std::string mPattern;
-		std::size_t mLength;
 		std::pair<std::size_t, std::size_t> mLengthRange;
 		
 		std::string mValue;

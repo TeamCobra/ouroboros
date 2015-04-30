@@ -57,11 +57,7 @@ namespace ouroboros
 	std::string base_string::getJSON() const
 	{
 		std::stringstream ss;
-		std::string len, range_l, range_h;
-		ss << mLength;
-		len = ss.str();
-		ss.clear();
-		ss.str("");
+		std::string range_l, range_h;
 		ss << mLengthRange.first;
 		range_l = ss.str();
 		ss.clear();
@@ -78,7 +74,6 @@ namespace ouroboros
 			+ base + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
-			"\"length\" : " + len + " ," +
 			"\"range\" : [" + range_l + ", "
 				+ range_h + "] }");
 	}
