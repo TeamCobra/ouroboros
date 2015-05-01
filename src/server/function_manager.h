@@ -33,7 +33,7 @@ namespace ouroboros
 		
 	private:
 		function_manager(const function_manager&);
-		std::map<std::string, callback<std::vector<std::string>, function_f> > mFunctionCallbacks;
+		std::map<std::string, std::vector<function_f> > mFunctionCallbacks;
 	};
 }
 

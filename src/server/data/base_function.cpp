@@ -8,8 +8,8 @@ namespace ouroboros
 		const std::string& aTitle,
 		const std::string& aDescription,
 		const std::vector<std::string>& aParameters,
-		ouroboros_server &aServer)
-	:var_field(aTitle, aDescription), mParameters(aParameters), mpServer(&aServer)
+		function_manager &aManager)
+	:var_field(aTitle, aDescription), mParameters(aParameters), mpManager(&aManager)
 	{}
 
 	std::string base_function::getJSON() const
@@ -78,7 +78,7 @@ namespace ouroboros
 			if (result)
 			{
 				//Call function
-				mpServer->execute_function(this->getTitle(), parameters);
+				mpManager->execute_function(this->getTitle(), parameters);
 			}
 		}
 

@@ -1,8 +1,8 @@
-#ifndef _OUROBOROS_BASE_BOOLEAN_H_
-#define _OUROBOROS_BASE_BOOLEAN_H_
+#ifndef _OUROBOROS_BASE_FUNCTION_H_
+#define _OUROBOROS_BASE_FUNCTION_H_
 
 #include "base.hpp"
-#include "../ouroboros_server.h"
+#include "../function_manager.h"
 
 namespace ouroboros
 {
@@ -24,7 +24,7 @@ namespace ouroboros
 			const std::string& aTitle,
 			const std::string& aDescription,
 			const std::vector<std::string>& aParameters,
-			ouroboros_server &aServer);
+			function_manager &aManager);
 		
 		/**	Returns the JSON representation of the integer field.
 		 * 
@@ -40,8 +40,8 @@ namespace ouroboros
 
 	private:
 		std::vector<std::string> mParameters;
-		ouroboros_server *mpServer;
+		function_manager *mpManager;
 	};
 }
 
-#endif//_OUROBOROS_BASE_BOOLEAN_H_
+#endif//_OUROBOROS_BASE_FUNCTION_H_
