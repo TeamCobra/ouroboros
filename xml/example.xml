@@ -8,15 +8,8 @@
       Script for detecting faces within an image.
     </description>
     <funcName>detectFace</funcName>
-      <param type="signedIntField">
-        <title>Another number</title>
-        <description>
-          Another number for use in the program.
-        </description>
-        <value>25</value>
-        <max>100</max>
-        <min>1</min>
-      </param>
+      <param> param1 </param>
+      <param> param2 </param>
   </func>
 
 	<field type="signedIntField">
