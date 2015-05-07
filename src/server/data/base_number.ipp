@@ -78,7 +78,7 @@ namespace ouroboros
 		base.erase(base.find_last_of('}'), 1);
 		
 		ss << base << ", \"value\" : " << mValue << ", ";
-		ss << "range : [ " << mRange.first << ", " << mRange.second << " ]";
+		ss << "\"range\" : [ " << mRange.first << ", " << mRange.second << " ]";
 		ss << " }";
 		
 		return ss.str();;
