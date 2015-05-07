@@ -89,7 +89,7 @@ namespace ouroboros
 				handle_group_rest(aRequest);
 				break;
 				
-			case CUSTOM:
+			case CALLBACK:
 				handle_custom_rest(aRequest);
 				break;
 				

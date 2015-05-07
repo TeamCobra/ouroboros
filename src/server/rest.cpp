@@ -12,8 +12,8 @@ namespace ouroboros
 	static const std::string group_regex("^/groups/(" + character_set + "+)/?$");
 	static const std::string root_field_regex("^/fields/(" + character_set + "+)/?$");
 	static const std::string root_group_regex("^/groups/?$");
-	static const std::string full_regex_callback("^/groups/(" + character_set + "+)/fields/(" + character_set + "+)/callback?$");
-	static const std::string root_field_regex_callback("^/fields/(" + character_set + "+)/callback?$");
+	static const std::string full_regex_callback("^/groups/(" + character_set + "+)/fields/(" + character_set + "+)/callback$");
+	static const std::string root_field_regex_callback("^/fields/(" + character_set + "+)/callback$");
 	
 	/**	Extracts the group from the given REST URI.
 	 * 
@@ -107,7 +107,7 @@ namespace ouroboros
 
 		//Check if user is accessing field in root first
 		struct slre_cap match[1];
-		if(slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
+		if ((slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0) || (slre_match(root_field_regex_callback.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0))
 		{
 			result.first = std::string();
 			result.second.assign(match[0].ptr, match[0].len);
@@ -115,11 +115,7 @@ namespace ouroboros
 		else
 		{
 			struct slre_cap match[2];
-			if (slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
-			{
-				slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), match, 2, 0);
-			}
-			else
+			if (slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), match, 2, 0) < 0)
 			{
 				slre_match(full_regex_callback.c_str(), aURI.c_str(), aURI.length(), match, 2, 0);
 			}
@@ -154,7 +150,7 @@ namespace ouroboros
 		switch (mRestType)
 		{
 			case FIELDS:
-			case CALLBACKS:
+			case CALLBACK:
 			{
 				std::pair<std::string, std::string> data = extract_group_name(aUri);
 				mGroups = data.first;
