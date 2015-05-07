@@ -1,123 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <deviceConfig>
-    <libraries>
-      <file>myfile.h</file>
-    </libraries>
+<deviceConfig>
 
-    <field type="stringField">
-      <title>A string</title>
-      <description>A string for use in the program.</description>
-      <value>hello</value>
-    </field>
+  <func>
+    <title>Facial Detection</title>
+    <description>
+      Script for detecting faces within an image.
+    </description>
+    <funcName>detectFace</funcName>
+      <param> param1 </param>
+      <param> param2 </param>
+  </func>
 
-      <field type="enumField">
-        <title>A list of enums</title>
-        <description>
-          Enums for use in the program.
-        </description>
-        <value>apple</value>
-        <value>orange</value>
-        <value>banana</value>
-        <value>pineaple</value>
-        <value>grapefruit</value>
-      </field>
+	<field type="signedIntField">
+		<title>A number</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+		<max>50</max>
+		<min>1</min>
+	</field>
 
-      <field type="boolField">
-        <title>A bool</title>
-        <description>
-          Bool for use in the program.
-        </description>
-        <value>True</value>
-      </field>
+	<group>
+   		<title>Group 1</title>
+		<description>
+			This is Group 1.
+		</description>
+		<group>
+			<title>Group 2</title>
+			<description>
+				This is Group 2.
+			</description>
+			<field type="stringField">
+				<title>A string inside group 2</title>
+				<description>
+					A string for use in the program.
+				</description>
+				<value>hello</value>
+			</field>
+		</group>
+		<field type="stringField">
+			<title>A string inside group 1</title>
+			<description>
+				A string for use in the program.
+			</description>
+			<value>hello</value>
+		</field>
+	</group>
 
-      <field type="unsignedIntField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>32</value>
-      </field>
+	<field type="booleanField">
+		<title>A boolean</title>
+		<description>
+		Desc?
+		</description>
+		<value>ASKDHLAKS</value>
+	</field>
 
-      <field type="signedIntField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>-12</value>
-      </field>
+	<field type="signedIntField">
+		<title>A number2</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
 
-      <field type="unsignedIntField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>32</value>
-      </field>
+	<field type="doubleField">
+		<title>A number 3</title>
+		<description>
+			A number for use in the program.
+		</description>
+		<value>20</value>
+	</field>
 
-      <field type="signedByteField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>1</value>
-      </field>
+	<field type="stringField">
+		<title>A string</title>
+		<description>
+			A string for use in the program.
+		</description>
+		<value>hello</value>
+		<minLength>2</minLength>
+		<maxLength>12</maxLength>
+	</field>
 
-      <field type="unsignedByteField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>3</value>
-      </field>
-
-      <field type="signedShortField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>-12</value>
-      </field>
-
-
-      <field type="unSignedShortField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>64</value>
-      </field>
-
-      <field type="floatField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>22</value>
-      </field>
-
-      <field type="doubleField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>3</value>
-      </field>
-
-      <field type="booleanField">
-        <title>A number</title>
-        <description>
-          A number for use in the program.
-        </description>
-        <value>true</value>
-      </field>
-
-      <field type="stringField">
-        <title>A string</title>
-        <description>
-          A string for use in the program.
-        </description>
-        <value>hello</value>
-      </field>
-
-  </deviceConfig>
+</deviceConfig>
