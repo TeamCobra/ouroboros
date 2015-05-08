@@ -29,6 +29,16 @@ namespace ouroboros
 		Item mItem;
 		Func mFunc;
 	};
+	
+	template <typename Item, typename Func>
+	class id_callback : public callback<Item, Func>
+	{
+	public:
+		id_callback(const std::string& aId, Item aItem, Func aFunc);
+		std::string get_id() const;
+	private:
+		std::string mId;
+	};
 }
 
 #include "callback.ipp"

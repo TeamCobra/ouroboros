@@ -3,6 +3,7 @@
 #include <server/device_tree.hpp>
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
+#include <sstream>
 
 namespace ouroboros
 {	
@@ -90,7 +91,7 @@ namespace ouroboros
 				break;
 				
 			case CALLBACK:
-				handle_custom_rest(aRequest);
+				handle_callback_rest(aRequest);
 				break;
 				
 			case NONE:
@@ -171,13 +172,48 @@ namespace ouroboros
 			sjson = detail::bad_JSON(conn);
 		}
 		
-		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
-	void ouroboros_server::handle_custom_rest(const rest_request& )
+	void ouroboros_server::handle_callback_rest(const rest_request& aRequest)
 	{
-		//TODO Implement this somehow
+		//get reference to named thing
+		std::string resource = normalize_group(aRequest.getGroups()) + '/' + aRequest.getFields();
+		var_field *named = mStore.get(normalize_group(aRequest.getGroups()), aRequest.getFields());
+		
+		std::string response;
+		mg_connection *conn = aRequest.getConnection();
+		if (named)
+		{
+			switch (aRequest.getHttpRequestType())
+			{
+				case POST:
+				{
+					std::stringstream ss;
+					ss << "{ \"id\" : ";
+					mCallbackManager.register_callback(resource);
+					
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+
+				}
+					break;
+
+				case DELETE:
+					//Send JSON describing named item
+					response = named->getJSON();
+					break;
+				
+				default:
+					response = detail::bad_JSON(conn);
+			}
+		}
+		else
+		{
+			response = detail::bad_JSON(conn);
+		}
+
+		mg_send_data(conn, response.c_str(), response.length());
 	}
 	
 	std::string ouroboros_server::normalize_group(const std::string& aGroup)
@@ -229,22 +265,23 @@ namespace ouroboros
 		}
 	}
 	
-	bool ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback)
+	std::string ouroboros_server::register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback)
 	{
+		std::string result;
 		var_field *named = mStore.get(normalize_group(aGroup), aField);
 		if (named)
 		{
 			std::string key(aGroup+"/"+aField);
+			result = key;
 			if (!mCallbackSubjects.count(key))
 			{
-				
-				mCallbackSubjects[key] = subject<callback<var_field*, callback_function> >();
+				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_function> >();
 			}
 			
-			callback<var_field*, callback_function> cb(named, aCallback);
+			id_callback<var_field*, callback_function> cb(result, named, aCallback);
 			mCallbackSubjects[key].registerObserver(cb);
 		}
-		return named;
+		return result;
 	}
 
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
