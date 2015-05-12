@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Wextra -pedantic -I. -I../ -I../data -I../../ -std=c++11 -I../../../lib/ -g
+CXXFLAGS=-Wall -Wextra -pedantic -I. -I../ -I../data -I../../ -std=c++14 -I../../../lib/ -g
 
 .PHONY: clean all
 
@@ -16,6 +16,9 @@ python_file.plugin: sample_python_file.cpp
 
 sample_cpp.plugin: sample_cpp.cpp
 	g++ $(CXXFLAGS) -fPIC -shared $< -o $@
+
+demo.plugin: demo.cpp
+	g++ $(CXXFLAGS) -I./wiringPi/wiringPi -fPIC -shared $< -o $@ -lwiringPi -lwiringPiDev
 
 clean:
 	rm -rf $(OUTPUT) *.o
