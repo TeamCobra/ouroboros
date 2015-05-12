@@ -102,6 +102,8 @@ namespace ouroboros
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_callback_rest(const rest_request& aRequest);
+		void handle_notification(const std::string& aGroup, const std::string& aField);
+		void send_response(var_field* aResponse);
 		
 		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);
@@ -118,9 +120,11 @@ namespace ouroboros
 		
 		callback_manager mCallbackManager;
 		std::map<std::string, subject<id_callback<var_field*, callback_function> > > mCallbackSubjects;
-		void handle_notification(const std::string& aGroup, const std::string& aField);
+		std::map<var_field *, std::string> mResponseUrls;
+		
 		
 	};
 }
 
 #endif//_OUROBOROS_OUROBOROS_SERVER_
+

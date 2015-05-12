@@ -4,6 +4,7 @@
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
 #include <sstream>
+#include <cassert>
 
 namespace ouroboros
 {	
@@ -189,13 +190,21 @@ namespace ouroboros
 			{
 				case POST:
 				{
-					std::stringstream ss;
-					ss << "{ \"id\" : ";
-					mCallbackManager.register_callback(resource);
-					
 					std::string data(conn->content, conn->content_len);
 					JSON json(data);
-
+					
+					std::string response_url = json.get("callback");
+					
+					//create callback
+					
+					//Due to a limitation of C++03, use a semi-global map
+					//to track response URLs
+					mResponseUrls[named] = response_url;
+					std::string callback_id = mCallbackManager.register_callback(resource);
+					register_callback(normalize_group(aRequest.getGroups()), aRequest.getFields(), NULL);
+					
+					std::stringstream ss;
+					ss << "{ \"id\" : \"" << callback_id << "\" }";
 				}
 					break;
 
@@ -214,6 +223,13 @@ namespace ouroboros
 		}
 
 		mg_send_data(conn, response.c_str(), response.length());
+	}
+	
+	void ouroboros_server::send_response(var_field* aResponse)
+	{
+		std::string url = mResponseUrls[aResponse];
+		
+		mg_connect(mpServer, url.c_str());
 	}
 	
 	std::string ouroboros_server::normalize_group(const std::string& aGroup)
@@ -259,6 +275,7 @@ namespace ouroboros
 		{
 			return this_server->handle_uri(conn, conn->uri);
 		}
+		//Add event handler for MG_CONNECT, used for sending messages out
 		else
 		{
 			return MG_FALSE;
