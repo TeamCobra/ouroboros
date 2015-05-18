@@ -22,7 +22,8 @@ namespace ouroboros
 	
 	ouroboros_server::ouroboros_server()
 	:mpServer(NULL),
-		mStore(device_tree<var_field>::get_device_tree().get_data_store())
+		mStore(device_tree<var_field>::get_device_tree().get_data_store()),
+		mFunctionManager(device_tree<var_field>::get_device_tree().get_function_manager())
 	{
 		mpServer = mg_create_server(this, ouroboros_server::event_handler);
 		mg_set_option(mpServer, "document_root", ".");      // Serve current directory
@@ -89,12 +90,15 @@ namespace ouroboros
 				handle_group_rest(aRequest);
 				break;
 				
-			case CUSTOM:
-				handle_custom_rest(aRequest);
+			case CALLBACKS:
+				handle_callback_rest(aRequest);
+				break;
+			
+			case FUNCTIONS:
+				handle_function_rest(aRequest);
 				break;
 				
 			case NONE:
-				break;
 			default:
 				return MG_FALSE;
 		}
@@ -120,6 +124,50 @@ namespace ouroboros
 					if (named->setJSON(json))
 					{
 						handle_notification(aRequest.getGroups(), aRequest.getFields());
+						sjson = detail::good_JSON();
+					}
+					else
+					{
+						sjson = detail::bad_JSON(conn);
+					}
+				}
+					break;
+				
+				case GET:
+					//Send JSON describing named item
+					sjson = named->getJSON();
+					break;
+				
+				default:
+					sjson = detail::bad_JSON(conn);
+			}
+		}
+		else
+		{
+			sjson = detail::bad_JSON(conn);
+		}
+		
+		mg_send_data(conn, sjson.c_str(), sjson.length());
+	}
+	
+	void ouroboros_server::handle_function_rest(const rest_request& aRequest)
+	{
+		//get reference to named thing
+		var_field *named = mStore.get(normalize_group(aRequest.getGroups()), aRequest.getFunctions());
+		
+		std::string sjson;
+		mg_connection *conn = aRequest.getConnection();
+		if (named)
+		{
+			switch (aRequest.getHttpRequestType())
+			{
+				case PUT:	
+				{	
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+					
+					if (named->setJSON(json))
+					{
 						sjson = detail::good_JSON();
 					}
 					else
@@ -175,7 +223,7 @@ namespace ouroboros
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
-	void ouroboros_server::handle_custom_rest(const rest_request& )
+	void ouroboros_server::handle_callback_rest(const rest_request& )
 	{
 		//TODO Implement this somehow
 	}
@@ -249,12 +297,12 @@ namespace ouroboros
 	
 	bool ouroboros_server::register_function(const std::string& aFunctionName, function_f aResponse)
 	{
-		return false;
+		return mFunctionManager.register_function(aFunctionName, aResponse);
 	}
 	
 	void ouroboros_server::execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters)
 	{
-		
+		mFunctionManager.execute_function(aFunctionName, aParameters);
 	}
 	
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);

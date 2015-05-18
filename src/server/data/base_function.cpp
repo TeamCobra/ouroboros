@@ -20,12 +20,13 @@ namespace ouroboros
 		std::string base = var_field::getJSON();
 		base.erase(base.find_first_of('{'), 1);
 		base.erase(base.find_last_of('}'), 1);
+		
 		ss << "{ \"parameters\" : { ";
 		
 		typedef std::vector<std::string>::const_iterator iter;
 		for (iter itr = mParameters.begin(); itr != mParameters.end(); ++itr)
 		{
-			ss << *itr << ", ";
+			ss << "\"*itr\"" << ",";
 		}
 		if (!mParameters.empty())
 		{
@@ -59,7 +60,8 @@ namespace ouroboros
 			//Make sens of params. It should be a JSON hash, from
 			//string -> string, where key is the param name, and value is the
 			//string representation of the value
-			JSON jparams(aJSON.get("parameters"));
+			std::string params = aJSON.get("parameters");
+			JSON jparams(params);
 			typedef std::vector<std::string>::const_iterator iter;
 			std::vector<std::string> parameters;
 			for (iter itr = mParameters.begin(); itr != mParameters.end(); ++itr)

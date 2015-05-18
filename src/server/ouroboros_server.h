@@ -118,7 +118,8 @@ namespace ouroboros
 		mg_result handle_rest(const rest_request& request);
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
-		void handle_custom_rest(const rest_request& aRequest);
+		void handle_callback_rest(const rest_request& aRequest);
+		void handle_function_rest(const rest_request& aRequest);
 		
 		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);
@@ -132,8 +133,8 @@ namespace ouroboros
 		
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
+		function_manager &mFunctionManager;
 		
-		std::map<std::string, callback<std::vector<std::string>, function_f> > mFunctionCallbacks;
 		std::map<std::string, subject<callback<var_field*, callback_f> > > mCallbackSubjects;
 		void handle_notification(const std::string& aGroup, const std::string& aField);
 		

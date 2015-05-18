@@ -10,8 +10,12 @@ namespace ouroboros
 	static const std::string character_set("[a-z0-9-_\\.]");
 	static const std::string full_regex("^/groups/(" + character_set + "+)/fields/(" + character_set + "+)/?$");
 	static const std::string group_regex("^/groups/(" + character_set + "+)/?$");
+	static const std::string functions_regex("^/groups/(" + character_set + "+)/functions/(" + character_set + "+)/?$");
+	
 	static const std::string root_field_regex("^/fields/(" + character_set + "+)/?$");
 	static const std::string root_group_regex("^/groups/?$");
+	static const std::string root_functions_regex("^/functions/(" + character_set + "+)/?$");
+	
 	
 	/**	Extracts the group from the given REST URI.
 	 * 
@@ -39,13 +43,20 @@ namespace ouroboros
 			slre_match(full_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int group_result =
 			slre_match(group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+		int functions_result =
+			slre_match(functions_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+			
 		int root_field_result =
 			slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		int root_group_result =
 			slre_match(root_group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+		int root_functions_result =
+			slre_match(root_functions_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+		
 
 		return (result >= 0 || group_result >= 0
-			       || root_field_result >= 0 || root_group_result);
+			       || root_field_result >= 0 || root_group_result >=0 ||
+			       functions_result >=0 || root_functions_result >= 0);
 	}
 
 	static rest_request_type get_rest_request_type(const std::string& aURI)
@@ -63,6 +74,13 @@ namespace ouroboros
 			root_group_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 		if (group_result >= 0 || root_group_result >= 0)
 			return GROUPS;
+		
+		int functions_result =
+			slre_match(functions_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+		int root_functions_result =
+			slre_match(root_functions_regex.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
+		if (functions_result >= 0 || root_functions_result >= 0)
+			return FUNCTIONS;
 		
 		return NONE;
 	}
@@ -115,6 +133,33 @@ namespace ouroboros
 		return result;
 	}
 
+	std::pair<std::string, std::string> extract_functions(const std::string& aURI)
+	{
+		std::pair<std::string, std::string> result;
+
+		//Check if user is accessing functions in root first
+		struct slre_cap match[1];
+		if(slre_match(root_functions_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0)
+		{
+			result.first = std::string();
+			result.second.assign(match[0].ptr, match[0].len);
+		}
+		else
+		{
+			struct slre_cap match[2];
+			slre_match(functions_regex.c_str(), aURI.c_str(), aURI.length(), match, 2, 0);
+
+			//Copy group title from match to remove remaining characters
+			std::string groupTitle(match[0].ptr);
+			groupTitle.erase(groupTitle.begin()+match[0].len, groupTitle.end());
+			
+			result.first.assign(groupTitle);
+			result.second.assign(match[1].ptr, match[1].len);
+		}
+
+		return result;
+	}
+	
 	std::string extract_group(const std::string& aURI)
 	{
 		struct slre_cap match[1];
@@ -145,9 +190,17 @@ namespace ouroboros
 				mGroups = extract_group(aUri);
 				break;
 			
-			case CUSTOM:
+			case CALLBACKS:
 				break;
-				
+			
+			case FUNCTIONS:
+			{
+				std::pair<std::string, std::string> data = extract_functions(aUri);
+				mGroups = data.first;
+				mFunctions = data.second;
+			}
+				break;
+			
 			case NONE:
 				break;
 		}
@@ -175,6 +228,11 @@ namespace ouroboros
 	std::string rest_request::getGroups() const
 	{
 		return mGroups;
+	}
+	
+	std::string rest_request::getFunctions() const
+	{
+		return mFunctions;
 	}
 	
 	mg_connection *rest_request::getConnection() const
