@@ -103,7 +103,10 @@ namespace ouroboros
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_callback_rest(const rest_request& aRequest);
 		void handle_notification(const std::string& aGroup, const std::string& aField);
-		void send_response(var_field* aResponse);
+		
+		static ouroboros_server *mpSendServer;
+		static void establish_connection(var_field* aResponse);
+		void send_response(mg_connection* aConn);
 		
 		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);

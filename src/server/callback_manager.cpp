@@ -23,7 +23,9 @@ namespace ouroboros
 	std::string callback_manager::register_callback(const std::string& aFunctionName)
 	{
 		std::string result = aFunctionName;
+		result += ":";
 		result = generate_random_string(result, 1);
+		
 		while (mIdToCallbacks.count(result))
 		{
 			result = generate_random_string(result, 1);
