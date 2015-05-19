@@ -214,7 +214,7 @@ namespace ouroboros
 					
 					std::stringstream ss;
 					ss << "{ \"id\" : \"" << callback_id << "\" }";
-					mg_send_status(aConn, 201);
+					mg_send_status(conn, 201);
 					response = ss.str();
 				}
 					break;
