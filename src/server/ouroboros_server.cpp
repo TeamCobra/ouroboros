@@ -210,7 +210,7 @@ namespace ouroboros
 					//Due to a limitation of C++03, use a semi-global map
 					//to track response URLs
 					mResponseUrls[named] = response_url;
-					std::string callback_id = mCallbackManager.register_callback(resource);
+					std::string callback_id = mCallbackManager.register_callback(aRequest.getGroups() + '/' + aRequest.getFields());
 					register_callback(aRequest.getGroups(), aRequest.getFields(), establish_connection);
 					
 					std::stringstream ss;
