@@ -90,7 +90,7 @@ namespace ouroboros
 		std::map<std::string, int>::iterator itr = mEnumMap.begin();
 		for (; itr != mEnumMap.end(); ++itr)
 		{
-			ss << '\"' << itr->first << "\" : \"" << itr->second << "\", ";
+			ss << '\"' << itr->first << "\" : " << itr->second << ", ";
 		}
 		std::string result = ss.str();
 		result.erase(result.find_last_of(","), 2);
