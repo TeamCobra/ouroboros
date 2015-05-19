@@ -210,8 +210,7 @@ namespace ouroboros
 					//Due to a limitation of C++03, use a semi-global map
 					//to track response URLs
 					mResponseUrls[named] = response_url;
-					std::string callback_id = mCallbackManager.register_callback(aRequest.getGroups() + '/' + aRequest.getFields());
-					register_callback(aRequest.getGroups(), aRequest.getFields(), establish_connection);
+					std::string callback_id = register_callback(aRequest.getGroups(), aRequest.getFields(), establish_connection);
 					
 					std::stringstream ss;
 					ss << "{ \"id\" : \"" << callback_id << "\" }";
@@ -220,8 +219,15 @@ namespace ouroboros
 					break;
 
 				case DELETE:
+				{
 					//Send JSON describing named item
-					response = named->getJSON();
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+					
+					std::string id = json.get("id");
+					unregister_callback(id);
+					response = detail::good_JSON();
+				}
 					break;
 				
 				default:
@@ -343,8 +349,8 @@ namespace ouroboros
 		var_field *named = mStore.get(normalize_group(aGroup), aField);
 		if (named)
 		{
-			std::string key(aGroup+"/"+aField);
-			result = key;
+			std::string key(aGroup + "/" + aField);
+			result = mCallbackManager.register_callback(key);
 			if (!mCallbackSubjects.count(key))
 			{
 				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_function> >();
@@ -354,6 +360,11 @@ namespace ouroboros
 			mCallbackSubjects[key].registerObserver(cb);
 		}
 		return result;
+	}
+	
+	void ouroboros_server::unregister_callback(const std::string& aID)
+	{
+		//TODO
 	}
 
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);

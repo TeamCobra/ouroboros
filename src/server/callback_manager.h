@@ -11,8 +11,8 @@ namespace ouroboros
 	public:
 		callback_manager();
 		
-		std::string register_callback(const std::string& aFunctionName);
-		void unregister_callback(const std::string& aID);
+		std::string register_callback(const std::string& aFieldName);
+		std::string unregister_callback(const std::string& aID);
 		
 	private:
 		std::map<std::string, std::string > mIdToCallbacks;

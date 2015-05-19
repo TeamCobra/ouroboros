@@ -20,9 +20,9 @@ namespace ouroboros
 		return result;
 	}
 	
-	std::string callback_manager::register_callback(const std::string& aFunctionName)
+	std::string callback_manager::register_callback(const std::string& aFieldName)
 	{
-		std::string result = aFunctionName;
+		std::string result = aFieldName;
 		result += ":";
 		result = generate_random_string(result, 1);
 		
@@ -31,12 +31,18 @@ namespace ouroboros
 			result = generate_random_string(result, 1);
 		}
 		
-		mIdToCallbacks[result] = aFunctionName;
+		mIdToCallbacks[result] = aFieldName;
 		return result;
 	}
 	
-	void callback_manager::unregister_callback(const std::string& aID)
+	std::string callback_manager::unregister_callback(const std::string& aID)
 	{
+		std::string result;
+		if (mIdToCallbacks.count(aID))
+		{
+			result = mIdToCallbacks[aID];
+		}
 		mIdToCallbacks.erase(aID);
+		return result;
 	}
 }

@@ -93,6 +93,13 @@ namespace ouroboros
 		 */
 		std::string register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
 		
+		/**	Unregisters a callback function for the specified element.
+		 *
+		 *	@param [in] aID String describing the ID of the callback.
+		 *	
+		 */
+		void unregister_callback(const std::string& aID);
+		
 	private:
 		
 		static const std::string group_delimiter;
