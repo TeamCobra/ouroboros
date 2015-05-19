@@ -24,7 +24,7 @@ namespace ouroboros
 	 */
 	enum rest_request_type
 	{
-		GROUPS, FIELDS, CALLBACKS, FUNCTIONS, NONE
+		GROUPS, FIELDS, CALLBACK, FUNCTIONS, NONE
 	};
 
 	/**	Represents the HTTP request type received.

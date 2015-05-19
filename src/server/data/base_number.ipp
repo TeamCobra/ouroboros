@@ -66,6 +66,12 @@ namespace ouroboros
 		}
 		return false;
 	}
+
+	template<class Number, Number Min, Number Max>
+	Number base_number<Number, Min, Max>::getNumber() const
+	{
+		return mValue;
+	}
 	
 	template<class Number, Number Min, Number Max>
 	std::string base_number<Number, Min, Max>::getJSON() const

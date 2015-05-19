@@ -1,11 +1,12 @@
 #include "base_string.h"
 #include <limits>
 #include <sstream>
+#include <slre/slre.h>
 
 namespace ouroboros
 {
 	base_string::base_string()
-	:var_field("", ""), mPattern(""), mLength(0),
+	:var_field("", ""), mPattern("*"),
 		mLengthRange(
 			std::numeric_limits<std::size_t>::min(),
 			std::numeric_limits<std::size_t>::max()),
@@ -17,14 +18,18 @@ namespace ouroboros
 		const std::string& aDescription,
 		const std::string& aValue,
 		const std::string& aPattern,
-		std::size_t aLength,
 		std::pair<std::size_t, std::size_t> aLengthRange)
-	:var_field(aTitle, aDescription), mPattern(aPattern), mLength(aLength), 
+	:var_field(aTitle, aDescription), mPattern(aPattern),
 		mLengthRange(aLengthRange), mValue(aValue)
 	{
 		mLengthRange.first = std::min(aLengthRange.first, aLengthRange.second);
 		mLengthRange.second = std::max(aLengthRange.first, aLengthRange.second);
-		//check string pattern TODO
+		
+		int match = slre_match(mPattern.c_str(), mValue.c_str(), mValue.length(), NULL, 0, 0);
+		if (match < 0)
+		{
+			throw std::domain_error("Value does not match pattern!");
+		}
 		
 		//check string size range
 		if (mLengthRange.first > mValue.length() || mLengthRange.second < mValue.length())
@@ -37,11 +42,6 @@ namespace ouroboros
 	std::string base_string::getPattern() const
 	{
 		return mPattern;
-	}
-
-	std::size_t base_string::getLength() const
-	{
-		return mLength;
 	}
 
 	std::size_t base_string::getMinLength() const
@@ -57,11 +57,7 @@ namespace ouroboros
 	std::string base_string::getJSON() const
 	{
 		std::stringstream ss;
-		std::string len, range_l, range_h;
-		ss << mLength;
-		len = ss.str();
-		ss.clear();
-		ss.str("");
+		std::string range_l, range_h;
 		ss << mLengthRange.first;
 		range_l = ss.str();
 		ss.clear();
@@ -78,7 +74,6 @@ namespace ouroboros
 			+ base + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
-			"\"length\" : " + len + " ," +
 			"\"range\" : [" + range_l + ", "
 				+ range_h + "] }");
 	}
@@ -110,20 +105,6 @@ namespace ouroboros
 		{
 			found = true;
 			if (!this->setPattern(aJSON.get("pattern")))
-			{
-				result = false;
-			}
-		}
-		if (result && aJSON.exists("length"))
-		{
-			found = true;
-			std::size_t num;
-			std::stringstream ss;
-
-			ss << aJSON.get("length");
-			ss >> num;
-
-			if (!ss || !result || !this->setLength(num))
 			{
 				result = false;
 			}
@@ -164,11 +145,6 @@ namespace ouroboros
 		return setPattern(aPattern, mValue);
 	}
 
-	bool base_string::setLength(const std::size_t& aLength)
-	{
-		return setLength(aLength, mValue);
-	}
-
 	bool base_string::setMinLength(const std::size_t& aMinLength)
 	{
 		return setMinLength(aMinLength, mValue);
@@ -181,25 +157,18 @@ namespace ouroboros
 	
 	bool base_string::setPattern(const std::string& aPattern, const std::string& aNewValue)
 	{
-		bool success = true;
-		//TODO check if new pattern matches current strings, and/or new string
+		bool success = false;
+		std::string oldPattern = mPattern;
+	
 		mPattern = aPattern;
-		
-		if (!aNewValue.empty() && checkValidity(aNewValue))
-		{
-			mValue = aNewValue;
-		}
-		
-		return success;
-	}
-
-	bool base_string::setLength(const std::size_t& aLength, const std::string& aNewValue)
-	{
-		bool success = true;
-		
 		if (checkValidity(aNewValue))
 		{
 			mValue = aNewValue;
+			success = true;
+		}
+		else
+		{
+			mPattern = oldPattern;
 		}
 		
 		return success;
@@ -258,9 +227,10 @@ namespace ouroboros
 	
 	bool base_string::checkValidity (const std::string& aString)
 	{
+		int match = slre_match(mPattern.c_str(), aString.c_str(), aString.length(), NULL, 0, 0);
 		if ((aString.length() >= mLengthRange.first) &&
 			(aString.length() <= mLengthRange.second) &&
-			(true /*TODO check for pattern match*/))
+			(match >= 0))
 		{
 			return true;
 		}

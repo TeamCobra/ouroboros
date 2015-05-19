@@ -3,8 +3,9 @@
 	#include <server/device_tree.tpp>
 	#include <data/base.hpp>
 	#include <data/base_string.h>
-	#include <data/base_number.hpp>
+	#include <data/base_enum.h>
 	#include <data/base_boolean.h>
+	#include <data/base_number.hpp>
 	#include <data/base_floating.hpp>
 	#include <data/base_function.h>
 	#include <server/function_manager.h>
@@ -22,6 +23,7 @@
 			{<%iinc%>	
 				std::vector<std::string> params;
 				group<var_field> result("server", "Root node.");
+				std::map<std::string, int> enumMap;
 				<%
 					this.eContents.each do |item|
 						if item.class.to_s === ServerModel::Field.to_s
@@ -58,6 +60,10 @@
 		else
 			parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ')
 			operator = '->'
+		end
+		
+		if type == 'enumField'
+			expand 'enumField::PrepareEnums', :for => this
 		end
 	%>
 	<%= parentGroupVar %><%= operator %>add(new <%nonl%><%nows%>

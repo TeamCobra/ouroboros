@@ -7,6 +7,7 @@
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
 #include <server/callback.hpp>
+#include <server/callback_manager.h>
 #include <server/data/subject.hpp>
 #include <server/function_manager.h>
 
@@ -90,9 +91,9 @@ namespace ouroboros
 		 *	@param [in] aField String describing the name of the desired field.
 		 *	@param [in] aCallback Callback functor that is called as void()
 		 *		function.
-		 *	@returns True upon success, false otherwise.
+		 *	@returns The string ID for the callback, or an empty string if it failed.
 		 */
-		bool register_callback(const std::string& aGroup, const std::string& aField, callback_f aCallback);
+		std::string register_callback(const std::string& aGroup, const std::string& aField, callback_f aCallback);
 		
 		/**	Registers a response function for the specified function call.
 		 *
@@ -110,6 +111,13 @@ namespace ouroboros
 		 */
 		void execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters);
 		
+		/**	Unregisters a callback function for the specified element.
+		 *
+		 *	@param [in] aID String describing the ID of the callback.
+		 *	
+		 */
+		void unregister_callback(const std::string& aID);
+		
 	private:
 		
 		static const std::string group_delimiter;
@@ -120,6 +128,11 @@ namespace ouroboros
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_callback_rest(const rest_request& aRequest);
 		void handle_function_rest(const rest_request& aRequest);
+		void handle_notification(const std::string& aGroup, const std::string& aField);
+		
+		static ouroboros_server *mpSendServer;
+		static void establish_connection(var_field* aResponse);
+		void send_response(mg_connection* aConn);
 		
 		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);
@@ -137,8 +150,10 @@ namespace ouroboros
 		
 		std::map<std::string, subject<callback<var_field*, callback_f> > > mCallbackSubjects;
 		void handle_notification(const std::string& aGroup, const std::string& aField);
-		
+		callback_manager mCallbackManager;
+		std::map<var_field *, std::string> mResponseUrls;
 	};
 }
 
 #endif//_OUROBOROS_OUROBOROS_SERVER_
+

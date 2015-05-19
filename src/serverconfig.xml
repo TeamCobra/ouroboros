@@ -9,7 +9,7 @@
 		<description>
 			This is Home
 		</description>
-		<field type="intField">
+		<field type="signedIntField">
 			<title>A number</title>
 			<description>
 				A number for use in the program.
@@ -117,6 +117,13 @@
 				b
 			</param>
 		</params>
+	</field>
+
+	<field type="enumField">
+		<title>An enum</title>
+		<description>dur</description>
+		<value>One</value>
+		<value>Two</value>
 	</field>
 
 </deviceConfig>
