@@ -402,10 +402,10 @@ namespace ouroboros
 			result = mCallbackManager.register_callback(key);
 			if (!mCallbackSubjects.count(key))
 			{
-				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_function> >();
+				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_f> >();
 			}
 			
-			id_callback<var_field*, callback_function> cb(result, named, aCallback);
+			id_callback<var_field*, callback_f> cb(result, named, aCallback);
 			mCallbackSubjects[key].registerObserver(cb);
 		}
 		return result;

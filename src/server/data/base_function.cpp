@@ -15,27 +15,31 @@ namespace ouroboros
 	std::string base_function::getJSON() const
 	{
 		std::stringstream ss;
+		std::string tmp;
+		
 		ss << "{ \"type\" : \"function\", ";
 		
-		std::string base = var_field::getJSON();
-		base.erase(base.find_first_of('{'), 1);
-		base.erase(base.find_last_of('}'), 1);
-		
-		ss << "{ \"parameters\" : { ";
+		tmp = var_field::getJSON();
+		tmp.erase(tmp.find_first_of('{'), 1);
+		tmp.erase(tmp.find_last_of('}'), 1);
+		ss << tmp;
+		ss << ", { \"parameters\" : { ";
 		
 		typedef std::vector<std::string>::const_iterator iter;
 		for (iter itr = mParameters.begin(); itr != mParameters.end(); ++itr)
 		{
-			ss << "\"*itr\"" << ",";
+			ss << "\"" << *itr << "\" ,";
 		}
+		tmp = ss.str();
+		
 		if (!mParameters.empty())
 		{
-			base.erase(base.find_last_of(','), 1);
+			tmp.erase(tmp.find_last_of(','), 1);
 		}
 		
-		ss << "} }";
+		tmp += "} }";
 		
-		return ss.str();
+		return tmp;
 	}
 
 	bool base_function::setJSON(const JSON& aJSON)

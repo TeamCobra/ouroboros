@@ -148,8 +148,7 @@ namespace ouroboros
 		data_store<var_field>& mStore;
 		function_manager &mFunctionManager;
 		
-		std::map<std::string, subject<callback<var_field*, callback_f> > > mCallbackSubjects;
-		void handle_notification(const std::string& aGroup, const std::string& aField);
+		std::map<std::string, subject<id_callback<var_field*, callback_f> > > mCallbackSubjects;
 		callback_manager mCallbackManager;
 		std::map<var_field *, std::string> mResponseUrls;
 	};
