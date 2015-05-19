@@ -12,4 +12,16 @@ namespace ouroboros
 	{
 		mFunc(mItem);
 	}
+	
+	template <typename Item, typename Func>
+	id_callback<Item, Func>::id_callback(const std::string& aId, Item aItem, Func aFunc)
+	:callback<Item, Func>(aItem, aFunc), mId(aId)
+	{}
+	
+	template <typename Item, typename Func>
+	std::string id_callback<Item, Func>::get_id() const
+	{
+		return mId;
+	}
+	
 }
