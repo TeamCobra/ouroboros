@@ -1,12 +1,14 @@
 #include <sstream>
 #include <limits>
+#include <typeinfo>
 
 namespace ouroboros
 {
 	template<class Number>
 	base_floating<Number>::base_floating()
-	:var_field("", ""), mRange(
-		-std::numeric_limits<Number>::max(), std::numeric_limits<Number>::max()),
+	:var_field("", ""),
+		mRange(-std::numeric_limits<Number>::max(),
+			std::numeric_limits<Number>::max()),
 		mValue(0)
 	{}
 
@@ -31,14 +33,16 @@ namespace ouroboros
 	}
 
 	template<class Number>
-	bool base_floating<Number>::setInclusiveRange(const std::pair<Number,Number>& aRange)
+	bool base_floating<Number>::setInclusiveRange(
+		const std::pair<Number,Number>& aRange)
 	{
 		bool result = setInclusiveRange(aRange, mValue);
 		return result;
 	}
 
 	template<class Number>
-	bool base_floating<Number>::setInclusiveRange(const std::pair<Number,Number>& aRange, Number aValue)
+	bool base_floating<Number>::setInclusiveRange(
+		const std::pair<Number,Number>& aRange, Number aValue)
 	{
 		std::pair<Number,Number> orig_range = mRange;
 
@@ -46,7 +50,9 @@ namespace ouroboros
 		mRange.first = std::min(aRange.first, aRange.second);
 		mRange.second = std::max(aRange.first, aRange.second);
 
-		if (mRange.first >= -std::numeric_limits<Number>::max() && mRange.second <= std::numeric_limits<Number>::max() && checkValidity(aValue))
+		if (mRange.first >= -std::numeric_limits<Number>::max() &&
+			mRange.second <= std::numeric_limits<Number>::max() &&
+			checkValidity(aValue))
 		{
 			mValue = aValue;
 			return true;
@@ -71,7 +77,25 @@ namespace ouroboros
 	std::string base_floating<Number>::getJSON() const
 	{
 		std::stringstream ss;
-		ss << "{ \"type\" : \"base_floating\", ";
+		ss << "{ \"type\" : \"";
+
+		if (typeid(Number) == typeid(float))
+		{
+			ss << "float";
+		}
+		else if (typeid(Number) == typeid(double))
+		{
+			ss << "double";
+		}
+		else if (typeid(Number) == typeid(long double))
+		{
+			ss << "long double";
+		}
+		else
+		{
+			ss << "unknown floating type";
+		}
+		ss << "\",";
 
 		std::string base = var_field::getJSON();
 		base.erase(base.find_first_of('{'), 1);
@@ -81,7 +105,7 @@ namespace ouroboros
 		ss << "\"range\" : [ " << mRange.first << ", " << mRange.second << " ]";
 		ss << " }";
 
-		return ss.str();;
+		return ss.str();
 	}
 
 	template<class Number>
@@ -142,7 +166,8 @@ namespace ouroboros
 				}
 			}
 
-			if (!ss || !result || !this->setInclusiveRange(std::pair<Number,Number>(min, max)))
+			if (!ss || !result ||
+				!this->setInclusiveRange(std::pair<Number,Number>(min, max)))
 			{
 				result = false;
 			}
@@ -153,7 +178,6 @@ namespace ouroboros
 			*this = backup;
 		}
 		return result && found;
-
 	}
 
 	template<class Number>

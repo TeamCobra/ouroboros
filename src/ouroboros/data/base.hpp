@@ -76,7 +76,7 @@ namespace ouroboros
 		std::string mTitle;
 		std::string mDescription;
 	};
-	
+
 	/**	Base class for all variable fields. Implements interface for returning
 	 * 	the JSON representation of its data.
 	 *
@@ -107,7 +107,7 @@ namespace ouroboros
 		 *
 		 *
 		 *	Example JSON object accepted:
-		 * 
+		 *
 		 *			{ "title" : "foo", "description" : "bar" }
 		 *			{ "title" : "foo" }
 		 *			{ "description" : "bar" }

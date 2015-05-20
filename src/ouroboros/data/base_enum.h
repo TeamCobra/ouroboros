@@ -45,9 +45,16 @@ namespace ouroboros
 		 *
 		 *	@param [in] aInt The new number to give to the field.
 		 *
-		 *	@returns True if setting the new range succeeded, false otherwise.
+		 *	@returns True if setting the new enum succeeded, false otherwise.
 		 */
 		bool setValue(const std::string& aEnum);
+
+		/**	Sets the enum string held by the field.
+		 *
+		 *	@param [in] aEnum The new enum string give to the field.
+		 *
+		 *	@returns True if setting the new enum succeeded, false otherwise.
+		 */
 		bool setValue(int aEnum);
 
 		/**	Returns the integer value of the requested Enum.
@@ -55,7 +62,7 @@ namespace ouroboros
 		 *	@returns The integer value of the requested Enum.
 		 */
 		int getValue() const;
-		
+
 		/**	Returns the string representation of the requested Enum.
 		 *
 		 *	@returns The string representation of the requested Enum.
@@ -66,17 +73,18 @@ namespace ouroboros
 		 *
 		 *	Example JSON output:
 		 *
-		 *			{ "title" : "foo", "description" : "bar", "value" : "E0",
-		 *				"enums" : { "E0" : 0, "E1" : 1, "E2" : 2 } }
+		 *			{ "type" : "enum", "title" : "foo", "description" : "bar",
+		 *				"value" : "E0", "enums" :
+		 *				{ "E0" : 0, "E1" : 1, "E2" : 2 } }
 		 *
-		 * @see ouroboros::var_field::get_value()
+		 *	@see ouroboros::var_field::get_value()
 		 */
 		virtual std::string getJSON() const;
 
 		/**	Tries to set the field to the JSON representation given.
 		 *
 		 *	Supported fields:
-		 * 
+		 *
 		 *		title - string\n
 		 *		description - string\n
 		 *		value - an enum string\n
@@ -86,7 +94,7 @@ namespace ouroboros
 		 *			{ "title" : "foo", "description" : "bar", "value" : "E0" }
 		 *			{ "value" : "E1" }
 		 *
-		 * @see ouroboros::var_field::setJSON()
+		 *	@see ouroboros::var_field::setJSON()
 		 */
 		bool setJSON(const JSON& aJSON);
 

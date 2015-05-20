@@ -42,8 +42,9 @@ namespace ouroboros
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param [in] aPair The inclusive range of values accepted by the field,
-		 *		with the lower number first, and the higher number second.
+		 *	@param [in] aPair The inclusive range of values accepted by the
+		 *		field, with the lower number first, and the higher number
+		 *		second.
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
@@ -59,8 +60,9 @@ namespace ouroboros
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param [in] aPair The inclusive range of values accepted by the field,
-		 *		with the lower number first, and the higher number second.
+		 *	@param [in] aPair The inclusive range of values accepted by the
+		 *		field, with the lower number first, and the higher number
+		 *		second.
 		 *	@param [in] aValue The new Value to set the field to, should the new
 		 *		range be beyond what the current value can handle.
 		 *
@@ -71,13 +73,19 @@ namespace ouroboros
 
 		/**	Returns the JSON representation of the integer field.
 		 *
-		 * @see ouroboros::var_field::get_value()
+		 *	Example JSON output:
+		 *
+		 *			{ "type" : "base_floating", "title" : "foo",
+		 *				"description" : "bar", "value" : -1.23,
+		 *				"range" : [ 0.0 , 100.0 ] }
+		 *
+		 *	@see ouroboros::var_field::get_value()
 		 */
 		virtual std::string getJSON() const ;
 
 		/**	Tries to set the field to the JSON representation given.
 		 *
-		 * @see ouroboros::var_field::setJSON()
+		 *	@see ouroboros::var_field::setJSON()
 		 */
 		bool setJSON(const JSON& aJSON) ;
 

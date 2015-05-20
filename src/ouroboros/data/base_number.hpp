@@ -26,7 +26,8 @@ namespace ouroboros
 		 *	@param [in] aRange A pair of values specifying the valid range
 		 *		(inclusive) for the integer (lower first, higher second).
 		 *
-		 *	@throws std::out_of_range When aValue does not meet range requirements.
+		 *	@throws std::out_of_range When aValue does not meet range
+		 *		requirements.
 		 */
 		base_number(
 			const std::string& aTitle,
@@ -42,8 +43,9 @@ namespace ouroboros
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param [in] aPair The inclusive range of values accepted by the field,
-		 *		with the lower number first, and the higher number second.
+		 *	@param [in] aPair The inclusive range of values accepted by the
+		 *		field, with the lower number first, and the higher number
+		 *		second.
 		 *
 		 *	@returns True if setting the new range succeeded, false otherwise.
 		 */
@@ -59,8 +61,9 @@ namespace ouroboros
 
 		/**	Sets the inclusive range of values accepted by the field.
 		 *
-		 *	@param [in] aPair The inclusive range of values accepted by the field,
-		 *		with the lower number first, and the higher number second.
+		 *	@param [in] aPair The inclusive range of values accepted by the
+		 *		field, with the lower number first, and the higher number
+		 *		second.
 		 *	@param [in] aValue The new Value to set the field to, should the new
 		 *		range be beyond what the current value can handle.
 		 *

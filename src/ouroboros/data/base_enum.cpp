@@ -79,7 +79,7 @@ namespace ouroboros
 	std::string base_enum::getJSON() const
 	{
 		std::stringstream ss;
-		ss << "{ \"type\" : \"base_enum\", ";
+		ss << "{ \"type\" : \"enum\", ";
 
 		std::string base = var_field::getJSON();
 		base.erase(base.find_first_of('{'), 1);
@@ -124,7 +124,7 @@ namespace ouroboros
 
 			ss << aJSON.get("value");
 			ss >> value;
-			
+
 			char * ptr;
 			num = strtol(value.c_str(), &ptr, 10);
 			if (!ptr)
@@ -170,12 +170,12 @@ namespace ouroboros
 		}
 		return false;
 	}
-	
+
 	int base_enum::getValue() const
 	{
 		return mValue;
 	}
-	
+
 	std::string base_enum::getString() const
 	{
 		return mValueMap[mValue];

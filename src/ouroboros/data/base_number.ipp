@@ -1,5 +1,11 @@
 #include <sstream>
 #include <limits>
+#include <typeinfo>
+
+//This header is not in C++03, but it can be found online if the platform does
+//not already support C99. Most modern Linux systems have stdint.h in their
+//include folders, so it should be picked up automatically.
+#include <stdint.h>
 
 namespace ouroboros
 {
@@ -77,7 +83,47 @@ namespace ouroboros
 	std::string base_number<Number, Min, Max>::getJSON() const
 	{
 		std::stringstream ss;
-		ss << "{ \"type\" : \"base_number\", ";
+		ss << "{ \"type\" : \"";
+
+		if (typeid(Number) == typeid(uint8_t))
+		{
+			ss << "unsigned byte";
+		}
+		else if (typeid(Number) == typeid(int8_t))
+		{
+			ss << "signed byte";
+		}
+		else if (typeid(Number) == typeid(uint16_t))
+		{
+			ss << "unsigned 16-bit number";
+		}
+		else if (typeid(Number) == typeid(int16_t))
+		{
+			ss << "signed 16-bit number";
+		}
+		else if (typeid(Number) == typeid(uint32_t))
+		{
+			ss << "unsigned 32-bit number";
+		}
+		else if (typeid(Number) == typeid(int32_t))
+		{
+			ss << "signed 32-bit number";
+		}
+		else if (typeid(Number) == typeid(uint64_t))
+		{
+			ss << "unsigned 64-bit number";
+		}
+		else if (typeid(Number) == typeid(int64_t))
+		{
+			ss << "signed 64-bit number";
+		}
+		else
+		{
+			ss << "unknown number type";
+		}
+		ss << "\", ";
+
+		ss << "\"absolute range\" : [ " << Min << ", " << Max << " ], ";
 
 		std::string base = var_field::getJSON();
 		base.erase(base.find_first_of('{'), 1);

@@ -63,7 +63,7 @@ namespace ouroboros
 		/**	Tries to set the field to the JSON representation given.
 		 *
 		 *	Supported fields:
-		 * 
+		 *
 		 *		title - string\n
 		 *		description - string\n
 		 *		value - "true" or "false"\n
@@ -73,7 +73,7 @@ namespace ouroboros
 		 *			{ "title" : "foo", "description" : "bar", "value" : "true" }
 		 *			{ "value" : "false" }
 		 *
-		 * @see var_field::setJSON() for more details.
+		 *	@see var_field::setJSON() for more details.
 		 */
 		bool setJSON(const JSON& aJSON) ;
 
