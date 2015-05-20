@@ -105,6 +105,19 @@
 		<minLength>2</minLength>
 		<maxLength>12</maxLength>
 	</field>
+	
+	<field type="functionField">
+		<title>func</title>
+		<description>func</description>
+		<params>
+			<param>
+				a
+			</param>
+			<param>
+				b
+			</param>
+		</params>
+	</field>
 
 	<field type="enumField">
 		<title>An enum</title>

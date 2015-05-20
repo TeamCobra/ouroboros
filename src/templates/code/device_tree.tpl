@@ -1,24 +1,29 @@
 <% require './ranges' %>
 <% define 'Tree', :for => this do %>
-	#include <server/device_tree.tpp>
-	#include <data/base.hpp>
-	#include <data/base_string.h>
-	#include <data/base_enum.h>
-	#include <data/base_boolean.h>
-	#include <data/base_number.hpp>
-	#include <data/base_floating.hpp>
+	#include <ouroboros/device_tree.tpp>
+	#include <ouroboros/function_manager.h>
+
+	#include <ouroboros/data/base.hpp>
+	#include <ouroboros/data/base_string.h>
+	#include <ouroboros/data/base_enum.h>
+	#include <ouroboros/data/base_boolean.h>
+	#include <ouroboros/data/base_number.hpp>
+	#include <ouroboros/data/base_floating.hpp>
+	#include <ouroboros/data/base_function.h>
+
 	#include <stdint.h>
 	#include <string>
 	#include <cmath>
-	
+
 	<%nl%>
 	namespace ouroboros
 	{<%iinc%>
 		namespace detail
 		{<%iinc%>
 			template<>
-			group<var_field> build_tree()
-			{<%iinc%>		
+			group<var_field> build_tree(function_manager& aManager)
+			{<%iinc%>	
+				std::vector<std::string> params;
 				group<var_field> result("server", "Root node.");
 				std::map<std::string, int> enumMap;
 				<%
@@ -39,11 +44,21 @@
 <% end %>
 
 <% define 'Field', :for => this do %>
+	<%if type == "functionField"%>
+		params.clear();
 	<%
+	params[0].param.each {
+		|x|
+		%>
+		params.push_back("<%= x.chardata[0].strip %>");
+		<%
+	}
+
+	end
+		
 		if parent.class.to_s === ServerModel::DeviceConfig.to_s  
 			parentGroupVar = 'result'
 			operator = '.'
-		
 		else
 			parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ')
 			operator = '->'
@@ -61,7 +76,7 @@
 				attr_accessor :Min;
 				attr_accessor :Max;
 			end
-			
+
 			# set the bit size of the integer based on type
 			case type 
 			when /Int/ then this.Type = "int32_t"
@@ -102,6 +117,8 @@
 			expand 'enumField::Field', :for => this
 		elsif type === "booleanField"
 			expand 'booleanField::Field', :for => this
+		elsif type == "functionField"
+			expand 'functionField::Field', :for => this
 		end
 	%>
 	);
@@ -123,6 +140,15 @@
 <% end %>
 
 <% define 'AddGroup', :for => this do %>
+	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
+	<% if parent.class.to_s != ServerModel::DeviceConfig.to_s %>
+		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);
+	<% else %>
+		result.add(<%= groupVar %>);
+	<% end %>
+<% end %>
+
+<% define 'AddParameters', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
 	<% if parent.class.to_s != ServerModel::DeviceConfig.to_s %>
 		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);

@@ -35,7 +35,8 @@ namespace ouroboros
 
 	ouroboros_server::ouroboros_server(uint16_t aPort)
 	:mpServer(NULL),
-		mStore(device_tree<var_field>::get_device_tree().get_data_store())
+		mStore(device_tree<var_field>::get_device_tree().get_data_store()),
+		mFunctionManager(device_tree<var_field>::get_device_tree().get_function_manager())
 	{
 
 		//The following line is a hack workaround to trying to avoid using
@@ -112,8 +113,11 @@ namespace ouroboros
 				handle_callback_rest(aRequest);
 				break;
 
-			case NONE:
+			case FUNCTIONS:
+				handle_function_rest(aRequest);
 				break;
+
+			case NONE:
 			default:
 				return MG_FALSE;
 		}
@@ -162,6 +166,50 @@ namespace ouroboros
 			sjson = detail::bad_JSON(conn);
 		}
 
+		mg_send_data(conn, sjson.c_str(), sjson.length());
+	}
+	
+	void ouroboros_server::handle_function_rest(const rest_request& aRequest)
+	{
+		//get reference to named thing
+		var_field *named = mStore.get(normalize_group(aRequest.getGroups()), aRequest.getFunctions());
+		
+		std::string sjson;
+		mg_connection *conn = aRequest.getConnection();
+		if (named)
+		{
+			switch (aRequest.getHttpRequestType())
+			{
+				case PUT:	
+				{	
+					std::string data(conn->content, conn->content_len);
+					JSON json(data);
+					
+					if (named->setJSON(json))
+					{
+						sjson = detail::good_JSON();
+					}
+					else
+					{
+						sjson = detail::bad_JSON(conn);
+					}
+				}
+					break;
+				
+				case GET:
+					//Send JSON describing named item
+					sjson = named->getJSON();
+					break;
+				
+				default:
+					sjson = detail::bad_JSON(conn);
+			}
+		}
+		else
+		{
+			sjson = detail::bad_JSON(conn);
+		}
+		
 		mg_send_data(conn, sjson.c_str(), sjson.length());
 	}
 
@@ -351,7 +399,7 @@ namespace ouroboros
 	std::string ouroboros_server::register_callback(
 		const std::string& aGroup,
 		const std::string& aField,
-		callback_function aCallback)
+		callback_f aCallback)
 	{
 		std::string result;
 		var_field *named = mStore.get(normalize_group(aGroup), aField);
@@ -361,22 +409,31 @@ namespace ouroboros
 			result = mCallbackManager.register_callback(key);
 			if (!mCallbackSubjects.count(key))
 			{
-				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_function> >();
+				mCallbackSubjects[key] = subject<id_callback<var_field*, callback_f> >();
 			}
 
-			id_callback<var_field*, callback_function> cb(result, named, aCallback);
+			id_callback<var_field*, callback_f> cb(result, named, aCallback);
 			mCallbackSubjects[key].registerObserver(cb);
 		}
 		return result;
 	}
 
-	void ouroboros_server::unregister_callback(const std::string& aID)
+	void ouroboros_server::unregister_callback(const std::string&)
 	{
 		//TODO
 	}
-
+	
+	bool ouroboros_server::register_function(const std::string& aFunctionName, function_f aResponse)
+	{
+		return mFunctionManager.register_function(aFunctionName, aResponse);
+	}
+	
+	void ouroboros_server::execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters)
+	{
+		mFunctionManager.execute_function(aFunctionName, aParameters);
+	}
+	
 	const std::string ouroboros_server::group_delimiter(data_store<var_field>::group_delimiter);
 	ouroboros_server *ouroboros_server::mpSendServer = NULL;
 }
-
 

@@ -19,7 +19,7 @@ namespace ouroboros
 	{
 		mpDataStore =
 			new data_store<field>(
-				detail::build_tree<field>());
+				detail::build_tree<field>(mFunctionManager));
 	}
 
 	template <class field>
@@ -33,6 +33,12 @@ namespace ouroboros
 	data_store<field>& device_tree<field>::get_data_store()
 	{
 		return *mpDataStore;
+	}
+	
+	template <class field>
+	function_manager& device_tree<field>::get_function_manager()
+	{
+		return mFunctionManager;
 	}
 
 	template<class field>

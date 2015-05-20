@@ -27,7 +27,7 @@ namespace ouroboros
 	 */
 	enum rest_request_type
 	{
-		GROUPS, FIELDS, CALLBACK, NONE
+		GROUPS, FIELDS, CALLBACK, FUNCTIONS, NONE
 	};
 
 	/**	Represents the HTTP request type received.
@@ -73,6 +73,12 @@ namespace ouroboros
 		 */
 		std::string getFields() const;
 
+		/**	Returns the function the REST request targets, if any.
+		 *
+		 *	@returns The function the REST request targets, or empty if none.
+		 */
+		std::string getFunctions() const;
+
 		/**	Returns the group the REST request targets, if any.
 		 *
 		 *	@returns the group the REST request targets, or empty if none.
@@ -92,6 +98,7 @@ namespace ouroboros
 		rest_request_type mRestType;
 		std::string mGroups;
 		std::string mFields;
+		std::string mFunctions;
 
 		mg_connection *mpConnection;
 	};

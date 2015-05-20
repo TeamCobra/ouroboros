@@ -7,9 +7,11 @@
 #include <ouroboros/data/base.hpp>
 #include <ouroboros/data/data_store.hpp>
 #include <ouroboros/data/subject.hpp>
+#include <ouroboros/function_manager.h>
 
 #include <pthread.h>
 #include <mongoose/mongoose.h>
+
 
 //This header is not in C++03, but it can be found online if the platform does
 //not already support C99. Most modern Linux systems have stdint.h in their
@@ -21,8 +23,8 @@ namespace ouroboros
 	class ouroboros_server
 	{
 	public:
-
-		typedef void (*callback_function)(var_field* aField);
+		typedef function_manager::function_f function_f;
+		typedef void (*callback_f)(var_field* aField);
 
 		/**	Constructor.
 		 *
@@ -104,7 +106,23 @@ namespace ouroboros
 		std::string register_callback(
 			const std::string& aGroup,
 			const std::string& aField,
-			callback_function aCallback);
+			callback_f aCallback);
+
+		/**	Registers a response function for the specified function call.
+		 *
+		 *	@param [in] aFunctionName Name of the function to register.
+		 *	@param [in] aResponse Callback functor that is called as
+		 * 		void(std::vector<std::string>) function.
+		 *	@returns True upon success, false otherwise.
+		 */
+		bool register_function(const std::string& aFunctionName, function_f aResponse);
+
+		/**	Executes a response function for the specified function call.
+		 *
+		 *	@param [in] aFunctionName Name of the function to call.
+		 *	@param [in] aParameters Parameters as strings in a vector.
+		 */
+		void execute_function(const std::string& aFunctionName, const std::vector<std::string>& aParameters);
 
 		/**	Unregisters a callback function for the specified element.
 		 *
@@ -122,6 +140,8 @@ namespace ouroboros
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_callback_rest(const rest_request& aRequest);
+
+		void handle_function_rest(const rest_request& aRequest);
 		void handle_notification(
 			const std::string& aGroup, const std::string& aField);
 
@@ -142,10 +162,11 @@ namespace ouroboros
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 
+		function_manager &mFunctionManager;
+
 		callback_manager mCallbackManager;
-		std::map< std::string, subject<
-				id_callback<var_field*, callback_function> >
-			> mCallbackSubjects;
+		std::map<std::string, subject<
+				id_callback<var_field*, callback_f> > > mCallbackSubjects;
 
 		std::map<var_field *, std::string> mResponseUrls;
 	};
