@@ -84,19 +84,19 @@ namespace ouroboros
 		base.erase(base.find_first_of('{'), 1);
 		base.erase(base.find_last_of('}'), 1);
 		
-		ss << base << ", \"value\" : " << mValueMap[mValue] << ", ";
-		ss << "enums : [ ";
+		ss << base << ", \"value\" : \"" << mValueMap[mValue] << "\", ";
+		ss << "\"enums\" : { ";
 		
 		std::map<std::string, int>::iterator itr = mEnumMap.begin();
 		for (; itr != mEnumMap.end(); ++itr)
 		{
-			ss << itr->first << ", ";
+			ss << '\"' << itr->first << "\" : " << itr->second << ", ";
 		}
-		base.erase(base.find_last_of(", "), 1);
-		ss << " ]";
-		ss << " }";
+		std::string result = ss.str();
+		result.erase(result.find_last_of(","), 2);
+		result += " } }";
 		
-		return ss.str();;
+		return result;
 	}
 	
 	bool base_enum::setJSON(const JSON& aJSON)

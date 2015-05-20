@@ -7,6 +7,7 @@
 #include <mongoose/mongoose.h>
 #include <server/rest.h>
 #include <server/callback.hpp>
+#include <server/callback_manager.h>
 #include <server/data/subject.hpp>
 
 namespace ouroboros
@@ -88,9 +89,16 @@ namespace ouroboros
 		 *	@param [in] aField String describing the name of the desired field.
 		 *	@param [in] aCallback Callback functor that is called as void()
 		 *		function.
-		 *	@returns True upon success, false otherwise.
+		 *	@returns The string ID for the callback, or an empty string if it failed.
 		 */
-		bool register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
+		std::string register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
+		
+		/**	Unregisters a callback function for the specified element.
+		 *
+		 *	@param [in] aID String describing the ID of the callback.
+		 *	
+		 */
+		void unregister_callback(const std::string& aID);
 		
 	private:
 		
@@ -100,7 +108,12 @@ namespace ouroboros
 		mg_result handle_rest(const rest_request& request);
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
-		void handle_custom_rest(const rest_request& aRequest);
+		void handle_callback_rest(const rest_request& aRequest);
+		void handle_notification(const std::string& aGroup, const std::string& aField);
+		
+		static ouroboros_server *mpSendServer;
+		static void establish_connection(var_field* aResponse);
+		void send_response(mg_connection* aConn);
 		
 		static int event_handler(mg_connection *conn, mg_event ev);
 		static std::string normalize_group(const std::string& aGroup);
@@ -115,10 +128,13 @@ namespace ouroboros
 		mg_server *mpServer;
 		data_store<var_field>& mStore;
 		
-		std::map<std::string, subject<callback<var_field*, callback_function> > > mCallbackSubjects;
-		void handle_notification(const std::string& aGroup, const std::string& aField);
+		callback_manager mCallbackManager;
+		std::map<std::string, subject<id_callback<var_field*, callback_function> > > mCallbackSubjects;
+		std::map<var_field *, std::string> mResponseUrls;
+		
 		
 	};
 }
 
 #endif//_OUROBOROS_OUROBOROS_SERVER_
+

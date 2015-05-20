@@ -15,7 +15,7 @@ class base_string_test : public ::testing::Test {
 	// is empty.
 
 	base_string_test()
-	:str("title", "desc", "value", "value", 0, std::pair<std::size_t, std::size_t>(0,10))
+	:str("title", "desc", "value", ".*", std::pair<std::size_t, std::size_t>(0,10))
 	{
 		// You can do set-up work for each test here.
 	}
@@ -30,7 +30,7 @@ class base_string_test : public ::testing::Test {
 	virtual void SetUp() {
 		// Code here will be called immediately after the constructor (right
 		// before each test).
-		str = base_string("title", "desc", "value", "value", 0, std::pair<std::size_t, std::size_t>(0,10));
+		str = base_string("title", "desc", "value", ".*", std::pair<std::size_t, std::size_t>(0,10));
 	}
 
 	virtual void TearDown() {
@@ -93,7 +93,7 @@ TEST_F(base_string_test, test_set_max_length)
 
 TEST_F(base_string_test, test_get_JSON)
 {
-	std::string response = "{ \"type\" : \"base_string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \"value\" ,\"length\" : 0 ,\"range\" : [0, 10] }";
+	std::string response = "{ \"type\" : \"base_string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \".*\" ,\"range\" : [0, 10] }";
 	ASSERT_EQ(response, str.getJSON());
 }
 
@@ -101,8 +101,8 @@ TEST_F(base_string_test, test_set_JSON)
 {
 	ASSERT_TRUE(str.setJSON(JSON("{\"value\" : \"value2\"}")));
 	ASSERT_FALSE(str.setJSON(JSON("{\"value\" : \"123456789012345\" }")));
-	ASSERT_FALSE(str.setJSON(JSON("{\"description\" : \"value2\"}")));
-	ASSERT_FALSE(str.setJSON(JSON("{\"title\" : \"value2\"}")));
+	ASSERT_TRUE(str.setJSON(JSON("{\"description\" : \"value2\"}")));
+	ASSERT_TRUE(str.setJSON(JSON("{\"title\" : \"value2\"}")));
 }
 
 }

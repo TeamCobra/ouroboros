@@ -68,6 +68,13 @@ namespace ouroboros
 		 */
 		bool setInclusiveRange(
 			const std::pair<Number, Number>& aRange, Number aValue);
+	
+		/**	Gets the number held by the field.
+		 *
+		 *	@returns The number held by the field.
+		 */
+		Number getNumber() const;
+
 		
 		/**	Returns the JSON representation of the integer field.
 		 * 

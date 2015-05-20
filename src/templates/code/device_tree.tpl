@@ -3,8 +3,9 @@
 	#include <server/device_tree.tpp>
 	#include <data/base.hpp>
 	#include <data/base_string.h>
-	#include <data/base_number.hpp>
+	#include <data/base_enum.h>
 	#include <data/base_boolean.h>
+	#include <data/base_number.hpp>
 	#include <data/base_floating.hpp>
 	#include <stdint.h>
 	#include <string>
@@ -19,6 +20,7 @@
 			group<var_field> build_tree()
 			{<%iinc%>		
 				group<var_field> result("server", "Root node.");
+				std::map<std::string, int> enumMap;
 				<%
 					this.eContents.each do |item|
 						if item.class.to_s === ServerModel::Field.to_s
@@ -46,10 +48,14 @@
 			parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ')
 			operator = '->'
 		end
+		
+		if type == 'enumField'
+			expand 'enumField::PrepareEnums', :for => this
+		end
 	%>
 	<%= parentGroupVar %><%= operator %>add(new <%nonl%><%nows%>
 	<%
-		if type =~ /(un)?signed(Int|Short|Byte)Field/ or type === "intField"
+		if type =~ /(un)?signed(Int|Short|Byte)Field/
 			class << this
 				attr_accessor :Type;
 				attr_accessor :Min;
