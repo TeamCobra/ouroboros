@@ -17,6 +17,10 @@ namespace ouroboros
 	 *	to make the code that executes here simple, and if necessary, spawn
 	 *	external threads to do continuous and/or heavy work.
 	 *
+	 *	Another aspect to note is that the working directory of the plugins
+	 *	will be that of the server, not where they are located relative to the
+	 *	server.
+	 *
 	 *	@param [in] aServer A reference to the server object passed in by the
 	 *		plugin manager. All public methods defined by the server are
 	 *		accessible.

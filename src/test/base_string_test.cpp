@@ -92,7 +92,7 @@ TEST_F(base_string_test, test_set_max_length)
 
 TEST_F(base_string_test, test_get_JSON)
 {
-	std::string response = "{ \"type\" : \"base_string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \".*\" ,\"range\" : [0, 10] }";
+	std::string response = "{ \"type\" : \"string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \".*\" ,\"range\" : [0, 10] }";
 	ASSERT_EQ(response, str.getJSON());
 }
 

@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include <cassert>
+#include <sstream>
 
 //This header is not in C++03, but it can be found online if the platform does
 //not already support C99. Most modern Linux systems have stdint.h in their
@@ -36,6 +37,7 @@ namespace ouroboros
 	:mpServer(NULL),
 		mStore(device_tree<var_field>::get_device_tree().get_data_store())
 	{
+
 		//The following line is a hack workaround to trying to avoid using
 		//functional support in c++03
 		if (!mpSendServer)
@@ -43,9 +45,12 @@ namespace ouroboros
 			//HACK
 			mpSendServer = this;
 		}
+
+		std::stringstream ss;
+		ss << aPort;
 		mpServer = mg_create_server(this, ouroboros_server::event_handler);
 		mg_set_option(mpServer, "document_root", ".");      // Serve current directory
-		mg_set_option(mpServer, "listening_port", "8080");  // Open port 8080
+		mg_set_option(mpServer, "listening_port", ss.str().c_str());  // Open port 8080
 	}
 
 	ouroboros_server::~ouroboros_server()

@@ -47,6 +47,7 @@ bool plugin_manager::load(const std::string& aPath)
 		return false;
 	}
 
+	//HACK:
 	//This is a hackish way to ward off undefined behavior caused by dlsym.
 	//In short, POSIX requires conversions between object pointers and
 	//function pointers to be possible, while the C and C++ ISO standards

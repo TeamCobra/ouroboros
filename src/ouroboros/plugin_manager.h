@@ -12,8 +12,8 @@ namespace ouroboros
 	{
 	public:
 
-		/**	Constructor. Uses a default directory for searching for plugins.
-		 *	FIXME what's a reasonable default?
+		/**	Constructor.
+		 *
 		 *	@param [in] aServer Server reference to pass to plugins.
 		 *
 		 */

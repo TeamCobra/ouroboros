@@ -11,8 +11,9 @@ namespace ouroboros
 {
 	/**	Checks whether the given C string represents a REST URI. The REST URIs
 	 *	recognize must be one of the following:
-	 * /group/(group-names)/name/(itemName)
-	 * /group/(group-names)
+	 *
+	 *			/group/(group-names)/name/(itemName)
+	 *			/group/(group-names)
 	 *
 	 *	@param aURI C string URI to check.
 	 *
@@ -78,9 +79,6 @@ namespace ouroboros
 		 */
 		std::string getGroups() const;
 
-		//TODO Implement functionality for REST callbacks
-		//std::string getCustom();
-
 		/**	Returns a pointer to the connection object associated with the
 		 *		request.
 		 *
@@ -96,7 +94,6 @@ namespace ouroboros
 		std::string mFields;
 
 		mg_connection *mpConnection;
-		//TODO callback functionality
 	};
 }
 

@@ -50,8 +50,12 @@ namespace ouroboros
 		int field_callback_result =
 			slre_match(full_regex_callback.c_str(), aURI.c_str(), aURI.length(), NULL, 0, 0);
 
-		return (result >= 0 || group_result >= 0
-			       || root_field_result >= 0 || root_group_result >= 0 || root_callback_result >= 0 || field_callback_result >= 0);
+		return (result >= 0 ||
+			group_result >= 0 ||
+			root_field_result >= 0 ||
+			root_group_result >= 0 ||
+			root_callback_result >= 0 ||
+			field_callback_result >= 0);
 	}
 
 	static rest_request_type get_rest_request_type(const std::string& aURI)
@@ -107,7 +111,8 @@ namespace ouroboros
 
 		//Check if user is accessing field in root first
 		struct slre_cap match[1];
-		if ((slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0) || (slre_match(root_field_regex_callback.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0))
+		if ((slre_match(root_field_regex.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0) ||
+			(slre_match(root_field_regex_callback.c_str(), aURI.c_str(), aURI.length(), match, 1, 0) >= 0))
 		{
 			result.first = std::string();
 			result.second.assign(match[0].ptr, match[0].len);
@@ -143,7 +148,8 @@ namespace ouroboros
 		return result;
 	}
 
-	rest_request::rest_request(mg_connection* apConnection, const std::string& aUri)
+	rest_request::rest_request(
+		mg_connection* apConnection, const std::string& aUri)
 	:mHttpType(get_http_request_type(apConnection->request_method)),
 		mRestType(get_rest_request_type(aUri)), mpConnection(apConnection)
 	{
@@ -152,7 +158,8 @@ namespace ouroboros
 			case FIELDS:
 			case CALLBACK:
 			{
-				std::pair<std::string, std::string> data = extract_group_name(aUri);
+				std::pair<std::string, std::string> data =
+					extract_group_name(aUri);
 				mGroups = data.first;
 				mFields = data.second;
 			}

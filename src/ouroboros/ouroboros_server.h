@@ -143,7 +143,10 @@ namespace ouroboros
 		data_store<var_field>& mStore;
 
 		callback_manager mCallbackManager;
-		std::map<std::string, subject<id_callback<var_field*, callback_function> > > mCallbackSubjects;
+		std::map< std::string, subject<
+				id_callback<var_field*, callback_function> >
+			> mCallbackSubjects;
+
 		std::map<var_field *, std::string> mResponseUrls;
 	};
 }
