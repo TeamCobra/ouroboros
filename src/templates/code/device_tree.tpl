@@ -7,18 +7,21 @@
 	#include <data/base_boolean.h>
 	#include <data/base_number.hpp>
 	#include <data/base_floating.hpp>
+	#include <data/base_function.h>
+	#include <server/function_manager.h>
 	#include <stdint.h>
 	#include <string>
 	#include <cmath>
-	
+
 	<%nl%>
 	namespace ouroboros
 	{<%iinc%>
 		namespace detail
 		{<%iinc%>
 			template<>
-			group<var_field> build_tree()
-			{<%iinc%>		
+			group<var_field> build_tree(function_manager& aManager)
+			{<%iinc%>	
+				std::vector<std::string> params;
 				group<var_field> result("server", "Root node.");
 				std::map<std::string, int> enumMap;
 				<%
@@ -39,11 +42,21 @@
 <% end %>
 
 <% define 'Field', :for => this do %>
+	<%if type == "functionField"%>
+		params.clear();
 	<%
+	params[0].param.each {
+		|x|
+		%>
+		params.push_back("<%= x.chardata[0].strip %>");
+		<%
+	}
+
+	end
+		
 		if parent.class.to_s === ServerModel::DeviceConfig.to_s  
 			parentGroupVar = 'result'
 			operator = '.'
-		
 		else
 			parentGroupVar = parent.title.chardata[0].strip.downcase.delete(' ')
 			operator = '->'
@@ -102,6 +115,8 @@
 			expand 'enumField::Field', :for => this
 		elsif type === "booleanField"
 			expand 'booleanField::Field', :for => this
+		elsif type == "functionField"
+			expand 'functionField::Field', :for => this
 		end
 	%>
 	);
@@ -123,6 +138,15 @@
 <% end %>
 
 <% define 'AddGroup', :for => this do %>
+	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
+	<% if parent.class.to_s != ServerModel::DeviceConfig.to_s %>
+		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);
+	<% else %>
+		result.add(<%= groupVar %>);
+	<% end %>
+<% end %>
+
+<% define 'AddParameters', :for => this do %>
 	<% groupVar = title.chardata[0].strip.downcase.delete(' ') %>
 	<% if parent.class.to_s != ServerModel::DeviceConfig.to_s %>
 		<%= parent.title.chardata[0].strip.downcase.delete(' ') %>->add(<%= groupVar %>);

@@ -3,6 +3,7 @@
 
 #include <data/base.hpp>
 #include <data/data_store.hpp>
+#include <function_manager.h>
 
 namespace ouroboros
 {
@@ -26,6 +27,8 @@ namespace ouroboros
 		 */
 		data_store<field>& get_data_store();
 		
+		function_manager& get_function_manager();
+		
 		~device_tree();
 		
 	private:
@@ -34,8 +37,9 @@ namespace ouroboros
 		 */
 		device_tree();
 		static device_tree *mpTree;
-		
+
 		data_store<field> *mpDataStore;
+		function_manager mFunctionManager;
 	};
 	
 }
