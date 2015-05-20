@@ -8,12 +8,12 @@
 
 namespace ouroboros
 {
-	/**	Implementation of the data_store concept (TODO: document concepts used
-	 * 	somewhere). This implementation takes in a "root" group which it uses to
-	 * 	keep track of the variables of the system.
+	/**	Implementation of the data_store concept.
+	 *		This implementation takes in a "root" group which it uses to
+	 *		keep track of the variables of the system.
 	 *
 	 *	@tparam T Type of the variables stored in the data_store. T must conform
-	 *		to the base_field concept (TODO: document concepts somewhere).
+	 *		to the base_field concept (@see base_field for details).
 	 */
 	template <class T>
 	class data_store
@@ -24,11 +24,11 @@ namespace ouroboros
 
 		/**	Initializes the data_store by moving a group into its control.
 		 *
-		 *	@param [in] aRoot Group to be moved (i.e. std::move) into the control of
-		 * 		the data_store.
+		 *	@param [in] aRoot Group to be moved (i.e. std::move) into the
+		 *		control of the data_store.
 		 *
 		 *	@post The data_store has control over the group and the contents of
-		 * 		the group can be searched for.
+		 *		the group can be searched for.
 		 */
 		data_store(const group<T>& apRoot);
 

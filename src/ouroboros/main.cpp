@@ -18,11 +18,14 @@ void handler(int)
 
 int main()
 {
+	cout << "Starting Ouroboros...\n";
+
 	std::string plugin_directory("plugin");
-	ouroboros_server s;
+	ouroboros_server s(8080);
 	plugin_manager plugin_manager(s);
 
-	cout << "Plugins loaded : " << plugin_manager.load_directory(plugin_directory) << endl;
+	cout << "\tPlugins loaded : " <<
+		plugin_manager.load_directory(plugin_directory) << endl;
 	signal(SIGINT, handler);
 
 	run = 1;
@@ -31,6 +34,6 @@ int main()
 		s.run();
 	}
 
-	cout << "Exiting program..." << endl;
+	cout << "Exiting Ouroboros..." << endl;
 	return 0;
 }

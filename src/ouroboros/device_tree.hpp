@@ -7,14 +7,14 @@
 namespace ouroboros
 {
 	/**	Implementation of a singleton class to hold information about the
-	 *	data being stored (TODO and custom functionality?).
+	 *	data being stored.
 	 *
 	 */
 	template<class field>
 	class device_tree
 	{
 	public:
-		/**	Gets the instance of the device_tree. (TODO Should we worry about thread safety?)
+		/**	Gets the instance of the device_tree.
 		 *
 		 *	@returns The instance of the device_tree.
 		 */

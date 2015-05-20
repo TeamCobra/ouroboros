@@ -27,10 +27,13 @@ namespace ouroboros
 		 *	@param [in] aDescription Description of the field.
 		 *	@param [in] aValue Contents of the string.
 		 *	@param [in] aPattern Pattern to match the content of the string to.
-		 *	@param [in] aLengthRange Range of the length of the string (inclusive).
+		 *	@param [in] aLengthRange Range of the length of the string
+		 *		(inclusive).
 		 *
-		 *	@throws std::out_of_range When aValue does not meet range requirements.
-		 * 	@throws std::invalid_argument When aValue does not meet pattern requirements.
+		 *	@throws std::out_of_range When aValue does not meet range
+		 *		requirements.
+		 *	@throws std::invalid_argument When aValue does not meet pattern
+		 *		requirements.
 		 */
 		base_string(
 			const std::string& aTitle,
@@ -61,8 +64,8 @@ namespace ouroboros
 		 *	the new pattern were to invalidate the current string, this function
 		 *	call fails.
 		 *
-		 *	@param [in] aPattern The new pattern to match the contents of the string
-		 *		field to.
+		 *	@param [in] aPattern The new pattern to match the contents of the
+		 *		string field to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -71,8 +74,8 @@ namespace ouroboros
 
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *
-		 *	@param [in] aMinLength The new minimum length (inclusive) of the string
-		 *		field.
+		 *	@param [in] aMinLength The new minimum length (inclusive) of the
+		 *		string field.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -81,8 +84,8 @@ namespace ouroboros
 
 		/**	Sets the maximum length (inclusive) of the string field.
 		 *
-		 *	@param [in] aMaxLength The new maximum length (inclusive) of the string
-		 *		field.
+		 *	@param [in] aMaxLength The new maximum length (inclusive) of the
+		 *		string field.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
 		 *		change took place in the system.
@@ -93,8 +96,8 @@ namespace ouroboros
 		 *	the new pattern were to invalidate the current string, this function
 		 *	call fails, unless the new value specified matches the new pattern.
 		 *
-		 *	@param [in] aPattern The new pattern to match the contents of the string
-		 *		field to.
+		 *	@param [in] aPattern The new pattern to match the contents of the
+		 *		string field to.
 		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -104,18 +107,10 @@ namespace ouroboros
 			const std::string& aPattern,
 			const std::string& aNewValue);
 
-		/**	Sets the FIXME see constructor for questions.
-		 *
-		 *	@returns The ?.
-		 */
-		bool setLength(
-			const std::size_t& aLength,
-			const std::string& aNewValue);
-
 		/**	Sets the minimum length (inclusive) of the string field.
 		 *
-		 *	@param [in] aMinLength The new minimum length (inclusive) of the string
-		 *		field.
+		 *	@param [in] aMinLength The new minimum length (inclusive) of the
+		 *		string field.
 		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -127,8 +122,8 @@ namespace ouroboros
 
 		/**	Sets the maximum length (inclusive) of the string field.
 		 *
-		 *	@param [in] aMaxLength The new maximum length (inclusive) of the string
-		 *		field.
+		 *	@param [in] aMaxLength The new maximum length (inclusive) of the
+		 *		string field.
 		 *	@param [in] aNewValue An optional new value to update the string to.
 		 *
 		 *	@returns True upon success, false upon failure. Upon failure, no
@@ -155,13 +150,28 @@ namespace ouroboros
 
 		/**	Returns the JSON representation of the string field.
 		 *
-		 * @see ouroboros::var_field::getJSON()
+		 *	Example JSON output:
+		 *
+		 *			{ "type": "string", "title": "A string",
+		 *				"description": "A test string",	"value": "hello",
+		 *				"pattern": ".*", "range": [ 0, 18446744073709552000 ] }
+		 *
+		 *	@see ouroboros::var_field::getJSON() for more details.
 		 */
 		virtual std::string getJSON() const;
 
 		/**	Tries to set the object to the JSON received.
 		 *
-		 * @see ouroboros::var_field::setJSON()
+		 *	If a proposed range invalidates a current value (or vice versa), the
+		 *		requested change will not be processed and the function will
+		 *		return false.
+		 *
+		 *	Example JSON input:
+		 *		{ "value" : "foobar" }
+		 *		{ "value" : "test_string", "pattern" : "t.+g" }
+		 *		{ "range" : [ 0, 500 ] }
+		 *
+		 *	@see ouroboros::var_field::setJSON()
 		 */
 		virtual bool setJSON(const JSON& aJSON);
 

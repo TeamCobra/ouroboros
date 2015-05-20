@@ -81,15 +81,30 @@ namespace ouroboros
 
 		/**	Returns the JSON representation of the integer field.
 		 *
-		 * @see ouroboros::var_field::get_value()
+		 *	Example JSON output:
+		 *
+		 *		{ "type": "signed 32-bit number",
+		 *			"absolute range": [ -2147483648, 2147483647 ],
+		 *			"title": "A number", "description": "An example number",
+		 *			"value": 20, "range": [ -2147483648, 2147483647 ] }
+		 *
+		 *	@see ouroboros::var_field::get_value()
 		 */
 		virtual std::string getJSON() const ;
 
 		/**	Tries to set the field to the JSON representation given.
 		 *
-		 * @see ouroboros::var_field::setJSON()
+		 *	If a proposed range invalidates a current value (or vice versa), the
+		 *		requested change will not be processed and the function will
+		 *		return false.
+		 *
+		 *	Example JSON input:
+		 *		{ "value" : 100 }
+		 *		{ "range" : [-100, 500 ] }
+		 *
+		 *	@see ouroboros::var_field::setJSON() for more information.
 		 */
-		bool setJSON(const JSON& aJSON) ;
+		bool setJSON(const JSON& aJSON);
 
 	private:
 		std::pair<Number, Number> mRange;

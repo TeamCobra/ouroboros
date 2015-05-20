@@ -75,7 +75,7 @@ namespace ouroboros
 		 *
 		 *	Example JSON output:
 		 *
-		 *			{ "type" : "base_floating", "title" : "foo",
+		 *			{ "type" : "double", "title" : "foo",
 		 *				"description" : "bar", "value" : -1.23,
 		 *				"range" : [ 0.0 , 100.0 ] }
 		 *
@@ -85,7 +85,18 @@ namespace ouroboros
 
 		/**	Tries to set the field to the JSON representation given.
 		 *
-		 *	@see ouroboros::var_field::setJSON()
+		 *	If a proposed range invalidates a current value (or vice versa), the
+		 *		requested change will not be processed and the function will
+		 *		return false.
+		 *
+		 *	Example JSON input:
+		 *		{ "value" : 100.0 }
+		 *		{ "range" : [-100.0, 500.9 ] }
+		 *
+		 *	@return True if setting the requested fields succeeded, false
+		 *		otherwise.
+		 *
+		 *	@see ouroboros::var_field::setJSON() for more information.
 		 */
 		bool setJSON(const JSON& aJSON) ;
 

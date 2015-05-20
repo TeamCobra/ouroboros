@@ -28,6 +28,23 @@ namespace ouroboros
 		 *	@returns Normalized string.
 		 */
 		std::string normalize_name(const std::string& aName);
+
+		/**	Generates a random string using the given string as a basis.
+		 *
+		 *	@param [in] aBase String to use as a basis.
+		 *	@param [in] aPool String to use as a pool of characters that may be
+		 *		used for generating random strings.
+		 *	@param [in] aNAppend Number of random characters to append.
+		 *
+		 *	@returns A random string based on aBase. It will look like:
+		 *
+		 *			aBase:###
+		 * 		Where ### represent the random characters appended.
+		 *
+		 */
+		std::string generate_random_string(
+			const std::string& aBase, const std::string& aPool,
+			std::size_t aNAppend);
 	}
 }
 

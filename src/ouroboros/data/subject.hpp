@@ -16,6 +16,8 @@ namespace ouroboros
 		 */
 		void registerObserver(const Observer& aObserver);
 
+		//TODO provide a way to unregister an observer
+
 		/**	Notifies all registered observer by calling their functors.
 		 *
 		 */

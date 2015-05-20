@@ -11,6 +11,11 @@
 #include <pthread.h>
 #include <mongoose/mongoose.h>
 
+//This header is not in C++03, but it can be found online if the platform does
+//not already support C99. Most modern Linux systems have stdint.h in their
+//include folders, so it should be picked up automatically.
+#include <stdint.h>
+
 namespace ouroboros
 {
 	class ouroboros_server
@@ -23,8 +28,10 @@ namespace ouroboros
 		 *
 		 *	Prepares server to run.
 		 *
+		 *	@param [in] aPort Port to listen on.
+		 *
 		 */
-		ouroboros_server();
+		ouroboros_server(uint16_t aPort);
 
 		/**	Destructor.
 		 *
@@ -57,7 +64,8 @@ namespace ouroboros
 		 *
 		 */
 		var_field *get(const std::string& aGroup, const std::string& aField);
-		const var_field *get(const std::string& aGroup, const std::string& aField) const;
+		const var_field *get(
+			const std::string& aGroup, const std::string& aField) const;
 		//@}
 
 		//@{
@@ -77,7 +85,10 @@ namespace ouroboros
 		/**	Sets the content of the desired element to a copy of the one
 		 *		specified.
 		 */
-		bool set(const std::string& aGroup, const std::string& aField, const var_field& aFieldData);
+		bool set(
+			const std::string& aGroup,
+			const std::string& aField,
+			const var_field& aFieldData);
 
 		/**	Registers a callback function for the specified element.
 		 *
@@ -86,9 +97,14 @@ namespace ouroboros
 		 *	@param [in] aField String describing the name of the desired field.
 		 *	@param [in] aCallback Callback functor that is called as void()
 		 *		function.
-		 *	@returns The string ID for the callback, or an empty string if it failed.
+		 *	@returns The string ID for the callback, or an empty string if it
+		 *		failed.
+		 *
 		 */
-		std::string register_callback(const std::string& aGroup, const std::string& aField, callback_function aCallback);
+		std::string register_callback(
+			const std::string& aGroup,
+			const std::string& aField,
+			callback_function aCallback);
 
 		/**	Unregisters a callback function for the specified element.
 		 *
@@ -106,7 +122,8 @@ namespace ouroboros
 		void handle_name_rest(const rest_request& aRequest);
 		void handle_group_rest(const rest_request& aRequest);
 		void handle_callback_rest(const rest_request& aRequest);
-		void handle_notification(const std::string& aGroup, const std::string& aField);
+		void handle_notification(
+			const std::string& aGroup, const std::string& aField);
 
 		static ouroboros_server *mpSendServer;
 		static void establish_connection(var_field* aResponse);

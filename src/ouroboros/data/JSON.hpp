@@ -10,7 +10,8 @@ namespace ouroboros
 {
 	namespace detail
 	{
-		std::string getJSONElement(json_token *arr, const std::string& aElement);
+		std::string getJSONElement
+			json_token *arr, const std::string& aElement);
 
 		template<typename number>
 		number extractNumber(const std::string& aString);

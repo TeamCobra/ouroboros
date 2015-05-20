@@ -1,5 +1,6 @@
 #include <ouroboros/callback_manager.h>
 #include <ouroboros/rest.h>
+#include <ouroboros/data/misc.h>
 
 #include <sstream>
 #include <cstdlib>
@@ -11,25 +12,16 @@ namespace ouroboros
 	callback_manager::callback_manager()
 	{}
 
-	static std::string generate_random_string(const std::string& aBase, std::size_t aNAppend)
-	{
-		std::string result(aBase);
-		for (std::size_t i = 0; i < aNAppend; ++i)
-		{
-			result += rand_string[rand() % rand_string.length()];
-		}
-		return result;
-	}
-
-	std::string callback_manager::register_callback(const std::string& aFieldName)
+	std::string callback_manager::register_callback(
+		const std::string& aFieldName)
 	{
 		std::string result = aFieldName;
 		result += ":";
-		result = generate_random_string(result, 1);
+		result = detail::generate_random_string(result, rand_string, 1);
 
 		while (mIdToCallbacks.count(result))
 		{
-			result = generate_random_string(result, 1);
+			result = detail::generate_random_string(result, rand_string, 1);
 		}
 
 		mIdToCallbacks[result] = aFieldName;

@@ -194,7 +194,8 @@ namespace ouroboros
 				}
 			}
 
-			if (!ss || !result || !this->setInclusiveRange(std::pair<Number,Number>(min, max)))
+			if (!ss || !result ||
+				!this->setInclusiveRange(std::pair<Number,Number>(min, max)))
 			{
 				result = false;
 			}

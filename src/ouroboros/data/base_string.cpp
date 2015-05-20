@@ -26,16 +26,19 @@ namespace ouroboros
 		mLengthRange.first = std::min(aLengthRange.first, aLengthRange.second);
 		mLengthRange.second = std::max(aLengthRange.first, aLengthRange.second);
 
-		int match = slre_match(mPattern.c_str(), mValue.c_str(), mValue.length(), NULL, 0, 0);
+		int match = slre_match(
+			mPattern.c_str(), mValue.c_str(), mValue.length(), NULL, 0, 0);
 		if (match < 0)
 		{
 			throw std::domain_error("Value does not match pattern!");
 		}
 
 		//check string size range
-		if (mLengthRange.first > mValue.length() || mLengthRange.second < mValue.length())
+		if (mLengthRange.first > mValue.length() ||
+			mLengthRange.second < mValue.length())
 		{
-			throw std::out_of_range("Length of value is outside of the range specified!");
+			throw std::out_of_range(
+				"Length of value is outside of the range specified!");
 		}
 
 	}
@@ -71,7 +74,7 @@ namespace ouroboros
 		base.erase(base.find_last_of('}'), 1);
 
 		return std::string(
-			"{ \"type\" : \"base_string\", "
+			"{ \"type\" : \"string\", "
 			+ base + ", " +
 			"\"value\" : \"" + mValue + "\" ," +
 			"\"pattern\" : \"" + mPattern + "\" ," +
@@ -128,7 +131,8 @@ namespace ouroboros
 				ss >> max;
 			}
 
-			if (!ss || !result || !this->setMinLength(min) || !this->setMaxLength(max))
+			if (!ss || !result || !this->setMinLength(min) ||
+				!this->setMaxLength(max))
 			{
 				result = false;
 			}
@@ -156,7 +160,8 @@ namespace ouroboros
 		return setMaxLength(aMaxLength, mValue);
 	}
 
-	bool base_string::setPattern(const std::string& aPattern, const std::string& aNewValue)
+	bool base_string::setPattern(
+		const std::string& aPattern, const std::string& aNewValue)
 	{
 		bool success = false;
 		std::string oldPattern = mPattern;
@@ -175,7 +180,8 @@ namespace ouroboros
 		return success;
 	}
 
-	bool base_string::setMinLength(const std::size_t& aMinLength, const std::string& aNewValue)
+	bool base_string::setMinLength(
+		const std::size_t& aMinLength, const std::string& aNewValue)
 	{
 		if (aMinLength > mLengthRange.second)
 			return false;
@@ -193,7 +199,8 @@ namespace ouroboros
 		return false;
 	}
 
-	bool base_string::setMaxLength(const std::size_t& aMaxLength, const std::string& aNewValue)
+	bool base_string::setMaxLength(
+		const std::size_t& aMaxLength, const std::string& aNewValue)
 	{
 		if (aMaxLength < mLengthRange.first)
 			return false;
@@ -211,7 +218,8 @@ namespace ouroboros
 		return false;
 	}
 
-	bool base_string::setString(const std::string& aString)
+	bool base_string::setString(
+		const std::string& aString)
 	{
 		if (checkValidity(aString))
 		{
@@ -228,7 +236,8 @@ namespace ouroboros
 
 	bool base_string::checkValidity (const std::string& aString)
 	{
-		int match = slre_match(mPattern.c_str(), aString.c_str(), aString.length(), NULL, 0, 0);
+		int match = slre_match(
+			mPattern.c_str(), aString.c_str(), aString.length(), NULL, 0, 0);
 		if ((aString.length() >= mLengthRange.first) &&
 			(aString.length() <= mLengthRange.second) &&
 			(match >= 0))

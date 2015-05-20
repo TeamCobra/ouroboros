@@ -6,7 +6,7 @@ namespace ouroboros
 	{
 		/**	Builds the data tree used by the main data_store instance.
 		 *	NOTE: This function is to be templated by code generator.
-		 * 
+		 *
 		 */
 		template<class field>
 		group<field> build_tree();
