@@ -65,7 +65,8 @@ namespace ouroboros
 		/**	Returns the JSON representation of the field. Even though it is
 		 *	declared abstract, it has a default implementation available. It
 		 *	returns the title and description of the base_field as follows:
-		 *		{ "title" : "TITLE", "description" : "DESCRIPTION" }
+		 *
+		 *			{ "title" : "TITLE", "description" : "DESCRIPTION" }
 		 *
 		 * @returns The JSON representation of the field.
 		 */
@@ -75,12 +76,11 @@ namespace ouroboros
 		std::string mTitle;
 		std::string mDescription;
 	};
-
+	
 	/**	Base class for all variable fields. Implements interface for returning
 	 * 	the JSON representation of its data.
 	 *
 	 */
-	typedef void(*var_field_callback)(const std::string&, const std::string&) ;
 	class var_field : public base_field
 	{
 	public:
@@ -102,11 +102,15 @@ namespace ouroboros
 		/**	Tries to set the object to the JSON received.
 		 *
 		 *	Supported fields:
-		 *		title - string
-		 *		description - string
-		 *	e.g.	{ "title" : "foo", "description" : "bar" }
+		 *		title - string\n
+		 *		description - string\n
+		 *
+		 *
+		 *	Example JSON object accepted:
+		 * 
+		 *			{ "title" : "foo", "description" : "bar" }
 		 *			{ "title" : "foo" }
-		 * 			{ "description" : "bar" }
+		 *			{ "description" : "bar" }
 		 *
 		 * @returns True upon success, false otherwise.
 		 */
@@ -175,7 +179,7 @@ namespace ouroboros
 		 */
 		group<T>* removeGroup(const std::string& aName);
 
-		///@{
+		//@{
 		/**	Finds the given field in the group.
 		 *
 		 *	@param [in] aName Name of the field to find.
@@ -185,9 +189,9 @@ namespace ouroboros
 		 */
 		T *findItem(const std::string& aName);
 		const T *findItem(const std::string& aName) const;
-		///@}
+		//@}
 
-		///@{
+		//@{
 		/**	Finds the given group in the group.
 		 *
 		 *	@param [in] aName Name of the group to find.
@@ -197,7 +201,7 @@ namespace ouroboros
 		 */
 		group<T> *findGroup(const std::string& aName);
 		const group<T> *findGroup(const std::string& aName) const;
-		///@}
+		//@}
 
 		/**	Gets the number of groups and items found within the group.
 		 *
@@ -207,9 +211,12 @@ namespace ouroboros
 
 		/**	Returns the JSON representation of the field.
 		 *
+		 *	Each subclass of var_field is in charge of defining the output of
+		 *	this function.
+		 *
 		 *	@see base_field::getJSON for more details.
 		 *
-		 * @returns The JSON representation of the field.
+		 *	@returns The JSON representation of the field.
 		 */
 		std::string getJSON() const;
 

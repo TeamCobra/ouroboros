@@ -12,7 +12,8 @@ namespace ouroboros
 	{
 		if (apField)
 		{
-			std::string lookupTitle = detail::normalize_name(apField->getTitle());
+			std::string lookupTitle =
+				detail::normalize_name(apField->getTitle());
 			mItems[lookupTitle] = apField;
 
 			mInsertOrder.push_back(lookupTitle);
@@ -24,7 +25,8 @@ namespace ouroboros
 	{
 		if (apGroup)
 		{
-			std::string lookupTitle = detail::normalize_name(apGroup->getTitle());
+			std::string lookupTitle =
+				detail::normalize_name(apGroup->getTitle());
 			mGroups[lookupTitle] = apGroup;
 
 			mInsertOrder.push_back(lookupTitle);
@@ -60,13 +62,15 @@ namespace ouroboros
 	template<class T>
 	T *group<T>::findItem(const std::string& aName)
 	{
-		return const_cast<T *>(static_cast<const group&>(*this).findItem(aName));
+		return const_cast<T *>(
+			static_cast<const group&>(*this).findItem(aName));
 	}
 
 	template<class T>
 	group<T>* group<T>::findGroup(const std::string& aName)
 	{
-		return const_cast<group<T> *>(static_cast<const group&>(*this).findGroup(aName));
+		return const_cast<group<T> *>(
+			static_cast<const group&>(*this).findGroup(aName));
 	}
 
 	template<class T>
@@ -111,15 +115,19 @@ namespace ouroboros
 		{
 			typedef std::list<std::string>::const_iterator l_iter;
 
-			for (l_iter itr = mInsertOrder.begin(); itr != mInsertOrder.end(); ++itr)
+			for (l_iter itr = mInsertOrder.begin();
+				itr != mInsertOrder.end();
+				++itr)
 			{
 				if (mGroups.count(*itr))
 				{
-					result += " \"" + *itr + "\" : " + mGroups.find(*itr)->second->getJSON() + ",";
+					result += " \"" + *itr + "\" : "
+						+ mGroups.find(*itr)->second->getJSON() + ",";
 				}
 				if (mItems.count(*itr))
 				{
-					result +=  "\"" + *itr + "\" : " + mItems.find(*itr)->second->getJSON() + ",";
+					result +=  "\"" + *itr + "\" : "
+						+ mItems.find(*itr)->second->getJSON() + ",";
 				}
 			}
 

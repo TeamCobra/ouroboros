@@ -29,7 +29,6 @@ namespace ouroboros
 			mValue = 0;
 			throw(std::out_of_range("Given enum is out of range!"));
 		}
-
 	}
 
 	base_enum::base_enum(
@@ -125,7 +124,8 @@ namespace ouroboros
 
 			ss << aJSON.get("value");
 			ss >> value;
-			char * ptr = reinterpret_cast<char*>(1); // Make it not null on purpose, strtol should set it to null on success
+			
+			char * ptr;
 			num = strtol(value.c_str(), &ptr, 10);
 			if (!ptr)
 			{
@@ -149,8 +149,8 @@ namespace ouroboros
 		{
 			*this = backup;
 		}
-		return result && found;
 
+		return result && found;
 	}
 
 	bool base_enum::checkValidity (int aEnum) const
@@ -169,5 +169,15 @@ namespace ouroboros
 			return true;
 		}
 		return false;
+	}
+	
+	int base_enum::getValue() const
+	{
+		return mValue;
+	}
+	
+	std::string base_enum::getString() const
+	{
+		return mValueMap[mValue];
 	}
 }

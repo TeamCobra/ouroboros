@@ -42,6 +42,12 @@ namespace ouroboros
 
 		/**	Gets the value held by the field.
 		 *
+		 *	The JSON representation outputs all the information held by the
+		 *	base_boolean. Example:
+		 *
+		 *		{ "type" : "boolean", "title" : "TITLE",
+		 *			"description" : "DESCRIPTION", "value" : "false" }
+		 *
 		 *	@param [in] aInt The new number to give to the field.
 		 *
 		 *	@returns The field's current value;
@@ -57,10 +63,14 @@ namespace ouroboros
 		/**	Tries to set the field to the JSON representation given.
 		 *
 		 *	Supported fields:
-		 *		title - string
-		 *		description - string
-		 *		value - "true" or "false"
-		 *	e.g.	{ "title" : "foo", "description" : "bar", "value" : "true" }
+		 * 
+		 *		title - string\n
+		 *		description - string\n
+		 *		value - "true" or "false"\n
+		 *
+		 *	Example JSON inputs:
+		 *
+		 *			{ "title" : "foo", "description" : "bar", "value" : "true" }
 		 *			{ "value" : "false" }
 		 *
 		 * @see var_field::setJSON() for more details.
