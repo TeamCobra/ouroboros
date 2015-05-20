@@ -1,6 +1,6 @@
-#include <data/base.hpp>
+#include <ouroboros/data/base.hpp>
+#include <ouroboros/data/base_string.h>
 
-#include <data/base_string.h>
 #include <gtest/gtest.h>
 
 
@@ -45,29 +45,29 @@ TEST_F(BaseTest, Test_BaseString) {
 	str.setTitle("title2");
 	ASSERT_EQ("title2", str.getTitle());
 	ASSERT_NE("title", str.getTitle());
-	
+
 	ASSERT_EQ("desc", str.getDescription());
 	str.setDescription("desc2");
 	ASSERT_EQ("desc2", str.getDescription());
-	
+
 	ASSERT_EQ(0, str.getMinLength());
 	ASSERT_EQ(10, str.getMaxLength());
 	ASSERT_TRUE(str.setMinLength(4));
 	ASSERT_TRUE(str.setMaxLength(6));
-	
+
 	ASSERT_EQ(4, str.getMinLength());
 	ASSERT_EQ(6, str.getMaxLength());
-	
+
 	ASSERT_FALSE(str.setMaxLength(1));
 	ASSERT_FALSE(str.setMinLength(10));
-	
+
 	ASSERT_TRUE(str.setMinLength(1, "1"));
 	ASSERT_TRUE(str.setMaxLength(1));
-	
+
 }
 
 TEST_F(BaseTest, Test_BaseInteger) {
-	
+
 }
 
 }	// namespace
