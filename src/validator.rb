@@ -89,6 +89,11 @@ class Validator
 
 				elsif item.type === 'enumField' or item.type === 'booleanField' or item.type === 'functionField'
 					if item.type === 'functionField'
+						if item.params.size === 0
+							puts "\nERROR in function field: #{item.title.chardata[0].strip}\n" +
+									"No <params> tag defined\n"
+							valid = false
+						end
 						if item.params.size > 1
 							puts "\nERROR in function field: #{item.title.chardata[0].strip}\n" +
 									"Multiple <params> tags defined\n"

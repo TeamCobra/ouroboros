@@ -9,6 +9,7 @@ module ServerModel
 	class MinLength < RGen::MetamodelBuilder::MMBase; end
 	class MaxLength < RGen::MetamodelBuilder::MMBase; end
 	class Pattern < RGen::MetamodelBuilder::MMBase; end
+	class Params < RGen::MetamodelBuilder::MMBase; end
 
   class Field < RGen::MetamodelBuilder::MMBase 
 		contains_many 'title', Title, 'parent'
@@ -19,6 +20,7 @@ module ServerModel
 		contains_many 'minLength', MinLength, 'parent'
 		contains_many 'maxLength', MaxLength, 'parent'
 		contains_many 'pattern', Pattern, 'parent'
+		contains_many 'params', Params, 'parent'
 	end
   
   class Group < RGen::MetamodelBuilder::MMBase
