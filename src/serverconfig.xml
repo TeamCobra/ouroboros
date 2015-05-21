@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deviceConfig>
-	<libraries>
-		<files>myfile.h</files>
-	</libraries>
+
 	<group>
-   		<title>Home</title>
+		<title>Home</title>
 		<description>
-			This is Home
+			This is the Home group.
 		</description>
+		
 		<field type="signedIntField">
 			<title>A number</title>
 			<description>
@@ -24,10 +23,32 @@
 			</description>
 			<value>hello</value>
 		</field>
+
+		<field type="enumField">
+			<title>An enum</title>
+			<description>
+				An enum for use in the program.
+			</description>
+			<value>Enum1</value>
+			<value>Enum2</value>
+			<value>Enum3</value>
+			<value>Enum4</value>
+			<value>Enum5</value>
+		</field>
+		
+		<field type="booleanField">
+			<title>A boolean</title>
+			<description>
+				An boolean for use in the program.
+			</description>
+			<value>true</value>
+		</field>
+
 	</group>
 
 	<group>
-   	<title>General</title>
+
+   		<title>General</title>
 		<description>
 			This is General, a top level nav item.
 		</description>
@@ -44,6 +65,40 @@
 					A string for use in the program.
 				</description>
 				<value>hello</value>
+			</field>
+
+			<field type="floatField">
+				<title>A float</title>
+				<description>
+					A floating number
+				</description>
+				<value>
+					12345.6789
+				</value>
+
+				<min>
+					0
+				</min>
+				<max>
+					1000000000
+				</max>
+			</field>
+
+			<field type="doubleField">
+				<title>A double</title>
+				<description>
+					A double precision number
+				</description>
+				<value>
+					9876.5432
+				</value>
+
+				<min>
+					-1000000000
+				</min>
+				<max>
+					1000000000
+				</max>
 			</field>
 
 			<group>
@@ -70,61 +125,8 @@
 			</description>
 			<value>hello</value>
 		</field>
-	</group>
-
-	<field type="booleanField">
-		<title>A boolean</title>
-		<description>
-		Desc?
-		</description>
-		<value>ASKDHLAKS</value>
-	</field>
 		
-	<field type="signedIntField">
-		<title>A number2</title>
-		<description>
-			A number for use in the program.
-		</description>
-		<value>20</value>
-	</field>
-	
-	<field type="doubleField">
-		<title>A number 3</title>
-		<description>
-			A number for use in the program.
-		</description>
-		<value>20</value>
-	</field>
-	
-	<field type="stringField">
-		<title>A string</title>
-		<description>
-			A string for use in the program.
-		</description>
-		<value>hello</value>
-		<minLength>2</minLength>
-		<maxLength>12</maxLength>
-	</field>
-	
-	<field type="functionField">
-		<title>func</title>
-		<description>func</description>
-		<params>
-			<param>
-				a
-			</param>
-			<param>
-				b
-			</param>
-		</params>
-	</field>
-
-	<field type="enumField">
-		<title>An enum</title>
-		<description>dur</description>
-		<value>One</value>
-		<value>Two</value>
-	</field>
+	</group>
 
 </deviceConfig>
 
