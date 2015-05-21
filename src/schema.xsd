@@ -13,7 +13,7 @@
 				<xsd:element name="pattern"/>	
 				<xsd:element name="params"/>	
 			</xsd:choice>
-			<xsd:attribute name="type"/>
+			<xsd:attribute name="type" use="required"/>
 		</xsd:complexType>		
 	</xsd:element>
 	
