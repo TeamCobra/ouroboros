@@ -30,6 +30,11 @@ schema.validate(document).each do |e|
 	exit 1
 end
 
+if not document.root.name === 'deviceConfig'
+	puts "\n<deviceConfig> not defined as root node\n\n"
+	exit 1	
+end
+
 env = RGen::Environment.new
 inst = RGen::Instantiator::DefaultXMLInstantiator.new(env, ServerModel, true)
 inst.instantiate_file(ARGV[0])
