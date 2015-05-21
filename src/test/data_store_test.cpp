@@ -1,6 +1,7 @@
+#include <ouroboros/data/data_store.hpp>
+#include <ouroboros/data/base_string.h>
+
 #include <gtest/gtest.h>
-#include <data/data_store.hpp>
-#include <data/base_string.h>
 
 using namespace ouroboros;
 
@@ -38,13 +39,13 @@ class data_store_test : public ::testing::Test {
 
 TEST_F(data_store_test, test_constructor) {
 	// Exercises the Xyz feature of Foo.
-	
+
 	group<var_field> root("g1", "");
 	base_string str("number", "decs", "1", "1", std::pair<size_t, size_t>(0,10));
 	root.add(&str);
 	root.add(&root);
 	data_store<var_field> store(root);
-	
+
 	ASSERT_TRUE(NULL != store.get("g1", "number"));
 	ASSERT_TRUE(NULL != store.get("g1"));
 	ASSERT_FALSE(NULL != store.get("g1-g1"));

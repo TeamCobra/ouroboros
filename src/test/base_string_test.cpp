@@ -1,8 +1,7 @@
-#include <data/base.hpp>
+#include <ouroboros/data/base.hpp>
+#include <ouroboros/data/base_string.h>
 
-#include <data/base_string.h>
 #include <gtest/gtest.h>
-
 
 using namespace ouroboros;
 
@@ -47,10 +46,10 @@ class base_string_test : public ::testing::Test {
 TEST_F(base_string_test, test_constructor) {
 	ASSERT_EQ("title", str.getTitle());
 	ASSERT_NE("title2", str.getTitle());
-	
+
 	ASSERT_EQ("desc", str.getDescription());
 	ASSERT_NE("desc2", str.getDescription());
-	
+
 	ASSERT_EQ(0, str.getMinLength());
 	ASSERT_EQ(10, str.getMaxLength());
 	ASSERT_NE(4, str.getMinLength());
@@ -71,7 +70,7 @@ TEST_F(base_string_test, test_set_min_length)
 	ASSERT_TRUE(str.setMinLength(0));
 	ASSERT_FALSE(str.setMinLength(100));
 	ASSERT_EQ(0, str.getMinLength());
-	
+
 	ASSERT_TRUE(str.setMaxLength(100));
 	ASSERT_TRUE(str.setMinLength(9, "12345678901"));
 
@@ -84,7 +83,7 @@ TEST_F(base_string_test, test_set_max_length)
 	ASSERT_TRUE(str.setMaxLength(100));
 	ASSERT_FALSE(str.setMaxLength(0));
 	ASSERT_EQ(100, str.getMaxLength());
-	
+
 	ASSERT_TRUE(str.setMinLength(0));
 	ASSERT_TRUE(str.setMaxLength(9, "123456789"));
 	ASSERT_FALSE(str.setMaxLength(9, "12345678910"));
@@ -93,7 +92,7 @@ TEST_F(base_string_test, test_set_max_length)
 
 TEST_F(base_string_test, test_get_JSON)
 {
-	std::string response = "{ \"type\" : \"base_string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \".*\" ,\"range\" : [0, 10] }";
+	std::string response = "{ \"type\" : \"string\",  \"title\" : \"title\", \"description\" : \"desc\" , \"value\" : \"value\" ,\"pattern\" : \".*\" ,\"range\" : [0, 10] }";
 	ASSERT_EQ(response, str.getJSON());
 }
 

@@ -1,1 +1,1 @@
-SUBDIRS = server test
+SUBDIRS = ouroboros test

@@ -1,14 +1,16 @@
 <% require './ranges' %>
 <% define 'Tree', :for => this do %>
-	#include <server/device_tree.tpp>
-	#include <data/base.hpp>
-	#include <data/base_string.h>
-	#include <data/base_enum.h>
-	#include <data/base_boolean.h>
-	#include <data/base_number.hpp>
-	#include <data/base_floating.hpp>
-	#include <data/base_function.h>
-	#include <server/function_manager.h>
+	#include <ouroboros/device_tree.tpp>
+	#include <ouroboros/function_manager.h>
+
+	#include <ouroboros/data/base.hpp>
+	#include <ouroboros/data/base_string.h>
+	#include <ouroboros/data/base_enum.h>
+	#include <ouroboros/data/base_boolean.h>
+	#include <ouroboros/data/base_number.hpp>
+	#include <ouroboros/data/base_floating.hpp>
+	#include <ouroboros/data/base_function.h>
+
 	#include <stdint.h>
 	#include <string>
 	#include <cmath>
@@ -74,7 +76,7 @@
 				attr_accessor :Min;
 				attr_accessor :Max;
 			end
-			
+
 			# set the bit size of the integer based on type
 			case type 
 			when /Int/ then this.Type = "int32_t"

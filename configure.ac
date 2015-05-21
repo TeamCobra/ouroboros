@@ -1,5 +1,5 @@
 AC_INIT([ouroboros], [1.0], [])
-AC_CONFIG_SRCDIR([src/server/callback.hpp])
+AC_CONFIG_SRCDIR([src/ouroboros/callback.hpp])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 
@@ -22,8 +22,8 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 	AC_TYPE_SIZE_T
 
 	LT_INIT
-	AC_CONFIG_FILES([Makefile src/Makefile lib/Makefile src/server/Makefile \
-		src/server/data/Makefile src/test/Makefile])
+	AC_CONFIG_FILES([Makefile src/Makefile lib/Makefile src/ouroboros/Makefile \
+		src/ouroboros/data/Makefile src/test/Makefile])
 
 #Requirements imposed by frozen
 	#AC_CHECK_HEADERS([stdlib.h string.h]) #Headers required earlier
