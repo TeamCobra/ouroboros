@@ -17,21 +17,12 @@
 		</field>
 		
 		<field type="unsignedShortField">
-			<title>A number</title>
+			<title>A number2</title>
 			<description>
 				A number for use in the program.
 			</description>
 			<min>20</min>
 			<value>20</value>
-		</field>
-		
-		<field type="signedByteField">
-			<title>A number</title>
-			<description>
-				A number for use in the program.
-			</description>
-			<value>20</value>
-			<max>100</max>
 		</field>
 
 		<field type="stringField">
