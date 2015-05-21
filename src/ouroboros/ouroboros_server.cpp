@@ -34,9 +34,9 @@ namespace ouroboros
 	std::string url_regex("(.+://)?(.+)");
 
 	ouroboros_server::ouroboros_server(uint16_t aPort)
-	:mpServer(NULL),
-		mStore(device_tree<var_field>::get_device_tree().get_data_store()),
-		mFunctionManager(device_tree<var_field>::get_device_tree().get_function_manager())
+	:mpServer(NULL), mTree(),
+		mStore(mTree.get_data_store()),
+		mFunctionManager(mTree.get_function_manager())
 	{
 
 		//The following line is a hack workaround to trying to avoid using
@@ -274,8 +274,10 @@ namespace ouroboros
 				}
 					break;
 
-				case DELETE:
+				//TODO DELETE is not supported by the underlying mechanism
+				/*case DELETE:
 				{
+					
 					//Send JSON describing named item
 					std::string data(conn->content, conn->content_len);
 					JSON json(data);
@@ -283,7 +285,7 @@ namespace ouroboros
 					std::string id = json.get("id");
 					unregister_callback(id);
 					response = detail::good_JSON();
-				}
+				}*/
 					break;
 
 				default:

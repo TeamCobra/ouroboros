@@ -140,5 +140,29 @@ namespace ouroboros
 		result += " } }";
 		return result;
 	}
+	
+	template<class T>
+	std::vector<T*> group<T>::getFields() const
+	{
+		std::vector<T*> result;
+		typedef typename std::map<std::string, T*>::const_iterator iter;
+		for (iter itr = mItems.begin(); itr != mItems.end(); ++itr)
+		{
+			result.push_back(itr->second);
+		}
+		return result;
+	}
+
+	template<class T>
+	std::vector<group<T>*> group<T>::getGroups() const
+	{
+		std::vector<group<T>*> result;
+		typedef typename std::map<std::string, group<T>*>::const_iterator iter;
+		for (iter itr = mGroups.begin(); itr != mGroups.end(); ++itr)
+		{
+			result.push_back(itr->second);
+		}
+		return result;
+	}
 
 }
