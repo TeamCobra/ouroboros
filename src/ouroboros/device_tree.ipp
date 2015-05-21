@@ -5,21 +5,10 @@
 namespace ouroboros
 {
 	template <class field>
-	device_tree<field>& device_tree<field>::get_device_tree()
-	{
-		if (!mpTree)
-		{
-			mpTree = new device_tree<field>();
-		}
-		return *mpTree;
-	}
-
-	template <class field>
 	device_tree<field>::device_tree()
+	:mRootGroup(detail::build_tree<field>(mFunctionManager))
 	{
-		mpDataStore =
-			new data_store<field>(
-				detail::build_tree<field>(mFunctionManager));
+		mpDataStore = new data_store<field>(mRootGroup);
 	}
 
 	template <class field>
@@ -27,6 +16,7 @@ namespace ouroboros
 	{
 		//we need to free all of the resources we've allocated
 		delete mpDataStore;
+		detail::free_tree(mRootGroup);
 	}
 
 	template <class field>
@@ -40,7 +30,4 @@ namespace ouroboros
 	{
 		return mFunctionManager;
 	}
-
-	template<class field>
-	device_tree<field> *device_tree<field>::mpTree;
 }

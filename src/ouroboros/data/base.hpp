@@ -203,6 +203,9 @@ namespace ouroboros
 		const group<T> *findGroup(const std::string& aName) const;
 		//@}
 
+		std::vector<T*> getFields() const;
+		std::vector<group<T>*> getGroups() const;
+		
 		/**	Gets the number of groups and items found within the group.
 		 *
 		 *	@returns The number of groups and items found within the group.

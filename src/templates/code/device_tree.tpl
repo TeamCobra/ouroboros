@@ -20,6 +20,26 @@
 	{<%iinc%>
 		namespace detail
 		{<%iinc%>
+			
+			template<>
+			void free_tree(group<var_field>& aRoot)
+			{<%iinc%>
+				std::vector<var_field*> currentFields = aRoot.getFields();
+				std::vector<group<var_field>*> currentGroups =
+					aRoot.getGroups();
+				
+				for (std::size_t i = 0; i < currentFields.size(); ++i)
+				{<%iinc%>
+					delete currentFields[i];
+				<%idec%>}
+				
+				for (std::size_t i = 0; i < currentGroups.size(); ++i)
+				{<%iinc%>
+					free_tree(*currentGroups[i]);
+					delete currentGroups[i];
+				<%idec%>}
+			<%idec%>}
+			
 			template<>
 			group<var_field> build_tree(function_manager& aManager)
 			{<%iinc%>	

@@ -8,6 +8,7 @@
 #include <ouroboros/data/data_store.hpp>
 #include <ouroboros/data/subject.hpp>
 #include <ouroboros/function_manager.h>
+#include <ouroboros/device_tree.hpp>
 
 #include <pthread.h>
 #include <mongoose/mongoose.h>
@@ -160,6 +161,7 @@ namespace ouroboros
 		//@}
 
 		mg_server *mpServer;
+		device_tree<var_field> mTree;
 		data_store<var_field>& mStore;
 
 		function_manager &mFunctionManager;

@@ -15,12 +15,12 @@ namespace ouroboros
 	class device_tree
 	{
 	public:
-		/**	Gets the instance of the device_tree.
-		 *
-		 *	@returns The instance of the device_tree.
-		 */
-		static device_tree& get_device_tree();
 
+		/**	Construct a new device_tree using a brand new data_store.
+		 * 
+		 */
+		device_tree();
+		
 		/**	Gets the data_store object holding all of the data.
 		 *
 		 *	@returns The data_store object holding all of the data.
@@ -42,9 +42,10 @@ namespace ouroboros
 		/**	This class can only be instantiated by itself.
 		 *
 		 */
-		device_tree();
-		static device_tree *mpTree;
+		
+		device_tree *mpTree;
 
+		group<field> mRootGroup;
 		data_store<field> *mpDataStore;
 		function_manager mFunctionManager;
 	};
