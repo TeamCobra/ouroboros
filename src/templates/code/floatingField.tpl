@@ -1,11 +1,11 @@
 <% define 'Range', :for => this do %>
 	<%
-		if defined? this.min and not this.min.empty?
+		if this.min.size > 0
 			min = this.min.chardata[0].strip
 		else
 			min = this.Min
 		end
-		if defined? this.max and not this.max.empty?
+		if this.max.size > 0
 			max = this.max.chardata[0].strip
 		else
 			max = this.Max

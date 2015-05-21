@@ -105,7 +105,7 @@
 			end
 
 			# if it is unsigned make it a uint
-			this.Type.prepend "u" if this.Type =~ /unsigned/
+			this.Type.prepend "u" if (this.type =~ /unsigned/) === 0
 			
 			# set min and max based on predefined constants
 			this.Min = Object.const_get("#{type}_MIN".upcase)

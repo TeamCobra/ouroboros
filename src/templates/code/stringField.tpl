@@ -10,12 +10,12 @@
 
 <% define 'Range', :for => this do %>
 	<%
-		if defined? this.minLength and not this.minLength.empty?
+		if this.minLength.size > 0
 			min = this.minLength.chardata[0].to_s.strip
 		else
 			min = "std::numeric_limits<std::size_t>::min()"
 		end
-		if defined? this.maxLength and not this.maxLength.empty?
+		if this.maxLength.size > 0
 			max = this.maxLength.chardata[0].to_s.strip
 		else
 			max = "std::numeric_limits<std::size_t>::max()"
@@ -27,7 +27,7 @@
 <% define 'Pattern', :for => this do %>
 	<% 
 		pattern = ".*"
-		if defined? this.pattern and not this.pattern.empty?
+		if this.pattern.size > 0
 			pattern = this.pattern.chardata[0].to_s.strip
 		end
 	%>
