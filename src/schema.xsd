@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">	
+	<xsd:element name="field">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element name="title"/>	
+				<xsd:element name="description"/>	
+				<xsd:element name="value"/>	
+				<xsd:element name="min"/>	
+				<xsd:element name="max"/>	
+				<xsd:element name="minLength"/>	
+				<xsd:element name="maxLength"/>	
+				<xsd:element name="pattern"/>	
+				<xsd:element name="params"/>	
+			</xsd:choice>
+			<xsd:attribute name="type" use="required"/>
+		</xsd:complexType>		
+	</xsd:element>
+	
+	<xsd:element name="group">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element name="title"/>
+				<xsd:element name="description"/>	
+				<xsd:element ref="field"/>	
+				<xsd:element ref="group"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="deviceConfig" >
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="field"/>
+				<xsd:element ref="group"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>	
+</xsd:schema>
